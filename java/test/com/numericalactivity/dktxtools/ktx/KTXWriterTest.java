@@ -38,18 +38,21 @@ public class KTXWriterTest {
     protected static final String FILE_COMPRESSED_CUBEMAP_MIPMAP            = "./testRes/ktx/compressed_cubemap_mipmap.ktx";
     protected static final String FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN        = "./testRes/gen/compressed_cubemap_mipmap.ktx";
 
-    protected short _width;
-    protected short _height;
-    protected ByteBuffer[] _uncompressedTextureBuffer;
-    protected ByteBuffer[] _compressedTextureBuffer;
-
-    protected static String toto;
+    protected static short _width;
+    protected static short _height;
+    protected static ByteBuffer[] _uncompressedTextureBuffer;
+    protected static ByteBuffer[] _compressedTextureBuffer;
 
     /**
      * Constructeur.
      * Charge les données des textures.
      */
     public KTXWriterTest() {
+        // on ne charge les données qu'une seule fois
+        if (null != _uncompressedTextureBuffer) {
+            return;
+        }
+
         try {
             _uncompressedTextureBuffer  = new ByteBuffer[FILE_NUMBER_OF_MIPMAPS];
             _compressedTextureBuffer    = new ByteBuffer[FILE_NUMBER_OF_MIPMAPS];
