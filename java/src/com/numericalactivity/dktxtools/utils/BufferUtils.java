@@ -6,10 +6,14 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+import com.numericalactivity.dktxtools.TextureFormat;
+
 /**
  * Utilitaire pour les buffers
  */
-abstract public class BufferUtils {
+public class BufferUtils {
+    protected BufferUtils() {}
+
     /**
      * Converti un tableau de float en FloatBuffer
      * @param array
@@ -120,5 +124,65 @@ abstract public class BufferUtils {
         ;
         buffer.position(0);
         return buffer;
+    }
+
+    /**
+     * Converti un tableau de pixels en ByteBuffer.
+     * Les pixels sont converti en tableau de byte, où chaque byte correspond à une composante.
+     * @param pixels tableau de pixels au format RGBA
+     * @param format une des constante TextureFormat.GL_* (formats non compressés)
+     * @return tableau de byte dans lequel chaque byte correspond à une composante au format 'format'
+     */
+    public static ByteBuffer getPixelBuffer(int[] pixels, int format) {
+        byte[] newPixels    = null;
+        int i               = 0;
+
+        switch (format) {
+            case TextureFormat.GL_ALPHA:
+            case TextureFormat.GL_LUMINANCE:
+                newPixels   = new byte[pixels.length];
+
+                for (int pixel : pixels) {
+                    newPixels[i]  = (byte) ((pixel >> 16) & 0xFF); // red
+                    i++;
+                }
+                break;
+
+            case TextureFormat.GL_LUMINANCE_ALPHA:
+                newPixels   = new byte[pixels.length * 2];
+
+                for (int pixel : pixels) {
+                    newPixels[(i * 2) + 0]  = (byte) ((pixel >> 16) & 0xFF); // red
+                    newPixels[(i * 2) + 1]  = (byte) ((pixel >> 24) & 0xFF); // alpha
+                    i++;
+                }
+                break;
+
+                // TODO tester
+            case TextureFormat.GL_RGB:
+                newPixels   = new byte[pixels.length * 4];
+                
+                for (int pixel : pixels) {
+                    newPixels[(i * 4) + 0]  = (byte) ((pixel >> 16) & 0xFF); // red
+                    newPixels[(i * 4) + 1]  = (byte) ((pixel >> 8) & 0xFF); // green
+                    newPixels[(i * 4) + 2]  = (byte) (pixel & 0xFF); // blue
+                    i++;
+                }
+                break;
+
+            case TextureFormat.GL_RGBA:
+            default:
+                newPixels   = new byte[pixels.length * 4];
+
+                for (int pixel : pixels) {
+                    newPixels[(i * 4) + 0]  = (byte) ((pixel >> 16) & 0xFF); // red
+                    newPixels[(i * 4) + 1]  = (byte) ((pixel >> 8) & 0xFF); // green
+                    newPixels[(i * 4) + 2]  = (byte) (pixel & 0xFF); // blue
+                    newPixels[(i * 4) + 3]  = (byte) ((pixel >> 24) & 0xFF); // alpha
+                    i++;
+                }
+        }
+
+        return BufferUtils.getByteBuffer(newPixels);
     }
 }
