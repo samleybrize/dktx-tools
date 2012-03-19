@@ -77,7 +77,7 @@ public class KTXWriterTest {
             writer.getTextureData().set(0, _uncompressedTextureBuffer[0]);
             writer.write(out);
 
-            assertTrue(FileUtils.isEqual(FILE_UNCOMPRESSED_NO_MIPMAP, FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+            assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_NO_MIPMAP, FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -97,7 +97,7 @@ public class KTXWriterTest {
 
             writer.write(out);
 
-            assertTrue(FileUtils.isEqual(FILE_UNCOMPRESSED_MIPMAP, FILE_UNCOMPRESSED_MIPMAP_GEN));
+            assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_MIPMAP, FILE_UNCOMPRESSED_MIPMAP_GEN));
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -118,7 +118,7 @@ public class KTXWriterTest {
             writer.getTextureData().set(0, 5, _uncompressedTextureBuffer[0]);
             writer.write(out);
 
-            assertTrue(FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
+            assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -143,7 +143,7 @@ public class KTXWriterTest {
 
             writer.write(out);
 
-            assertTrue(FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN));
+            assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN));
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
