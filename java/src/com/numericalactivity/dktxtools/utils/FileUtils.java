@@ -35,6 +35,7 @@ public class FileUtils {
         FileInputStream in  = new FileInputStream(file);
         byte[] data         = new byte[(int) file.length()];
         in.read(data);
+        in.close();
         return _digestMd5.digest(data);
     }
 
