@@ -58,6 +58,21 @@ public class FileUtils {
     }
 
     /**
+     * Retourne la somme de contrôle md5 des données contenues dans un byte array
+     * @param array
+     * @return
+     * @throws NoSuchAlgorithmException 
+     * @throws IOException 
+     */
+    public static byte[] md5Checksum(byte[] array) throws NoSuchAlgorithmException {
+        if (null == _digestMd5) {
+            _digestMd5 = MessageDigest.getInstance("md5");
+        }
+        
+        return _digestMd5.digest(array);
+    }
+
+    /**
      * Retourne true si les deux fichiers sont égaux
      * @param file1
      * @param file2
@@ -91,5 +106,29 @@ public class FileUtils {
      */
     public static boolean isEqual(ByteBuffer buffer1, ByteBuffer buffer2) throws NoSuchAlgorithmException, IOException {
         return MessageDigest.isEqual(md5Checksum(buffer1), md5Checksum(buffer2));
+    }
+
+    /**
+     * Retourne true si les données contenues dans les deux byte array sont égales
+     * @param array1
+     * @param array2
+     * @return
+     * @throws IOException 
+     * @throws NoSuchAlgorithmException 
+     */
+    public static boolean isEqual(byte[] array1, byte[] array2) throws NoSuchAlgorithmException, IOException {
+        return MessageDigest.isEqual(md5Checksum(array1), md5Checksum(array2));
+    }
+
+    /**
+     * Retourne true si les données contenues dans le ByteBuffer et le byte array sont égales
+     * @param array1
+     * @param array2
+     * @return
+     * @throws IOException 
+     * @throws NoSuchAlgorithmException 
+     */
+    public static boolean isEqual(ByteBuffer buffer, byte[] array) throws NoSuchAlgorithmException, IOException {
+        return MessageDigest.isEqual(md5Checksum(buffer), md5Checksum(array));
     }
 }
