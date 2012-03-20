@@ -37,7 +37,7 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             // on valide les métadonnées
             assertEquals("Invalid metadata string", "testValue", reader.getMetadata().getString("KTXTest"));
-            assertArrayEquals("Invalid metadata bytes", _metadataBytes, reader.getMetadata().get("KTXTestBytes"));
+            assertArrayEquals("Invalid metadata bytes", _ktxMetadataBytes, reader.getMetadata().get("KTXTestBytes"));
 
             // on teste l'integrité des données de texture
             _uncompressedTextureBuffer[0].position(0);
@@ -73,7 +73,7 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             // on valide les métadonnées
             assertEquals("Invalid metadata string", "testValue", reader.getMetadata().getString("KTXTest"));
-            assertArrayEquals("Invalid metadata bytes", _metadataBytes, reader.getMetadata().get("KTXTestBytes"));
+            assertArrayEquals("Invalid metadata bytes", _ktxMetadataBytes, reader.getMetadata().get("KTXTestBytes"));
 
             // on teste l'integrité des données de texture
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
@@ -111,7 +111,7 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             // on valide les métadonnées
             assertEquals("Invalid metadata string", "testValue", reader.getMetadata().getString("KTXTest"));
-            assertArrayEquals("Invalid metadata bytes", _metadataBytes, reader.getMetadata().get("KTXTestBytes"));
+            assertArrayEquals("Invalid metadata bytes", _ktxMetadataBytes, reader.getMetadata().get("KTXTestBytes"));
 
             // on teste l'integrité des données de texture
             for (byte f = 0; f < 6; f++) {
@@ -149,7 +149,7 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             // on valide les métadonnées
             assertEquals("Invalid metadata string", "testValue", reader.getMetadata().getString("KTXTest"));
-            assertArrayEquals("Invalid metadata bytes", _metadataBytes, reader.getMetadata().get("KTXTestBytes"));
+            assertArrayEquals("Invalid metadata bytes", _ktxMetadataBytes, reader.getMetadata().get("KTXTestBytes"));
 
             // on teste l'integrité des données de texture
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
@@ -189,7 +189,7 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             // on valide les métadonnées
             assertEquals("Invalid metadata string", "testValue", reader.getMetadata().getString("KTXTest"));
-            assertArrayEquals("Invalid metadata bytes", _metadataBytes, reader.getMetadata().get("KTXTestBytes"));
+            assertArrayEquals("Invalid metadata bytes", _ktxMetadataBytes, reader.getMetadata().get("KTXTestBytes"));
 
             // on teste l'integrité des données de texture
             _compressedTextureBuffer[0].position(0);
@@ -225,7 +225,7 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             // on valide les métadonnées
             assertEquals("Invalid metadata string", "testValue", reader.getMetadata().getString("KTXTest"));
-            assertArrayEquals("Invalid metadata bytes", _metadataBytes, reader.getMetadata().get("KTXTestBytes"));
+            assertArrayEquals("Invalid metadata bytes", _ktxMetadataBytes, reader.getMetadata().get("KTXTestBytes"));
 
             // on teste l'integrité des données de texture
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
@@ -263,7 +263,7 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             // on valide les métadonnées
             assertEquals("Invalid metadata string", "testValue", reader.getMetadata().getString("KTXTest"));
-            assertArrayEquals("Invalid metadata bytes", _metadataBytes, reader.getMetadata().get("KTXTestBytes"));
+            assertArrayEquals("Invalid metadata bytes", _ktxMetadataBytes, reader.getMetadata().get("KTXTestBytes"));
 
             // on teste l'integrité des données de texture
             for (byte f = 0; f < 6; f++) {
@@ -301,7 +301,7 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             // on valide les métadonnées
             assertEquals("Invalid metadata string", "testValue", reader.getMetadata().getString("KTXTest"));
-            assertArrayEquals("Invalid metadata bytes", _metadataBytes, reader.getMetadata().get("KTXTestBytes"));
+            assertArrayEquals("Invalid metadata bytes", _ktxMetadataBytes, reader.getMetadata().get("KTXTestBytes"));
 
             // on teste l'integrité des données de texture
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {

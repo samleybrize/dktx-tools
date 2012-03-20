@@ -22,7 +22,8 @@ abstract public class WriterTestAbstract {
     protected static short _height;
     protected static ByteBuffer[] _uncompressedTextureBuffer;
     protected static ByteBuffer[] _compressedTextureBuffer;
-    protected static byte[] _metadataBytes = {2, 5, 8, 6};
+    protected static byte[] _ktxMetadataBytes   = {2, 5, 8, 6};
+    protected static int[] _ddsReserved1        = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     /**
      * Charge les données des textures

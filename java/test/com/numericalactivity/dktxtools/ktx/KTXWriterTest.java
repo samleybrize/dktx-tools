@@ -37,7 +37,7 @@ public class KTXWriterTest extends WriterTestAbstract {
             writer.setUncompressedFormat(TextureFormat.GL_RGBA);
             writer.getTextureData().set(0, _uncompressedTextureBuffer[0]);
             writer.getMetadata().set("KTXTest", "testValue");
-            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
+            writer.getMetadata().set("KTXTestBytes", _ktxMetadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_NO_MIPMAP, FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
@@ -59,7 +59,7 @@ public class KTXWriterTest extends WriterTestAbstract {
             }
 
             writer.getMetadata().set("KTXTest", "testValue");
-            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
+            writer.getMetadata().set("KTXTestBytes", _ktxMetadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_MIPMAP, FILE_UNCOMPRESSED_MIPMAP_GEN));
@@ -82,7 +82,7 @@ public class KTXWriterTest extends WriterTestAbstract {
             writer.getTextureData().set(0, 4, _uncompressedTextureBuffer[0]);
             writer.getTextureData().set(0, 5, _uncompressedTextureBuffer[0]);
             writer.getMetadata().set("KTXTest", "testValue");
-            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
+            writer.getMetadata().set("KTXTestBytes", _ktxMetadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
@@ -109,7 +109,7 @@ public class KTXWriterTest extends WriterTestAbstract {
             }
 
             writer.getMetadata().set("KTXTest", "testValue");
-            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
+            writer.getMetadata().set("KTXTestBytes", _ktxMetadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN));
@@ -127,7 +127,7 @@ public class KTXWriterTest extends WriterTestAbstract {
             writer.setCompressedFormat(TextureFormat.GL_ETC1_RGB8);
             writer.getTextureData().set(0, _compressedTextureBuffer[0]);
             writer.getMetadata().set("KTXTest", "testValue");
-            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
+            writer.getMetadata().set("KTXTestBytes", _ktxMetadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_NO_MIPMAP, FILE_COMPRESSED_NO_MIPMAP_GEN));
@@ -149,7 +149,7 @@ public class KTXWriterTest extends WriterTestAbstract {
             }
 
             writer.getMetadata().set("KTXTest", "testValue");
-            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
+            writer.getMetadata().set("KTXTestBytes", _ktxMetadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_MIPMAP, FILE_COMPRESSED_MIPMAP_GEN));
@@ -172,7 +172,7 @@ public class KTXWriterTest extends WriterTestAbstract {
             writer.getTextureData().set(0, 4, _compressedTextureBuffer[0]);
             writer.getTextureData().set(0, 5, _compressedTextureBuffer[0]);
             writer.getMetadata().set("KTXTest", "testValue");
-            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
+            writer.getMetadata().set("KTXTestBytes", _ktxMetadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_CUBEMAP_NO_MIPMAP, FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
@@ -199,7 +199,7 @@ public class KTXWriterTest extends WriterTestAbstract {
             }
 
             writer.getMetadata().set("KTXTest", "testValue");
-            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
+            writer.getMetadata().set("KTXTestBytes", _ktxMetadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_CUBEMAP_MIPMAP, FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN));
