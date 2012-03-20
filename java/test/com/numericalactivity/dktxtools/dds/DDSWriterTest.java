@@ -1,4 +1,4 @@
-package com.numericalactivity.dktxtools.ktx;
+package com.numericalactivity.dktxtools.dds;
 
 import static org.junit.Assert.*;
 
@@ -10,31 +10,31 @@ import com.numericalactivity.dktxtools.TextureFormat;
 import com.numericalactivity.dktxtools.test.WriterTestAbstract;
 import com.numericalactivity.dktxtools.utils.FileUtils;
 
-public class KTXWriterTest extends WriterTestAbstract {
+public class DDSWriterTest extends WriterTestAbstract {
 
-    protected static final String FILE_UNCOMPRESSED_NO_MIPMAP               = "./testRes/ktx/uncompressed_no_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_NO_MIPMAP_GEN           = "./testRes/gen/uncompressed_no_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_MIPMAP                  = "./testRes/ktx/uncompressed_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_MIPMAP_GEN              = "./testRes/gen/uncompressed_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP       = "./testRes/ktx/uncompressed_cubemap_no_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN   = "./testRes/gen/uncompressed_cubemap_no_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_CUBEMAP_MIPMAP          = "./testRes/ktx/uncompressed_cubemap_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN      = "./testRes/gen/uncompressed_cubemap_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_NO_MIPMAP                 = "./testRes/ktx/compressed_no_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_NO_MIPMAP_GEN             = "./testRes/gen/compressed_no_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_MIPMAP                    = "./testRes/ktx/compressed_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_MIPMAP_GEN                = "./testRes/gen/compressed_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_CUBEMAP_NO_MIPMAP         = "./testRes/ktx/compressed_cubemap_no_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN     = "./testRes/gen/compressed_cubemap_no_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_CUBEMAP_MIPMAP            = "./testRes/ktx/compressed_cubemap_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN        = "./testRes/gen/compressed_cubemap_mipmap.ktx";
+    protected static final String FILE_UNCOMPRESSED_NO_MIPMAP               = "./testRes/dds/uncompressed_no_mipmap.dds";
+    protected static final String FILE_UNCOMPRESSED_NO_MIPMAP_GEN           = "./testRes/gen/uncompressed_no_mipmap.dds";
+    protected static final String FILE_UNCOMPRESSED_MIPMAP                  = "./testRes/dds/uncompressed_mipmap.dds";
+    protected static final String FILE_UNCOMPRESSED_MIPMAP_GEN              = "./testRes/gen/uncompressed_mipmap.dds";
+    protected static final String FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP       = "./testRes/dds/uncompressed_cubemap_no_mipmap.dds";
+    protected static final String FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN   = "./testRes/gen/uncompressed_cubemap_no_mipmap.dds";
+    protected static final String FILE_UNCOMPRESSED_CUBEMAP_MIPMAP          = "./testRes/dds/uncompressed_cubemap_mipmap.dds";
+    protected static final String FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN      = "./testRes/gen/uncompressed_cubemap_mipmap.dds";
+    protected static final String FILE_COMPRESSED_NO_MIPMAP                 = "./testRes/dds/compressed_no_mipmap.dds";
+    protected static final String FILE_COMPRESSED_NO_MIPMAP_GEN             = "./testRes/gen/compressed_no_mipmap.dds";
+    protected static final String FILE_COMPRESSED_MIPMAP                    = "./testRes/dds/compressed_mipmap.dds";
+    protected static final String FILE_COMPRESSED_MIPMAP_GEN                = "./testRes/gen/compressed_mipmap.dds";
+    protected static final String FILE_COMPRESSED_CUBEMAP_NO_MIPMAP         = "./testRes/dds/compressed_cubemap_no_mipmap.dds";
+    protected static final String FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN     = "./testRes/gen/compressed_cubemap_no_mipmap.dds";
+    protected static final String FILE_COMPRESSED_CUBEMAP_MIPMAP            = "./testRes/dds/compressed_cubemap_mipmap.dds";
+    protected static final String FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN        = "./testRes/gen/compressed_cubemap_mipmap.dds";
 
     @Test
     public void testWriteUncompressedNoMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_UNCOMPRESSED_NO_MIPMAP_GEN);
-            KTXWriter writer        = new KTXWriter(false, false, _width, _height);
-            writer.setUncompressedFormat(TextureFormat.GL_RGBA);
+            DDSWriter writer        = new DDSWriter(false, false, _width, _height);
+            writer.setUncompressedPixelFormat(TextureFormat.GL_RGBA);
             writer.getTextureData().set(0, _uncompressedTextureBuffer[0]);
             writer.write(out);
 
@@ -49,8 +49,8 @@ public class KTXWriterTest extends WriterTestAbstract {
     public void testWriteUncompressedMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_UNCOMPRESSED_MIPMAP_GEN);
-            KTXWriter writer        = new KTXWriter(true, false, _width, _height);
-            writer.setUncompressedFormat(TextureFormat.GL_RGBA);
+            DDSWriter writer        = new DDSWriter(true, false, _width, _height);
+            writer.setUncompressedPixelFormat(TextureFormat.GL_RGBA);
 
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
                 writer.getTextureData().set(i, _uncompressedTextureBuffer[i]);
@@ -69,8 +69,8 @@ public class KTXWriterTest extends WriterTestAbstract {
     public void testWriteUncompressedCubemapNoMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN);
-            KTXWriter writer        = new KTXWriter(false, true, _width, _height);
-            writer.setUncompressedFormat(TextureFormat.GL_RGBA);
+            DDSWriter writer        = new DDSWriter(false, true, _width, _height);
+            writer.setUncompressedPixelFormat(TextureFormat.GL_RGBA);
             writer.getTextureData().set(0, 0, _uncompressedTextureBuffer[0]);
             writer.getTextureData().set(0, 1, _uncompressedTextureBuffer[0]);
             writer.getTextureData().set(0, 2, _uncompressedTextureBuffer[0]);
@@ -90,8 +90,8 @@ public class KTXWriterTest extends WriterTestAbstract {
     public void testWriteUncompressedCubemapMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN);
-            KTXWriter writer        = new KTXWriter(true, true, _width, _height);
-            writer.setUncompressedFormat(TextureFormat.GL_RGBA);
+            DDSWriter writer        = new DDSWriter(true, true, _width, _height);
+            writer.setUncompressedPixelFormat(TextureFormat.GL_RGBA);
 
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
                 writer.getTextureData().set(i, 0, _uncompressedTextureBuffer[i]);
@@ -115,8 +115,8 @@ public class KTXWriterTest extends WriterTestAbstract {
     public void testWriteCompressedNoMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_NO_MIPMAP_GEN);
-            KTXWriter writer        = new KTXWriter(false, false, _width, _height);
-            writer.setCompressedFormat(TextureFormat.GL_ETC1_RGB8);
+            DDSWriter writer        = new DDSWriter(false, false, _width, _height);
+            writer.setCompressedPixelFormat(DDSFourCC.FOURCC_ETC1);
             writer.getTextureData().set(0, _compressedTextureBuffer[0]);
             writer.write(out);
             
@@ -131,8 +131,8 @@ public class KTXWriterTest extends WriterTestAbstract {
     public void testWriteCompressedMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_MIPMAP_GEN);
-            KTXWriter writer        = new KTXWriter(true, false, _width, _height);
-            writer.setCompressedFormat(TextureFormat.GL_ETC1_RGB8);
+            DDSWriter writer        = new DDSWriter(true, false, _width, _height);
+            writer.setCompressedPixelFormat(DDSFourCC.FOURCC_ETC1);
             
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
                 writer.getTextureData().set(i, _compressedTextureBuffer[i]);
@@ -151,8 +151,8 @@ public class KTXWriterTest extends WriterTestAbstract {
     public void testWriteCompressedCubemapNoMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN);
-            KTXWriter writer        = new KTXWriter(false, true, _width, _height);
-            writer.setCompressedFormat(TextureFormat.GL_ETC1_RGB8);
+            DDSWriter writer        = new DDSWriter(false, true, _width, _height);
+            writer.setCompressedPixelFormat(DDSFourCC.FOURCC_ETC1);
             writer.getTextureData().set(0, 0, _compressedTextureBuffer[0]);
             writer.getTextureData().set(0, 1, _compressedTextureBuffer[0]);
             writer.getTextureData().set(0, 2, _compressedTextureBuffer[0]);
@@ -172,8 +172,8 @@ public class KTXWriterTest extends WriterTestAbstract {
     public void testWriteCompressedCubemapMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN);
-            KTXWriter writer        = new KTXWriter(true, true, _width, _height);
-            writer.setCompressedFormat(TextureFormat.GL_ETC1_RGB8);
+            DDSWriter writer        = new DDSWriter(true, true, _width, _height);
+            writer.setCompressedPixelFormat(DDSFourCC.FOURCC_ETC1);
             
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
                 writer.getTextureData().set(i, 0, _compressedTextureBuffer[i]);
