@@ -437,6 +437,7 @@ public abstract class DDSTextureData {
             for (byte face = 0; face < _numberOfFaces; face++) {
                 for (byte mipmapLevel = 0; mipmapLevel < _numberOfMipmapLevels; mipmapLevel++) {
                     data = new byte[_textureData[mipmapLevel][face].capacity()];
+                    _textureData[mipmapLevel][face].position(0);
                     _textureData[mipmapLevel][face].get(data);
                     out.write(data);
                 }
