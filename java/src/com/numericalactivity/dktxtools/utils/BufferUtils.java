@@ -68,7 +68,7 @@ public class BufferUtils {
      */
     public static ByteBuffer getByteBuffer(short[] array) {
         ByteBuffer byteBuffer   = ByteBuffer
-            .allocateDirect(array.length * 4)
+            .allocateDirect(array.length * 2)
             .order(ByteOrder.nativeOrder())
         ;
         ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
@@ -160,12 +160,12 @@ public class BufferUtils {
 
                 // TODO tester
             case TextureFormat.GL_RGB:
-                newPixels   = new byte[pixels.length * 4];
+                newPixels   = new byte[pixels.length * 3];
                 
                 for (int pixel : pixels) {
-                    newPixels[(i * 4) + 0]  = (byte) ((pixel >> 16) & 0xFF); // red
-                    newPixels[(i * 4) + 1]  = (byte) ((pixel >> 8) & 0xFF); // green
-                    newPixels[(i * 4) + 2]  = (byte) (pixel & 0xFF); // blue
+                    newPixels[(i * 3) + 0]  = (byte) ((pixel >> 16) & 0xFF); // red
+                    newPixels[(i * 3) + 1]  = (byte) ((pixel >> 8) & 0xFF); // green
+                    newPixels[(i * 3) + 2]  = (byte) (pixel & 0xFF); // blue
                     i++;
                 }
                 break;
