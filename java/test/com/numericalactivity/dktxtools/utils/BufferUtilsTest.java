@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.numericalactivity.dktxtools.TextureFormat;
 
+// TODO comparer checksum?
 public class BufferUtilsTest {
 
     @Test
