@@ -20,5 +20,27 @@ final class DDSUtil {
 			    return 16;
 		}
 	}
+
+	/**
+	 * Retourne la taille d'une image (en byte) compressée
+	 * @param width    largeur de l'image
+	 * @param height   hauteur de l'image
+	 * @param fourCC   fourCC de l'image correspondant au format compressé
+	 * @return
+	 */
+	public static int getCompressedSize(int width, int height, int fourCC) {
+	    return Math.max(1, width / 4) * Math.max(1, height / 4) * getCompressedBlockSize(fourCC);
+	}
+
+	/**
+	 * Retourne la taille d'une image (en byte) non compressée
+	 * @param width        largeur de l'image
+	 * @param height       hauteur de l'image
+	 * @param bitsPerPixel nombre de bits par pixels
+	 * @return
+	 */
+	public static int getUncompressedSize(int width, int height, int bitsPerPixel) {
+	    return ((width * bitsPerPixel + 7) / 8) * height;
+	}
 	
 }

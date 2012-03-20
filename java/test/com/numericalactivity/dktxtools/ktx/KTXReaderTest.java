@@ -9,7 +9,9 @@ import org.junit.Test;
 import com.numericalactivity.dktxtools.TextureFormat;
 import com.numericalactivity.dktxtools.test.WriterTestAbstract;
 import com.numericalactivity.dktxtools.utils.FileUtils;
+import com.numericalactivity.dktxtools.utils.TextureUtils;
 
+// TODO tester textureData.getWidth() & co
 public class KTXReaderTest extends WriterTestAbstract {
 
     @Test
@@ -42,6 +44,11 @@ public class KTXReaderTest extends WriterTestAbstract {
             // on teste l'integrité des données de texture
             _uncompressedTextureBuffer[0].position(0);
             assertTrue("md5 checksums not equal", FileUtils.isEqual(textureData.get(0), _uncompressedTextureBuffer[0]));
+            assertEquals("Invalid width in texture data", _width, textureData.getWidth(0));
+            assertEquals("Invalid height in texture data", _height, textureData.getHeight(0));
+            assertEquals("Invalid image size", _uncompressedTextureBuffer[0].capacity(), textureData.getImageSize(0));
+            assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
+            assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -79,7 +86,14 @@ public class KTXReaderTest extends WriterTestAbstract {
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
                 _uncompressedTextureBuffer[i].position(0);
                 assertTrue("md5 checksums not equal for mipmap level " + String.valueOf(i), FileUtils.isEqual(textureData.get(i), _uncompressedTextureBuffer[i]));
+
+                assertEquals("Invalid width in texture data", TextureUtils.getDimensionForMipmapLevel(i, _width), textureData.getWidth(i));
+                assertEquals("Invalid height in texture data", TextureUtils.getDimensionForMipmapLevel(i, _height), textureData.getHeight(i));
+                assertEquals("Invalid image size", _uncompressedTextureBuffer[i].capacity(), textureData.getImageSize(i));
             }
+
+            assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
+            assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -118,6 +132,12 @@ public class KTXReaderTest extends WriterTestAbstract {
                 _uncompressedTextureBuffer[0].position(0);
                 assertTrue("md5 checksums not equal for face " + String.valueOf(f), FileUtils.isEqual(textureData.get(0, f), _uncompressedTextureBuffer[0]));
             }
+
+            assertEquals("Invalid width in texture data", _width, textureData.getWidth(0));
+            assertEquals("Invalid height in texture data", _height, textureData.getHeight(0));
+            assertEquals("Invalid image size", _uncompressedTextureBuffer[0].capacity(), textureData.getImageSize(0));
+            assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
+            assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -157,7 +177,14 @@ public class KTXReaderTest extends WriterTestAbstract {
                     _uncompressedTextureBuffer[i].position(0);
                     assertTrue("md5 checksums not equal for mipmap level " + String.valueOf(i) + " for face " + String.valueOf(f), FileUtils.isEqual(textureData.get(i, f), _uncompressedTextureBuffer[i]));
                 }
+
+                assertEquals("Invalid width in texture data", TextureUtils.getDimensionForMipmapLevel(i, _width), textureData.getWidth(i));
+                assertEquals("Invalid height in texture data", TextureUtils.getDimensionForMipmapLevel(i, _height), textureData.getHeight(i));
+                assertEquals("Invalid image size", _uncompressedTextureBuffer[i].capacity(), textureData.getImageSize(i));
             }
+
+            assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
+            assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -194,6 +221,11 @@ public class KTXReaderTest extends WriterTestAbstract {
             // on teste l'integrité des données de texture
             _compressedTextureBuffer[0].position(0);
             assertTrue("md5 checksums not equal", FileUtils.isEqual(textureData.get(0), _compressedTextureBuffer[0]));
+            assertEquals("Invalid width in texture data", _width, textureData.getWidth(0));
+            assertEquals("Invalid height in texture data", _height, textureData.getHeight(0));
+            assertEquals("Invalid image size", _compressedTextureBuffer[0].capacity(), textureData.getImageSize(0));
+            assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
+            assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -231,7 +263,14 @@ public class KTXReaderTest extends WriterTestAbstract {
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
                 _compressedTextureBuffer[i].position(0);
                 assertTrue("md5 checksums not equal for mipmap level " + String.valueOf(i), FileUtils.isEqual(textureData.get(i), _compressedTextureBuffer[i]));
+
+                assertEquals("Invalid width in texture data", TextureUtils.getDimensionForMipmapLevel(i, _width), textureData.getWidth(i));
+                assertEquals("Invalid height in texture data", TextureUtils.getDimensionForMipmapLevel(i, _height), textureData.getHeight(i));
+                assertEquals("Invalid image size", _compressedTextureBuffer[i].capacity(), textureData.getImageSize(i));
             }
+
+            assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
+            assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -270,6 +309,12 @@ public class KTXReaderTest extends WriterTestAbstract {
                 _compressedTextureBuffer[0].position(0);
                 assertTrue("md5 checksums not equal for face " + String.valueOf(f), FileUtils.isEqual(textureData.get(0, f), _compressedTextureBuffer[0]));
             }
+
+            assertEquals("Invalid width in texture data", _width, textureData.getWidth(0));
+            assertEquals("Invalid height in texture data", _height, textureData.getHeight(0));
+            assertEquals("Invalid image size", _compressedTextureBuffer[0].capacity(), textureData.getImageSize(0));
+            assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
+            assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -309,7 +354,14 @@ public class KTXReaderTest extends WriterTestAbstract {
                     _compressedTextureBuffer[i].position(0);
                     assertTrue("md5 checksums not equal for mipmap level " + String.valueOf(i) + " for face " + String.valueOf(f), FileUtils.isEqual(textureData.get(i, f), _compressedTextureBuffer[i]));
                 }
+
+                assertEquals("Invalid width in texture data", TextureUtils.getDimensionForMipmapLevel(i, _width), textureData.getWidth(i));
+                assertEquals("Invalid height in texture data", TextureUtils.getDimensionForMipmapLevel(i, _height), textureData.getHeight(i));
+                assertEquals("Invalid image size", _compressedTextureBuffer[i].capacity(), textureData.getImageSize(i));
             }
+
+            assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
+            assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
