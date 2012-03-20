@@ -36,6 +36,8 @@ public class KTXWriterTest extends WriterTestAbstract {
             KTXWriter writer        = new KTXWriter(false, false, _width, _height);
             writer.setUncompressedFormat(TextureFormat.GL_RGBA);
             writer.getTextureData().set(0, _uncompressedTextureBuffer[0]);
+            writer.getMetadata().set("KTXTest", "testValue");
+            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_NO_MIPMAP, FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
@@ -56,6 +58,8 @@ public class KTXWriterTest extends WriterTestAbstract {
                 writer.getTextureData().set(i, _uncompressedTextureBuffer[i]);
             }
 
+            writer.getMetadata().set("KTXTest", "testValue");
+            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_MIPMAP, FILE_UNCOMPRESSED_MIPMAP_GEN));
@@ -77,6 +81,8 @@ public class KTXWriterTest extends WriterTestAbstract {
             writer.getTextureData().set(0, 3, _uncompressedTextureBuffer[0]);
             writer.getTextureData().set(0, 4, _uncompressedTextureBuffer[0]);
             writer.getTextureData().set(0, 5, _uncompressedTextureBuffer[0]);
+            writer.getMetadata().set("KTXTest", "testValue");
+            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
@@ -102,6 +108,8 @@ public class KTXWriterTest extends WriterTestAbstract {
                 writer.getTextureData().set(i, 5, _uncompressedTextureBuffer[i]);
             }
 
+            writer.getMetadata().set("KTXTest", "testValue");
+            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN));
@@ -118,35 +126,39 @@ public class KTXWriterTest extends WriterTestAbstract {
             KTXWriter writer        = new KTXWriter(false, false, _width, _height);
             writer.setCompressedFormat(TextureFormat.GL_ETC1_RGB8);
             writer.getTextureData().set(0, _compressedTextureBuffer[0]);
+            writer.getMetadata().set("KTXTest", "testValue");
+            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
             writer.write(out);
-            
+
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_NO_MIPMAP, FILE_COMPRESSED_NO_MIPMAP_GEN));
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
     }
-    
+
     @Test
     public void testWriteCompressedMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_MIPMAP_GEN);
             KTXWriter writer        = new KTXWriter(true, false, _width, _height);
             writer.setCompressedFormat(TextureFormat.GL_ETC1_RGB8);
-            
+
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
                 writer.getTextureData().set(i, _compressedTextureBuffer[i]);
             }
-            
+
+            writer.getMetadata().set("KTXTest", "testValue");
+            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
             writer.write(out);
-            
+
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_MIPMAP, FILE_COMPRESSED_MIPMAP_GEN));
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
     }
-    
+
     @Test
     public void testWriteCompressedCubemapNoMipmap() {
         try {
@@ -159,22 +171,24 @@ public class KTXWriterTest extends WriterTestAbstract {
             writer.getTextureData().set(0, 3, _compressedTextureBuffer[0]);
             writer.getTextureData().set(0, 4, _compressedTextureBuffer[0]);
             writer.getTextureData().set(0, 5, _compressedTextureBuffer[0]);
+            writer.getMetadata().set("KTXTest", "testValue");
+            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
             writer.write(out);
-            
+
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_CUBEMAP_NO_MIPMAP, FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
     }
-    
+
     @Test
     public void testWriteCompressedCubemapMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN);
             KTXWriter writer        = new KTXWriter(true, true, _width, _height);
             writer.setCompressedFormat(TextureFormat.GL_ETC1_RGB8);
-            
+
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
                 writer.getTextureData().set(i, 0, _compressedTextureBuffer[i]);
                 writer.getTextureData().set(i, 1, _compressedTextureBuffer[i]);
@@ -183,9 +197,11 @@ public class KTXWriterTest extends WriterTestAbstract {
                 writer.getTextureData().set(i, 4, _compressedTextureBuffer[i]);
                 writer.getTextureData().set(i, 5, _compressedTextureBuffer[i]);
             }
-            
+
+            writer.getMetadata().set("KTXTest", "testValue");
+            writer.getMetadata().set("KTXTestBytes", _metadataBytes);
             writer.write(out);
-            
+
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_CUBEMAP_MIPMAP, FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN));
         } catch (Exception e) {
             e.printStackTrace();

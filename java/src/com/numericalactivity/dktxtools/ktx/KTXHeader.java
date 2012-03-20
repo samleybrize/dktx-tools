@@ -74,24 +74,12 @@ public abstract class KTXHeader {
         return _pixelWidth;
     }
 
-    public int getPixelWidth(int i) {
-        return Math.max(1, getPixelWidth() >> i);
-    }
-
     public int getPixelHeight() {
         return _pixelHeight;
     }
 
-    public int getPixelHeight(int i) {
-        return Math.max(1, getPixelHeight() >> i);
-    }
-
     public int getPixelDepth() {
         return _pixelDepth;
-    }
-
-    public int getPixelDepth(int i) {
-        return Math.max(1, getPixelDepth() >> i);
     }
 
     public int getNumberOfArrayElements() {
