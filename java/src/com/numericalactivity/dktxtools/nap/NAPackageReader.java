@@ -52,9 +52,11 @@ public class NAPackageReader {
      */
     public ByteBuffer get(String entryName) throws IOException {
         ZipEntry zipEntry   = _zipFile.getEntry(entryName);
-        byte[] data         = new byte[(int) zipEntry.getSize()];
+        byte[] data         = new byte[(int) zipEntry.getSize()]; // TODO en plusieurs parties
         InputStream in      = _zipFile.getInputStream(zipEntry);
         in.read(data);
         return BufferUtils.getByteBuffer(data);
     }
+
+    // TODO getSize
 }
