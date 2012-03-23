@@ -49,14 +49,44 @@ public class NAPackageReader {
      * @param entryName nom de l'entrée. Habituellement un chemin interne au fichier.
      * @return
      * @throws IOException
+     * @throws NAPackageException 
      */
-    public ByteBuffer get(String entryName) throws IOException {
+    public ByteBuffer get(String entryName) throws IOException, NAPackageException {
         ZipEntry zipEntry   = _zipFile.getEntry(entryName);
-        byte[] data         = new byte[(int) zipEntry.getSize()]; // TODO en plusieurs parties
+
+        // on vérifie que l'entrée existe
+        if (null == zipEntry) {
+            throw new NAPackageException("Entry '" + entryName + "' does not exists");
+        }
+
+        // on vérifie la taille de l'entrée
+        long size           = zipEntry.getSize();
+
+        if (size > Integer.MAX_VALUE) {
+            throw new NAPackageException("Too long data size for this entry");
+        }
+
+        // on récupère les données de l'entrée
+        byte[] data         = new byte[(int) size];
         InputStream in      = _zipFile.getInputStream(zipEntry);
         in.read(data);
         return BufferUtils.getByteBuffer(data);
     }
 
-    // TODO getSize
+    /**
+     * Retourne la taille des données de l'entrée spécifiée par 'entryName'
+     * @param entryName nom de l'entrée. Habituellement un chemin interne au fichier.
+     * @return
+     * @throws NAPackageException
+     */
+    public long getEntrySize(String entryName) throws NAPackageException {
+        ZipEntry zipEntry   = _zipFile.getEntry(entryName);
+
+        // on vérifie que l'entrée existe
+        if (null == zipEntry) {
+            throw new NAPackageException("Entry '" + entryName + "' does not exists");
+        }
+
+        return zipEntry.getSize();
+    }
 }
