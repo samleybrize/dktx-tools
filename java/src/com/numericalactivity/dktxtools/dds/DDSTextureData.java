@@ -1,5 +1,6 @@
 package com.numericalactivity.dktxtools.dds;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -267,22 +268,23 @@ public abstract class DDSTextureData {
             }
 
             // on initialise les variables
-            _numberOfMipmapLevels   = (byte) ddsHeader.getMipmapCount();
-            _textureData            = new ByteBuffer[_numberOfMipmapLevels][_numberOfFaces];
-            _imageSize              = new int[_numberOfMipmapLevels];
-            _width                  = new short[_numberOfMipmapLevels];
-            _height                 = new short[_numberOfMipmapLevels];
+            BufferedInputStream bufferedIn  = new BufferedInputStream(in);
+            _numberOfMipmapLevels           = (byte) ddsHeader.getMipmapCount();
+            _textureData                    = new ByteBuffer[_numberOfMipmapLevels][_numberOfFaces];
+            _imageSize                      = new int[_numberOfMipmapLevels];
+            _width                          = new short[_numberOfMipmapLevels];
+            _height                         = new short[_numberOfMipmapLevels];
 
-            _width[0]               = (short) ddsHeader.getWidth();
-            _height[0]              = (short) ddsHeader.getHeight();
+            _width[0]                       = (short) ddsHeader.getWidth();
+            _height[0]                      = (short) ddsHeader.getHeight();
 
             // on lance la récupération des données
             if (ddsHeader.hasPixelFormatFlags(DDSHeader.DDPF_FOURCC)) {
                 // texture compressée
-                readCompressed(in, ddsHeader);
+                readCompressed(bufferedIn, ddsHeader);
             } else {
                 // texture non compressée
-                readUncompressed(in, ddsHeader);
+                readUncompressed(bufferedIn, ddsHeader);
             }
         }
 

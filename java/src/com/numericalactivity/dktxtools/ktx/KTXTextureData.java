@@ -1,5 +1,6 @@
 package com.numericalactivity.dktxtools.ktx;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -245,6 +246,7 @@ public abstract class KTXTextureData {
          * @throws IOException
          */
         protected void read(InputStream in, KTXHeader ktxHeader) throws IOException {
+            BufferedInputStream bufferedIn  = new BufferedInputStream(in);
             _numberOfMipmapLevels           = (byte) ktxHeader.getNumberOfMipmapLevels();
             _numberOfFaces                  = (byte) ktxHeader.getNumberOfFaces();
             _width[0]                       = (short) ktxHeader.getPixelWidth();
@@ -259,7 +261,7 @@ public abstract class KTXTextureData {
 
             for (byte mipmapLevel = 0; mipmapLevel < _numberOfMipmapLevels; mipmapLevel++) {
                 // on récupère la taille de chaque face en prenant en compte l'ordre de lecture récupéré dans les headers
-                _imageSize[mipmapLevel] = KTXUtil.readInt(in, bufferBytesPerFace, byteOrder);
+                _imageSize[mipmapLevel] = KTXUtil.readInt(bufferedIn, bufferBytesPerFace, byteOrder);
                 faceData                = new byte[_imageSize[mipmapLevel]];
                 _width[mipmapLevel]     = TextureUtils.getDimensionForMipmapLevel(mipmapLevel, _width[0]);
                 _height[mipmapLevel]    = TextureUtils.getDimensionForMipmapLevel(mipmapLevel, _height[0]);
@@ -267,7 +269,7 @@ public abstract class KTXTextureData {
                 for (byte face = 0; face < _numberOfFaces; face++) {
                     // on crée le ByteBuffer sans oublier de redéfinir son ordre à celui indique dans les headers
                     _textureData[mipmapLevel][face] = ByteBuffer.allocateDirect(_imageSize[mipmapLevel]);
-                    in.read(faceData);
+                    bufferedIn.read(faceData);
                     _textureData[mipmapLevel][face].put(faceData);
                     _textureData[mipmapLevel][face].position(0);
                     _textureData[mipmapLevel][face].order(ktxHeader.getByteOrder());
@@ -279,7 +281,7 @@ public abstract class KTXTextureData {
                     bytesRead  += cubePadding;
 
                     for (i = 0; i < cubePadding; i++) {
-                        in.read();
+                        bufferedIn.read();
                     }
                 }                
 
@@ -288,7 +290,7 @@ public abstract class KTXTextureData {
                 bytesRead  += mipPadding;
 
                 for (i = 0; i < mipPadding; i++) {
-                    in.read();
+                    bufferedIn.read();
                 }
             }
         }
