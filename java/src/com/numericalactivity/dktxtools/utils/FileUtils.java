@@ -1,5 +1,6 @@
 package com.numericalactivity.dktxtools.utils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,8 +34,8 @@ public class FileUtils {
             _digestMd5 = MessageDigest.getInstance("md5");
         }
 
-        FileInputStream in  = new FileInputStream(file);
-        byte[] data         = new byte[(int) file.length()];
+        BufferedInputStream in  = new BufferedInputStream(new FileInputStream(file));
+        byte[] data             = new byte[(int) file.length()];
         in.read(data);
         in.close();
         return _digestMd5.digest(data);

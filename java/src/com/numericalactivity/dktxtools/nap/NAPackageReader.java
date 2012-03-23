@@ -1,5 +1,6 @@
 package com.numericalactivity.dktxtools.nap;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ public class NAPackageReader {
 
     /**
      * Constructeur
-     * @param file
+     * @param file fichier à lire
      * @throws ZipException
      * @throws IOException
      */
@@ -26,12 +27,20 @@ public class NAPackageReader {
 
     /**
      * Constructeur
-     * @param filename nom du fichier
+     * @param filename chemin vers le fichier à lire
      * @throws ZipException
      * @throws IOException
      */
     public NAPackageReader(String filename) throws ZipException, IOException {
         _zipFile = new ZipFile(filename);
+    }
+
+    /**
+     * Ferme le fichier
+     * @throws IOException 
+     */
+    public void close() throws IOException {
+        _zipFile.close();
     }
 
     /**
@@ -67,8 +76,8 @@ public class NAPackageReader {
         }
 
         // on récupère les données de l'entrée
-        byte[] data         = new byte[(int) size];
-        InputStream in      = _zipFile.getInputStream(zipEntry);
+        byte[] data             = new byte[(int) size];
+        BufferedInputStream in  = new BufferedInputStream(_zipFile.getInputStream(zipEntry));
         in.read(data);
         return BufferUtils.getByteBuffer(data);
     }
