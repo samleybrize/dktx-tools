@@ -82,14 +82,18 @@ public class NAPackageWriter {
     public NAPackageWriter addEntry(String entryName, InputStream in) throws IOException {
         BufferedInputStream bufferedIn  = new BufferedInputStream(in);
         int available                   = bufferedIn.available();
+        int bytesReaded                 = 0;
         _zipOut.putNextEntry(new ZipEntry(entryName));
         byte[] data;
 
-        while (available > 0) {
-            data = new byte[available];
-            bufferedIn.read(data);
-            _zipOut.write(data);
-            available = bufferedIn.available();
+        while (bytesReaded != 1) {
+            available   = bufferedIn.available();
+            data        = new byte[available];
+            bytesReaded = bufferedIn.read(data);
+
+            if (bytesReaded > 0) {
+                _zipOut.write(data);
+            }
         }
         
         _zipOut.closeEntry();
