@@ -9,6 +9,7 @@ import java.nio.ByteOrder;
 
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
+// TODO BufferedOutputStream
 /**
  * Classe de gestion des données des textures contenues dans un fichier KTX
  */
