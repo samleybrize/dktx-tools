@@ -16,23 +16,23 @@ public class FileUtilsTest {
     protected static final byte[] _byteArray            = {4, 5, 12, 14};
 
     @Test
-    public void testMd5ChecksumString() throws ArrayComparisonFailure, NoSuchAlgorithmException, IOException {
-        assertArrayEquals(_checksumByteArray, FileUtils.md5Checksum(CHECKSUM_TEST_FILE));
+    public void testGetChecksumString() throws ArrayComparisonFailure, NoSuchAlgorithmException, IOException {
+        assertArrayEquals(_checksumByteArray, FileUtils.getChecksum(CHECKSUM_TEST_FILE));
     }
 
     @Test
-    public void testMd5ChecksumFile() throws ArrayComparisonFailure, NoSuchAlgorithmException, IOException {
-        assertArrayEquals(_checksumByteArray, FileUtils.md5Checksum(new File(CHECKSUM_TEST_FILE)));
+    public void testGetChecksumFile() throws ArrayComparisonFailure, NoSuchAlgorithmException, IOException {
+        assertArrayEquals(_checksumByteArray, FileUtils.getChecksum(new File(CHECKSUM_TEST_FILE)));
     }
 
     @Test
-    public void testMd5ChecksumByteBuffer() throws ArrayComparisonFailure, NoSuchAlgorithmException {
-        assertArrayEquals(_checksumByteArray, FileUtils.md5Checksum(BufferUtils.getByteBuffer(_byteArray)));
+    public void testGetChecksumByteBuffer() throws ArrayComparisonFailure, NoSuchAlgorithmException {
+        assertArrayEquals(_checksumByteArray, FileUtils.getChecksum(BufferUtils.getByteBuffer(_byteArray)));
     }
 
     @Test
-    public void testMd5ChecksumByteArray() throws ArrayComparisonFailure, NoSuchAlgorithmException {
-        assertArrayEquals(_checksumByteArray, FileUtils.md5Checksum(_byteArray));
+    public void testGetChecksumByteArray() throws ArrayComparisonFailure, NoSuchAlgorithmException {
+        assertArrayEquals(_checksumByteArray, FileUtils.getChecksum(_byteArray));
     }
 
     @Test

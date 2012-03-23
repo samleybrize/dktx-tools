@@ -9,53 +9,65 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class FileUtils {
-    protected static MessageDigest _digestMd5;
+    protected static final String ALGORITHM = "md5";
+
+    protected static MessageDigest _digest;
 
     /**
-     * Retourne la somme de contrôle md5 d'un fichier
-     * @param file
+     * Retourne la somme de contrôle d'un fichier
+     * @param file chemin vers le fichier
      * @return
      * @throws IOException 
      * @throws NoSuchAlgorithmException 
      */
-    public static byte[] md5Checksum(String file) throws NoSuchAlgorithmException, IOException {
-        return md5Checksum(new File(file));
+    public static byte[] getChecksum(String file) throws NoSuchAlgorithmException, IOException {
+        return getChecksum(new File(file));
     }
 
     /**
-     * Retourne la somme de contrôle md5 d'un fichier
+     * Retourne la somme de contrôle d'un fichier
      * @param file
      * @return
      * @throws NoSuchAlgorithmException 
      * @throws IOException 
      */
-    public static byte[] md5Checksum(File file) throws NoSuchAlgorithmException, IOException {
-        if (null == _digestMd5) {
-            _digestMd5 = MessageDigest.getInstance("md5");
+    public static byte[] getChecksum(File file) throws NoSuchAlgorithmException, IOException {
+        if (null == _digest) {
+            _digest = MessageDigest.getInstance(ALGORITHM);
         }
 
         BufferedInputStream in  = new BufferedInputStream(new FileInputStream(file));
-        byte[] data             = new byte[(int) file.length()];
-        in.read(data);
+        byte[] data             = new byte[1024];
+        int readedBytes;
+
+        do {
+            readedBytes = in.read(data);
+
+            if (readedBytes > 0) {
+                _digest.update(data, 0, readedBytes);
+            }
+        } while(readedBytes != -1);
+
         in.close();
-        return _digestMd5.digest(data);
+        return _digest.digest();
     }
 
     /**
-     * Retourne la somme de contrôle md5 des données contenues dans un ByteBuffer
+     * Retourne la somme de contrôle des données contenues dans un ByteBuffer
      * @param buffer
      * @return
      * @throws NoSuchAlgorithmException 
      * @throws IOException 
      */
-    public static byte[] md5Checksum(ByteBuffer buffer) throws NoSuchAlgorithmException {
-        if (null == _digestMd5) {
-            _digestMd5 = MessageDigest.getInstance("md5");
+    public static byte[] getChecksum(ByteBuffer buffer) throws NoSuchAlgorithmException {
+        if (null == _digest) {
+            _digest = MessageDigest.getInstance(ALGORITHM);
         }
         
-        byte[] data         = new byte[buffer.capacity()];
+        byte[] data = new byte[buffer.capacity()];
         buffer.get(data);
-        return _digestMd5.digest(data);
+        _digest.update(data);
+        return _digest.digest();
     }
 
     /**
@@ -65,12 +77,13 @@ public class FileUtils {
      * @throws NoSuchAlgorithmException 
      * @throws IOException 
      */
-    public static byte[] md5Checksum(byte[] array) throws NoSuchAlgorithmException {
-        if (null == _digestMd5) {
-            _digestMd5 = MessageDigest.getInstance("md5");
+    public static byte[] getChecksum(byte[] array) throws NoSuchAlgorithmException {
+        if (null == _digest) {
+            _digest = MessageDigest.getInstance(ALGORITHM);
         }
-        
-        return _digestMd5.digest(array);
+
+        _digest.update(array);
+        return _digest.digest();
     }
 
     /**
@@ -94,7 +107,7 @@ public class FileUtils {
      * @throws NoSuchAlgorithmException 
      */
     public static boolean isEqual(File file1, File file2) throws NoSuchAlgorithmException, IOException {
-        return MessageDigest.isEqual(md5Checksum(file1), md5Checksum(file2));
+        return MessageDigest.isEqual(getChecksum(file1), getChecksum(file2));
     }
 
     /**
@@ -106,7 +119,7 @@ public class FileUtils {
      * @throws NoSuchAlgorithmException 
      */
     public static boolean isEqual(ByteBuffer buffer1, ByteBuffer buffer2) throws NoSuchAlgorithmException, IOException {
-        return MessageDigest.isEqual(md5Checksum(buffer1), md5Checksum(buffer2));
+        return MessageDigest.isEqual(getChecksum(buffer1), getChecksum(buffer2));
     }
 
     /**
@@ -118,7 +131,7 @@ public class FileUtils {
      * @throws NoSuchAlgorithmException 
      */
     public static boolean isEqual(byte[] array1, byte[] array2) throws NoSuchAlgorithmException, IOException {
-        return MessageDigest.isEqual(md5Checksum(array1), md5Checksum(array2));
+        return MessageDigest.isEqual(getChecksum(array1), getChecksum(array2));
     }
 
     /**
@@ -130,6 +143,6 @@ public class FileUtils {
      * @throws NoSuchAlgorithmException 
      */
     public static boolean isEqual(ByteBuffer buffer, byte[] array) throws NoSuchAlgorithmException, IOException {
-        return MessageDigest.isEqual(md5Checksum(buffer), md5Checksum(array));
+        return MessageDigest.isEqual(getChecksum(buffer), getChecksum(array));
     }
 }
