@@ -10,6 +10,7 @@ import com.numericalactivity.dktxtools.TextureFormat;
 import com.numericalactivity.dktxtools.test.WriterTestAbstract;
 import com.numericalactivity.dktxtools.utils.FileUtils;
 
+//TODO tester exceptions?
 public class DDSWriterTest extends WriterTestAbstract {
 
     protected static final String FILE_UNCOMPRESSED_NO_MIPMAP               = "./testRes/dds/uncompressed_no_mipmap.dds";

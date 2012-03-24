@@ -11,6 +11,7 @@ import com.numericalactivity.dktxtools.test.WriterTestAbstract;
 import com.numericalactivity.dktxtools.utils.FileUtils;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
+// TODO tester exceptions?
 public class KTXReaderTest extends WriterTestAbstract {
 
     @Test
