@@ -1,8 +1,8 @@
 package com.numericalactivity.dktxtools.ktx;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -177,7 +177,7 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
          * @throws KTXFormatException
          * @throws IOException
          */
-        protected Reader(InputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
+        protected Reader(BufferedInputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
             read(in, ktxHeader);
         }
 
@@ -200,7 +200,7 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
          * @throws KTXFormatException
          * @throws IOException
          */
-        protected void read(InputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
+        protected void read(BufferedInputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
             // attention à la position du pointeur de l'input stream!
             int length          = ktxHeader.getBytesOfKeyValueData();
             ByteBuffer buffer   = BufferUtils.getEmptyByteBuffer(length);
@@ -299,7 +299,7 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
          * @param out
          * @throws IOException
          */
-        public void write(OutputStream out) throws IOException {
+        public void write(BufferedOutputStream out) throws IOException {
             ByteBuffer buffer = ByteBuffer.allocate(getBytesOfKeyValueData());
             write(buffer);
             out.write(buffer.array());

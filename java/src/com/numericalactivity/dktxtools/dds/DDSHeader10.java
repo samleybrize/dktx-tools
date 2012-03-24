@@ -1,8 +1,8 @@
 package com.numericalactivity.dktxtools.dds;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -115,7 +115,7 @@ public abstract class DDSHeader10 {
          * @param in le pointeur doit être placé au début des entêtes additionnelles
          * @throws IOException 
          */
-	    protected Reader(InputStream in) throws IOException {
+	    protected Reader(BufferedInputStream in) throws IOException {
 	        read(in);
 	    }
 
@@ -133,7 +133,7 @@ public abstract class DDSHeader10 {
 	     * @param in le pointeur doit être placé au début des entêtes additionnelles
 	     * @throws IOException 
 	     */
-	    protected void read(InputStream in) throws IOException {
+	    protected void read(BufferedInputStream in) throws IOException {
 	        ByteBuffer buffer   = BufferUtils.getEmptyByteBuffer(HEADER_LENGTH);
             byte[] data         = new byte[HEADER_LENGTH];
             in.read(data, 0, HEADER_LENGTH);
@@ -207,7 +207,7 @@ public abstract class DDSHeader10 {
          * @param out
          * @throws IOException
          */
-        protected void write(OutputStream out) throws IOException {
+        protected void write(BufferedOutputStream out) throws IOException {
             ByteBuffer buffer = ByteBuffer.allocate(HEADER_LENGTH);
             write(buffer);
             out.write(buffer.array());

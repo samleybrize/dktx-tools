@@ -3,7 +3,6 @@ package com.numericalactivity.dktxtools.nap;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -48,9 +47,17 @@ public class NAPackageReader {
      * @param entryName nom de l'entrée. Habituellement un chemin interne au fichier.
      * @return
      * @throws IOException
+     * @throws NAPackageException 
      */
-    public InputStream getInputStream(String entryName) throws IOException {
-        return _zipFile.getInputStream(_zipFile.getEntry(entryName));
+    public BufferedInputStream getInputStream(String entryName) throws IOException, NAPackageException {
+        ZipEntry zipEntry   = _zipFile.getEntry(entryName);
+
+        // on vérifie que l'entrée existe
+        if (null == zipEntry) {
+            throw new NAPackageException("Entry '" + entryName + "' does not exists");
+        }
+
+        return new BufferedInputStream(_zipFile.getInputStream(zipEntry));
     }
 
     /**

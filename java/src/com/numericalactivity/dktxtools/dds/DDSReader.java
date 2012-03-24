@@ -1,5 +1,6 @@
 package com.numericalactivity.dktxtools.dds;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -21,8 +22,13 @@ public class DDSReader {
      * @throws DDSFormatException
      */
     public DDSReader(InputStream in) throws IOException, DDSFormatException {
-        _headers        = new DDSHeader.Reader(in);
-        _textureData    = new DDSTextureData.Reader(in, _headers);
+        // on crée un flux bufferisé à partir du flux passé en entrée
+        if (!(in instanceof BufferedInputStream)) {
+            in = new BufferedInputStream(in);
+        }
+
+        _headers        = new DDSHeader.Reader((BufferedInputStream) in);
+        _textureData    = new DDSTextureData.Reader((BufferedInputStream) in, _headers);
         in.close();
 
         // on détermine si les données sont compressées

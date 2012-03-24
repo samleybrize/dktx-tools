@@ -1,5 +1,6 @@
 package com.numericalactivity.dktxtools.ktx;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,9 +19,14 @@ public class KTXReader {
      * @throws KTXFormatException
      */
     public KTXReader(InputStream in) throws IOException, KTXFormatException {
-        _headers        = new KTXHeader.Reader(in);
-        _metas          = new KTXMetadata.Reader(in, _headers);
-        _textureData    = new KTXTextureData.Reader(in, _headers);
+        // on crée un flux bufferisé à partir du flux passé en entrée
+        if (!(in instanceof BufferedInputStream)) {
+            in = new BufferedInputStream(in);
+        }
+
+        _headers        = new KTXHeader.Reader((BufferedInputStream) in);
+        _metas          = new KTXMetadata.Reader((BufferedInputStream) in, _headers);
+        _textureData    = new KTXTextureData.Reader((BufferedInputStream) in, _headers);
         in.close();
     }
 
@@ -32,17 +38,22 @@ public class KTXReader {
      * @throws KTXFormatException
      */
     public KTXReader(InputStream in, boolean loadMetadatas) throws IOException, KTXFormatException {
-        _headers        = new KTXHeader.Reader(in);
+        // on crée un flux bufferisé à partir du flux passé en entrée
+        if (!(in instanceof BufferedInputStream)) {
+            in = new BufferedInputStream(in);
+        }
+
+        _headers = new KTXHeader.Reader((BufferedInputStream) in);
 
         if (loadMetadatas) {
             // on charge les métadonnées
-            _metas          = new KTXMetadata.Reader(in, _headers);
+            _metas = new KTXMetadata.Reader((BufferedInputStream) in, _headers);
         } else {
             // si on ne charge pas les métadonnées, il faut faire avancer le pointeur de l'inputstream
             in.skip(_headers.getBytesOfKeyValueData());
         }
 
-        _textureData    = new KTXTextureData.Reader(in, _headers);
+        _textureData = new KTXTextureData.Reader((BufferedInputStream) in, _headers);
         in.close();
     }
 

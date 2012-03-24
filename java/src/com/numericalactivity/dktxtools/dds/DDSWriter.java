@@ -1,5 +1,6 @@
 package com.numericalactivity.dktxtools.dds;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -183,8 +184,13 @@ public class DDSWriter {
      * @throws IOException 
      */
     public void write(OutputStream out) throws DDSFormatException, IOException {
-        _headers.write(out);
-        _textureData.write(out);
+        // on crée un flux bufferisé à partir du flux passé en entrée
+        if (!(out instanceof BufferedOutputStream)) {
+            out = new BufferedOutputStream(out);
+        }
+
+        _headers.write((BufferedOutputStream) out);
+        _textureData.write((BufferedOutputStream) out);
         out.close();
     }
 

@@ -1,8 +1,8 @@
 package com.numericalactivity.dktxtools.ktx;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -171,7 +171,7 @@ public abstract class KTXHeader {
          * @throws IOException 
          * @throws KTXFormatException 
          */
-        protected Reader(InputStream in) throws IOException, KTXFormatException {
+        protected Reader(BufferedInputStream in) throws IOException, KTXFormatException {
             read(in);
         }
 
@@ -190,7 +190,7 @@ public abstract class KTXHeader {
          * @throws IOException 
          * @throws KTXFormatException 
          */
-        protected void read(InputStream in) throws IOException, KTXFormatException {
+        protected void read(BufferedInputStream in) throws IOException, KTXFormatException {
             ByteBuffer buffer   = BufferUtils.getEmptyByteBuffer(HEADER_LENGTH);
             byte[] data         = new byte[HEADER_LENGTH];
             in.read(data, 0, HEADER_LENGTH);
@@ -388,7 +388,7 @@ public abstract class KTXHeader {
          * @throws IOException
          * @throws KTXFormatException 
          */
-        public void write(OutputStream out) throws IOException, KTXFormatException {
+        public void write(BufferedOutputStream out) throws IOException, KTXFormatException {
             ByteBuffer buffer = ByteBuffer.allocate(HEADER_LENGTH);
             write(buffer);
             out.write(buffer.array());

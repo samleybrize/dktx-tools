@@ -1,9 +1,8 @@
 package com.numericalactivity.dktxtools.dds;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -236,7 +235,7 @@ public abstract class DDSTextureData {
          * @throws IOException
          * @throws DDSFormatException 
          */
-        protected Reader(InputStream in, DDSHeader ddsHeader) throws IOException, DDSFormatException {
+        protected Reader(BufferedInputStream in, DDSHeader ddsHeader) throws IOException, DDSFormatException {
             // on calcule le nombre de faces si la texture est un cubemap
             _numberOfFaces = 1;
 
@@ -268,23 +267,22 @@ public abstract class DDSTextureData {
             }
 
             // on initialise les variables
-            BufferedInputStream bufferedIn  = new BufferedInputStream(in);
-            _numberOfMipmapLevels           = (byte) ddsHeader.getMipmapCount();
-            _textureData                    = new ByteBuffer[_numberOfMipmapLevels][_numberOfFaces];
-            _imageSize                      = new int[_numberOfMipmapLevels];
-            _width                          = new short[_numberOfMipmapLevels];
-            _height                         = new short[_numberOfMipmapLevels];
+            _numberOfMipmapLevels   = (byte) ddsHeader.getMipmapCount();
+            _textureData            = new ByteBuffer[_numberOfMipmapLevels][_numberOfFaces];
+            _imageSize              = new int[_numberOfMipmapLevels];
+            _width                  = new short[_numberOfMipmapLevels];
+            _height                 = new short[_numberOfMipmapLevels];
 
-            _width[0]                       = (short) ddsHeader.getWidth();
-            _height[0]                      = (short) ddsHeader.getHeight();
+            _width[0]               = (short) ddsHeader.getWidth();
+            _height[0]              = (short) ddsHeader.getHeight();
 
             // on lance la récupération des données
             if (ddsHeader.hasPixelFormatFlags(DDSHeader.DDPF_FOURCC)) {
                 // texture compressée
-                readCompressed(bufferedIn, ddsHeader);
+                readCompressed(in, ddsHeader);
             } else {
                 // texture non compressée
-                readUncompressed(bufferedIn, ddsHeader);
+                readUncompressed(in, ddsHeader);
             }
         }
 
@@ -294,7 +292,7 @@ public abstract class DDSTextureData {
          * @param ddsHeader headers du fichier
          * @throws IOException
          */
-        protected void readCompressed(InputStream in, DDSHeader ddsHeader) throws IOException {
+        protected void readCompressed(BufferedInputStream in, DDSHeader ddsHeader) throws IOException {
             byte blockSize = (byte) ((ddsHeader.getPixelFormatFourCC() == DDSFourCC.FOURCC_DX10) ? DDSUtil.getCompressedBlockSize(ddsHeader.getHeader10().getDxgiFormat())  : DDSUtil.getCompressedBlockSize(ddsHeader.getPixelFormatFourCC()));
             byte[] faceData;
 
@@ -324,7 +322,7 @@ public abstract class DDSTextureData {
          * @param ddsHeader headers du fichier
          * @throws IOException
          */
-        protected void readUncompressed(InputStream in, DDSHeader ddsHeader) throws IOException {
+        protected void readUncompressed(BufferedInputStream in, DDSHeader ddsHeader) throws IOException {
             byte bitsPerPixel = (byte) ddsHeader.getPixelFormatRgbBitCount();
             byte[] faceData;
 
@@ -430,7 +428,7 @@ public abstract class DDSTextureData {
          * @throws IOException
          * @throws DDSFormatException 
          */
-        public void write(OutputStream out) throws IOException, DDSFormatException {
+        public void write(BufferedOutputStream out) throws IOException, DDSFormatException {
             check();
 
             // écriture

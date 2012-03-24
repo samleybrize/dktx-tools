@@ -1,8 +1,8 @@
 package com.numericalactivity.dktxtools.dds;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -354,7 +354,7 @@ public abstract class DDSHeader {
          * @throws IOException 
          * @throws DDSFormatException 
          */
-        protected Reader(InputStream in) throws IOException, DDSFormatException {
+        protected Reader(BufferedInputStream in) throws IOException, DDSFormatException {
             read(in);
         }
 
@@ -373,7 +373,7 @@ public abstract class DDSHeader {
          * @throws IOException 
          * @throws DDSFormatException 
          */
-        protected void read(InputStream in) throws IOException, DDSFormatException {
+        protected void read(BufferedInputStream in) throws IOException, DDSFormatException {
             ByteBuffer buffer   = BufferUtils.getEmptyByteBuffer(HEADER_LENGTH + FILE_IDENTIFIER_LENGTH);
             byte[] data         = new byte[HEADER_LENGTH + FILE_IDENTIFIER_LENGTH];
             in.read(data, 0, HEADER_LENGTH + FILE_IDENTIFIER_LENGTH);
@@ -613,7 +613,7 @@ public abstract class DDSHeader {
          * @throws IOException
          * @throws DDSFormatException 
          */
-        public void write(OutputStream out) throws IOException, DDSFormatException {
+        public void write(BufferedOutputStream out) throws IOException, DDSFormatException {
             ByteBuffer buffer = ByteBuffer.allocate(HEADER_LENGTH + FILE_IDENTIFIER_LENGTH);
             write(buffer);
             out.write(buffer.array());

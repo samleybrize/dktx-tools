@@ -1,5 +1,6 @@
 package com.numericalactivity.dktxtools.ktx;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -134,9 +135,14 @@ public class KTXWriter {
      * @throws KTXFormatException 
      */
     public void write(OutputStream out) throws IOException, KTXFormatException {
-        _headers.write(out);
-        _metas.write(out);
-        _textureData.write(out);
+        // on crée un flux bufferisé à partir du flux passé en entrée
+        if (!(out instanceof BufferedOutputStream)) {
+            out = new BufferedOutputStream(out);
+        }
+
+        _headers.write((BufferedOutputStream) out);
+        _metas.write((BufferedOutputStream) out);
+        _textureData.write((BufferedOutputStream) out);
         out.close();
     }
 
