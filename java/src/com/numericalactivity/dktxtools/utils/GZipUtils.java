@@ -87,7 +87,7 @@ public class GZipUtils {
         byte[] data;
 
         do {
-            available   = Math.max(1, in.available());
+            available   = Math.max(1, gzipIn.available());
             data        = new byte[available];
             readedBytes = gzipIn.read(data);
 
@@ -98,7 +98,7 @@ public class GZipUtils {
 
         out.flush();
         out.close();
-        in.close();
+        gzipIn.close();
     }
 
     /**
