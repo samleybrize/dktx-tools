@@ -143,6 +143,7 @@ public class KTXWriter {
         _headers.write((BufferedOutputStream) out);
         _metas.write((BufferedOutputStream) out);
         _textureData.write((BufferedOutputStream) out);
+        out.flush();
         out.close();
     }
 

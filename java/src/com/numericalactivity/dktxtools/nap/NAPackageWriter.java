@@ -38,6 +38,7 @@ public class NAPackageWriter {
      * @throws IOException 
      */
     public void close() throws IOException {
+        _zipOut.flush();
         _zipOut.close();
     }
 

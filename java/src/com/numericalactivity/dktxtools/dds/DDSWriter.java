@@ -191,6 +191,7 @@ public class DDSWriter {
 
         _headers.write((BufferedOutputStream) out);
         _textureData.write((BufferedOutputStream) out);
+        out.flush();
         out.close();
     }
 
