@@ -3,15 +3,16 @@ package com.numericalactivity.dktxtools.ktx;
 import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
+import java.nio.ByteBuffer;
 
 import org.junit.Test;
 
 import com.numericalactivity.dktxtools.TextureFormat;
 import com.numericalactivity.dktxtools.test.WriterTestAbstract;
+import com.numericalactivity.dktxtools.utils.BufferUtils;
 import com.numericalactivity.dktxtools.utils.FileUtils;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
-// TODO tester exceptions?
 public class KTXReaderTest extends WriterTestAbstract {
 
     @Test
@@ -366,5 +367,44 @@ public class KTXReaderTest extends WriterTestAbstract {
             e.printStackTrace();
             fail(e.getMessage());
         }
+    }
+
+    @Test
+    public void testReadHeaderException() {
+        @SuppressWarnings("unused")
+        KTXHeader reader;
+        ByteBuffer buffer = BufferUtils.getEmptyByteBuffer(KTXHeader.HEADER_LENGTH);
+
+        // une exception doit être lancée si l'identifiant du type de fichier KTX n'est pas bien formé
+        try {
+            reader = new KTXHeader.Reader(buffer);
+            fail("KTXFormatException expected");
+        } catch (KTXFormatException e) {}
+
+        // une exception doit être lancée si l'entier de vérification de l'endianness n'est pas valide
+        try {
+            buffer.position(0);
+            buffer.put(KTXHeader.FILE_IDENTIFIER);
+            buffer.putInt(2);
+            buffer.position(0);
+    
+            reader = new KTXHeader.Reader(buffer);
+            fail("KTXFormatException expected");
+        } catch (KTXFormatException e) {}
+
+        // une exception doit être lancée si glTypeSize est invalide
+        try {
+            buffer.position(0);
+            buffer.put(KTXHeader.FILE_IDENTIFIER);
+            buffer.putInt(KTXHeader.ENDIANNESS_OK);
+    
+            for (byte i = 0; i < 12; i++) {
+                buffer.putInt(0);
+            }
+    
+            buffer.position(0);
+            reader = new KTXHeader.Reader(buffer);
+            fail("KTXFormatException expected");
+        } catch (KTXFormatException e) {}
     }
 }
