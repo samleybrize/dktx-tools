@@ -13,8 +13,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class GZipUtils {
-    // TODO tests u
-
     /**
      * Compresse le contenu d'un flux
      * @param out flux dans lequel les données compressées seront écrite
