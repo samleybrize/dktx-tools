@@ -4,13 +4,15 @@ import static org.junit.Assert.*;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
+import java.security.NoSuchAlgorithmException;
 
 import org.junit.Test;
+import org.junit.internal.ArrayComparisonFailure;
 
 import com.numericalactivity.dktxtools.TextureFormat;
 
-// TODO comparer checksum?
 public class BufferUtilsTest {
 
     @Test
@@ -20,6 +22,10 @@ public class BufferUtilsTest {
 
         assertEquals("Wrong capacity", data.length, buffer.capacity());
         assertTrue("Buffer is not direct", buffer.isDirect());
+        assertEquals("Data mismatch", data[0], buffer.get(0), 0.01f);
+        assertEquals("Data mismatch", data[1], buffer.get(1), 0.01f);
+        assertEquals("Data mismatch", data[2], buffer.get(2), 0.01f);
+        assertEquals("Data mismatch", data[3], buffer.get(3), 0.01f);
     }
 
     @Test
@@ -29,42 +35,62 @@ public class BufferUtilsTest {
 
         assertEquals("Wrong capacity", data.length, buffer.capacity());
         assertTrue("Buffer is not direct", buffer.isDirect());
+        assertEquals("Data mismatch", data[0], buffer.get(0));
+        assertEquals("Data mismatch", data[1], buffer.get(1));
+        assertEquals("Data mismatch", data[2], buffer.get(2));
+        assertEquals("Data mismatch", data[3], buffer.get(3));
     }
 
     @Test
-    public void testGetByteBufferByteArray() {
+    public void testGetByteBufferByteArray() throws ArrayComparisonFailure, NoSuchAlgorithmException {
         byte[] data         = {2, 4, 8, 16};
         ByteBuffer buffer   = BufferUtils.getByteBuffer(data);
 
         assertEquals("Wrong capacity", data.length, buffer.capacity());
         assertTrue("Buffer is not direct", buffer.isDirect());
+        assertArrayEquals("Invalid checksum", FileUtils.getChecksum(data), FileUtils.getChecksum(buffer));
     }
 
     @Test
     public void testGetByteBufferShortArray() {
-        short[] data        = {2, 4, 8, 16};
-        ByteBuffer buffer   = BufferUtils.getByteBuffer(data);
+        short[] data            = {2, 4, 8, 16};
+        ByteBuffer buffer       = BufferUtils.getByteBuffer(data);
+        ShortBuffer shortBuffer = buffer.asShortBuffer();
 
         assertEquals("Wrong capacity", data.length * 2, buffer.capacity());
         assertTrue("Buffer is not direct", buffer.isDirect());
+        assertEquals("Data mismatch", data[0], shortBuffer.get(0));
+        assertEquals("Data mismatch", data[1], shortBuffer.get(1));
+        assertEquals("Data mismatch", data[2], shortBuffer.get(2));
+        assertEquals("Data mismatch", data[3], shortBuffer.get(3));
     }
 
     @Test
     public void testGetByteBufferIntArray() {
         int[] data          = {2, 4, 8, 16};
         ByteBuffer buffer   = BufferUtils.getByteBuffer(data);
+        IntBuffer intBuffer = buffer.asIntBuffer();
 
         assertEquals("Wrong capacity", data.length * 4, buffer.capacity());
         assertTrue("Buffer is not direct", buffer.isDirect());
+        assertEquals("Data mismatch", data[0], intBuffer.get(0));
+        assertEquals("Data mismatch", data[1], intBuffer.get(1));
+        assertEquals("Data mismatch", data[2], intBuffer.get(2));
+        assertEquals("Data mismatch", data[3], intBuffer.get(3));
     }
 
     @Test
     public void testGetByteBufferFloatArray() {
-        float[] data        = {2.3f, 4.2f, 8.1f, 16.5f};
-        ByteBuffer buffer   = BufferUtils.getByteBuffer(data);
+        float[] data            = {2.3f, 4.2f, 8.1f, 16.5f};
+        ByteBuffer buffer       = BufferUtils.getByteBuffer(data);
+        FloatBuffer floatBuffer = buffer.asFloatBuffer();
 
         assertEquals("Wrong capacity", data.length * 4, buffer.capacity());
         assertTrue("Buffer is not direct", buffer.isDirect());
+        assertEquals("Data mismatch", data[0], floatBuffer.get(0), 0.01f);
+        assertEquals("Data mismatch", data[1], floatBuffer.get(1), 0.01f);
+        assertEquals("Data mismatch", data[2], floatBuffer.get(2), 0.01f);
+        assertEquals("Data mismatch", data[3], floatBuffer.get(3), 0.01f);
     }
 
     @Test
