@@ -3,14 +3,16 @@ package com.numericalactivity.dktxtools.dds;
 import static org.junit.Assert.*;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import org.junit.Test;
 
 import com.numericalactivity.dktxtools.TextureFormat;
 import com.numericalactivity.dktxtools.test.WriterTestAbstract;
+import com.numericalactivity.dktxtools.utils.BufferUtils;
 import com.numericalactivity.dktxtools.utils.FileUtils;
 
-//TODO tester exceptions?
 public class DDSWriterTest extends WriterTestAbstract {
 
     protected static final String FILE_UNCOMPRESSED_NO_MIPMAP               = "./testRes/dds/uncompressed_no_mipmap.dds";
@@ -191,6 +193,98 @@ public class DDSWriterTest extends WriterTestAbstract {
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testWriteHeaderException() {
+        // TODO tester exceptions
+    }
+
+    @Test
+    public void testWriteHeader10Exception() {
+        ByteBuffer buffer           = BufferUtils.getEmptyByteBuffer(DDSHeader.HEADER_LENGTH + DDSHeader.FILE_IDENTIFIER_LENGTH);
+        DDSHeader10.Writer writer   = new DDSHeader10.Writer();
+        DDSHeader.Writer header     = new DDSHeader.Writer();
+
+        header.setHeader10(writer);
+        header.setMipmapCount(1);
+        header.setWidth(256);
+        header.setHeight(256);
+        header.setFlags(DDSHeader.DDSD_CAPS | DDSHeader.DDSD_WIDTH | DDSHeader.DDSD_HEIGHT | DDSHeader.DDSD_PIXELFORMAT | DDSHeader.DDSD_LINEARSIZE);
+        header.setCaps(DDSHeader.DDSCAPS_TEXTURE);
+        header.setPixelFormatFourCC(DDSFourCC.FOURCC_DX10);
+        header.setPixelFormatFlags(DDSHeader.DDPF_FOURCC);
+
+        // vérification du nombre d'éléments
+        try {
+            writer.setArraySize(1);
+            header.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Texture arrays are not supported", e.getMessage());
+        }
+
+        // vérification du dxgiFormat
+        try {
+            writer.setArraySize(0);
+            header.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Invalid dxgiFormat value 0x", e.getMessage().substring(0, 27));
+        }
+
+        // vérification du dxgiFormat
+        try {
+            writer.setDxgiFormat(DDSFourCC.FOURCC_ATC);
+            writer.setResourceDimension(DDSHeader10.DDS_DIMENSION_TEXTURE3D);
+            header.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("resourceDimension is set to DDS_DIMENSION_TEXTURE3D but 3D textures are not supported", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testWriteTextureDataException() throws IOException, DDSFormatException {
+        DDSHeader.Writer header         = new DDSHeader.Writer();
+        DDSTextureData.Writer writer    = new DDSTextureData.Writer(header, 0, 2);
+        ByteBuffer buffer               = BufferUtils.getEmptyByteBuffer(10);
+
+        // vérification de la présence de données pour les niveaux mipmaps
+        try {
+            writer.write(null);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("No data defined for mipmap level 0", e.getMessage());
+        }
+
+        // vérification de la présence de données pour les faces
+        try {
+            writer.set(0, buffer);
+            writer.write(null);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("No data defined for face 1", e.getMessage().substring(0, 26));
+        }
+
+        // vérification de la cohérence entre le nombre de faces dans les données et les headers
+        try {
+            writer.set(0, 1, buffer);
+            writer.write(null);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("1 faces defined in headers", e.getMessage().substring(0, 26));
+        }
+
+        // vérification de la cohérence entre le nombre de niveaux mipmap dans les données et les headers
+        try {
+            header.setCaps2(DDSHeader.DDSCAPS2_CUBEMAP | DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEX | DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEY);
+            header.setMipmapCount(5);
+            writer.write(null);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("5 mipmap levels defined in headers", e.getMessage().substring(0, 34));
         }
     }
 }
