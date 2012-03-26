@@ -3,14 +3,16 @@ package com.numericalactivity.dktxtools.dds;
 import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import org.junit.Test;
 
 import com.numericalactivity.dktxtools.test.WriterTestAbstract;
+import com.numericalactivity.dktxtools.utils.BufferUtils;
 import com.numericalactivity.dktxtools.utils.FileUtils;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
-//TODO tester exceptions?
 public class DDSReaderTest extends WriterTestAbstract {
 
     @Test
@@ -583,5 +585,59 @@ public class DDSReaderTest extends WriterTestAbstract {
             e.printStackTrace();
             fail(e.getMessage());
         }
+    }
+
+    @Test
+    public void testReadHeaderException() {
+        @SuppressWarnings("unused")
+        DDSHeader reader;
+        ByteBuffer buffer = BufferUtils.getEmptyByteBuffer(DDSHeader.HEADER_LENGTH + DDSHeader.FILE_IDENTIFIER_LENGTH);
+
+        // une exception doit être lancée si l'identifiant du type de fichier DDS n'est pas bien formé
+        try {
+            reader = new DDSHeader.Reader(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {}
+
+        // une exception doit être lancée si 'size' est invalide
+        try {
+            buffer.position(0);
+            buffer.putInt(DDSHeader.FILE_IDENTIFIER);
+            buffer.putInt(2);
+            buffer.position(0);
+    
+            reader = new DDSHeader.Reader(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {}
+
+        // une exception doit être lancée si glTypeSize est invalide
+        try {
+            buffer.position(0);
+            buffer.putInt(DDSHeader.FILE_IDENTIFIER);
+            buffer.putInt(DDSHeader.HEADER_LENGTH);
+    
+            for (byte i = 0; i < 18; i++) {
+                buffer.putInt(0);
+            }
+    
+            buffer.position(0);
+            reader = new DDSHeader.Reader(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {}
+    }
+
+    @Test
+    public void testReadTextureDataException() throws IOException {
+        // une exception doit être lancée si la texture est un cubemap et qu'aucune face n'est définie
+        try {
+            @SuppressWarnings("unused")
+            DDSTextureData textureData;
+
+            DDSHeader.Writer header = new DDSHeader.Writer();
+            header.setCaps2(DDSHeader.DDSCAPS2_CUBEMAP);
+
+            textureData = new DDSTextureData.Reader(null, header);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {}
     }
 }
