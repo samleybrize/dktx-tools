@@ -553,13 +553,6 @@ public abstract class DDSHeader {
                 throw new DDSFormatException("Caps2 flag DDSCAPS2_VOLUME is set, but 3D textures are not supported");
             }
 
-            if (hasCaps2(DDSCAPS2_CUBEMAP) && (
-                    !hasCaps2(DDSCAPS2_CUBEMAP_NEGATIVEX) || !hasCaps2(DDSCAPS2_CUBEMAP_NEGATIVEY) || !hasCaps2(DDSCAPS2_CUBEMAP_NEGATIVEZ) ||
-                    !hasCaps2(DDSCAPS2_CUBEMAP_POSITIVEX) || !hasCaps2(DDSCAPS2_CUBEMAP_POSITIVEY) || !hasCaps2(DDSCAPS2_CUBEMAP_POSITIVEZ
-                ))) {
-                throw new DDSFormatException("Caps2 flag DDSCAPS2_CUBEMAP is set, so all of the DDSCAPS2_CUBEMAP_* caps2 flags must be set");
-            }
-
             // fourcc (textures compressées)
             if (hasPixelFormatFlags(DDPF_FOURCC)
                     && DDSFourCC.FOURCC_ATC != _pixelFormatfourCC
