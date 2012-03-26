@@ -379,7 +379,9 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             reader = new KTXHeader.Reader(buffer);
             fail("KTXFormatException expected");
-        } catch (KTXFormatException e) {}
+        } catch (KTXFormatException e) {
+            assertEquals("Input doesn't start with KTX file identifier", e.getMessage());
+        }
 
         // une exception doit être lancée si l'entier de vérification de l'endianness n'est pas valide
         try {
@@ -390,7 +392,9 @@ public class KTXReaderTest extends WriterTestAbstract {
     
             reader = new KTXHeader.Reader(buffer);
             fail("KTXFormatException expected");
-        } catch (KTXFormatException e) {}
+        } catch (KTXFormatException e) {
+            assertEquals("Endianness field has an unexpected value", e.getMessage().substring(0, 40));
+        }
 
         // une exception doit être lancée si glTypeSize est invalide
         try {
@@ -405,6 +409,8 @@ public class KTXReaderTest extends WriterTestAbstract {
             buffer.position(0);
             reader = new KTXHeader.Reader(buffer);
             fail("KTXFormatException expected");
-        } catch (KTXFormatException e) {}
+        } catch (KTXFormatException e) {
+            assertEquals("glTypeSize not supported", e.getMessage().substring(0, 24));
+        }
     }
 }

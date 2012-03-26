@@ -597,7 +597,9 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             reader = new DDSHeader.Reader(buffer);
             fail("DDSFormatException expected");
-        } catch (DDSFormatException e) {}
+        } catch (DDSFormatException e) {
+            assertEquals("Input doesn't start with DDS file identifier", e.getMessage());
+        }
 
         // une exception doit être lancée si 'size' est invalide
         try {
@@ -608,7 +610,9 @@ public class DDSReaderTest extends WriterTestAbstract {
     
             reader = new DDSHeader.Reader(buffer);
             fail("DDSFormatException expected");
-        } catch (DDSFormatException e) {}
+        } catch (DDSFormatException e) {
+            assertEquals("Unexpected size for headers", e.getMessage().substring(0, 27));
+        }
 
         // une exception doit être lancée si glTypeSize est invalide
         try {
@@ -623,7 +627,9 @@ public class DDSReaderTest extends WriterTestAbstract {
             buffer.position(0);
             reader = new DDSHeader.Reader(buffer);
             fail("DDSFormatException expected");
-        } catch (DDSFormatException e) {}
+        } catch (DDSFormatException e) {
+            assertEquals("Unexpected size for pixel format", e.getMessage().substring(0, 32));
+        }
     }
 
     @Test
@@ -638,6 +644,8 @@ public class DDSReaderTest extends WriterTestAbstract {
 
             textureData = new DDSTextureData.Reader(null, header);
             fail("DDSFormatException expected");
-        } catch (DDSFormatException e) {}
+        } catch (DDSFormatException e) {
+            assertEquals("Header 'DDSCAPS2' not properly defined. It indicates a cube map, but no faces.", e.getMessage());
+        }
     }
 }
