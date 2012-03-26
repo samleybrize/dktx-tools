@@ -591,7 +591,7 @@ public abstract class DDSHeader {
                 if (DDSHeader10.DDS_DIMENSION_TEXTURE2D == _extendedHeaders.getResourceDimension()
                         && _extendedHeaders.hasMiscFlags(DDSHeader10.DDS_RESOURCE_MISC_TEXTURECUBE)
                         && !hasCaps2(DDSCAPS2_CUBEMAP)) {
-                    throw new DDSFormatException("Extended headers indicate a cubemap, but not regular headers ");
+                    throw new DDSFormatException("Extended headers indicate a cubemap, but not regular headers");
                 }
 
                 ((DDSHeader10.Writer) _extendedHeaders).check();
