@@ -198,7 +198,251 @@ public class DDSWriterTest extends WriterTestAbstract {
 
     @Test
     public void testWriteHeaderException() {
-        // TODO tester exceptions
+        DDSHeader.Writer writer     = new DDSHeader.Writer();
+        DDSHeader10.Writer header10 = new DDSHeader10.Writer();
+        ByteBuffer buffer           = BufferUtils.getEmptyByteBuffer(DDSHeader.HEADER_LENGTH + DDSHeader.FILE_IDENTIFIER_LENGTH);
+
+        // vérification du nombre de niveaux mipmap
+        try {
+            writer.setWidth(256);
+            writer.setHeight(256);
+            writer.setMipmapCount(2);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("9 mipmap levels must be set", e.getMessage().substring(0, 27));
+        }
+
+        // vérification du nombre de faces
+        try {
+            writer.setMipmapCount(1);
+            writer.setCaps2(DDSHeader.DDSCAPS2_CUBEMAP | DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEX);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("DDSCAPS2_CUBEMAP caps2 flag is set so all 6 faces must be defined", e.getMessage());
+        }
+
+        // vérification du nombre de faces
+        try {
+            writer.setCaps2(DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEX);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("DDSCAPS2_CUBEMAP caps2 flag is not set so no face must be defined", e.getMessage());
+        }
+
+        // vérification des header DX10
+        try {
+            writer.setCaps2(0);
+            writer.setPixelFormatFourCC(DDSFourCC.FOURCC_DX10);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("FourCC is set to FOURCC_DX10 so extended headers must be defined", e.getMessage());
+        }
+
+        // vérification des flags requis
+        try {
+            writer.setPixelFormatFourCC(0);
+            writer.setFlags(DDSHeader.DDSD_CAPS | DDSHeader.DDSD_WIDTH | DDSHeader.DDSD_HEIGHT);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Flags DDSD_CAPS, DDSD_WIDTH, DDSD_HEIGHT and DDSD_PIXELFORMAT are required", e.getMessage());
+        }
+
+        // vérification du flag DDSD_MIPMAPCOUNT
+        try {
+            writer.addFlag(DDSHeader.DDSD_PIXELFORMAT);
+            writer.addFlag(DDSHeader.DDSD_MIPMAPCOUNT);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Flag DDSD_MIPMAPCOUNT is set but mipmapCount", e.getMessage().substring(0, 44));
+        }
+
+        // vérification du flag DDSD_DEPTH
+        try {
+            writer.removeFlag(DDSHeader.DDSD_MIPMAPCOUNT);
+            writer.addFlag(DDSHeader.DDSD_DEPTH);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Flag DDSD_DEPTH is set but 3D textures are not supported", e.getMessage());
+        }
+
+        // vérification du pitchOrLinearSize
+        try {
+            writer.removeFlag(DDSHeader.DDSD_DEPTH);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Either flag DDSD_PITCH or DDSD_LINEARSIZE must be defined", e.getMessage());
+        }
+
+        // vérification du pitchOrLinearSize
+        try {
+            writer.removeFlag(DDSHeader.DDSD_DEPTH);
+            writer.addFlag(DDSHeader.DDSD_PITCH | DDSHeader.DDSD_LINEARSIZE);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Either flag DDSD_PITCH or DDSD_LINEARSIZE must be defined", e.getMessage());
+        }
+
+        // vérification des dimensions
+        try {
+            writer.removeFlag(DDSHeader.DDSD_PITCH);
+            writer.setHeight(0);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Invalid width (", e.getMessage().substring(0, 15));
+        }
+
+        // vérification du caps flag DDSCAPS_TEXTURE
+        try {
+            writer.setHeight(256);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Caps flag DDSCAPS_TEXTURE is required", e.getMessage());
+        }
+
+        // vérification des caps flags DDSCAPS_MIPMAP et DDSCAPS_COMPLEX
+        try {
+            writer.addFlag(DDSHeader.DDSD_MIPMAPCOUNT);
+            writer.setMipmapCount(9);
+            writer.addCaps(DDSHeader.DDSCAPS_TEXTURE);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Flag DDSD_MIPMAPCOUNT is set, so caps flags DDSCAPS_MIPMAP and DDSCAPS_COMPLEX are required", e.getMessage());
+        }
+
+        // vérification du caps flags DDSCAPS_MIPMAP
+        try {
+            writer.removeFlag(DDSHeader.DDSD_MIPMAPCOUNT);
+            writer.setMipmapCount(1);
+            writer.addCaps(DDSHeader.DDSCAPS_MIPMAP);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Flag DDSD_MIPMAPCOUNT is not set, so caps flags DDSCAPS_MIPMAP must not be set", e.getMessage());
+        }
+
+        // vérification du caps flags DDSCAPS_COMPLEX
+        try {
+            writer.removeCaps(DDSHeader.DDSCAPS_MIPMAP);
+            writer.addCaps2(DDSHeader.DDSCAPS2_CUBEMAP);
+            writer.addCaps2(DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEX | DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEY | DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEZ);
+            writer.addCaps2(DDSHeader.DDSCAPS2_CUBEMAP_POSITIVEX | DDSHeader.DDSCAPS2_CUBEMAP_POSITIVEY | DDSHeader.DDSCAPS2_CUBEMAP_POSITIVEZ);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Caps2 flag DDSCAPS2_CUBEMAP is set, so caps flags DDSCAPS_COMPLEX must be set", e.getMessage());
+        }
+
+        // vérification du array size
+        try {
+            writer.removeCaps2(DDSHeader.DDSCAPS2_CUBEMAP);
+            writer.removeCaps2(DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEX | DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEY | DDSHeader.DDSCAPS2_CUBEMAP_NEGATIVEZ);
+            writer.removeCaps2(DDSHeader.DDSCAPS2_CUBEMAP_POSITIVEX | DDSHeader.DDSCAPS2_CUBEMAP_POSITIVEY | DDSHeader.DDSCAPS2_CUBEMAP_POSITIVEZ);
+            writer.setPixelFormatFourCC(DDSFourCC.FOURCC_DX10);
+            writer.setHeader10(header10);
+            header10.setArraySize(2);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Extended headers array size is set to 2", e.getMessage().substring(0, 39));
+        }
+
+        // vérification du caps2 flags DDSCAPS2_VOLUME
+        try {
+            writer.setHeader10(null);
+            writer.setPixelFormatFourCC(0);
+            header10.setArraySize(0);
+            writer.addCaps2(DDSHeader.DDSCAPS2_VOLUME);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Caps2 flag DDSCAPS2_VOLUME is set, but 3D textures are not supported", e.getMessage());
+        }
+
+        // vérification du fourCC
+        try {
+            writer.removeCaps2(DDSHeader.DDSCAPS2_VOLUME);
+            writer.setPixelFormatFlags(DDSHeader.DDPF_FOURCC);
+            writer.setPixelFormatFourCC(1);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Invalid fourCC value 0x", e.getMessage().substring(0, 23));
+        }
+
+        // vérification du RGBBitCount
+        try {
+            writer.removePixelFormatFlag(DDSHeader.DDPF_FOURCC);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Invalid RGB bitcount (0)", e.getMessage());
+        }
+
+        // vérification des masques R, G et B
+        try {
+            writer.addPixelFormatFlag(DDSHeader.DDPF_RGB);
+            writer.setPixelFormatRgbBitCount(8);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Red, green and blue bitmasks must be defined", e.getMessage());
+        }
+
+        // vérification du masque alpha
+        try {
+            writer.removePixelFormatFlag(DDSHeader.DDPF_RGB);
+            writer.addPixelFormatFlag(DDSHeader.DDPF_ALPHA);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Alpha bitmask must be defined", e.getMessage());
+        }
+
+        // vérification du masque alpha
+        try {
+            writer.removePixelFormatFlag(DDSHeader.DDPF_ALPHA);
+            writer.addPixelFormatFlag(DDSHeader.DDPF_ALPHAPIXELS);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Alpha bitmask must be defined", e.getMessage());
+        }
+
+        // vérification du masque luminance
+        try {
+            writer.removePixelFormatFlag(DDSHeader.DDPF_ALPHAPIXELS);
+            writer.addPixelFormatFlag(DDSHeader.DDPF_LUMINANCE);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Red bitmask must be defined", e.getMessage());
+        }
+
+        // vérification du misc flag des header DX10
+        try {
+            writer.removePixelFormatFlag(DDSHeader.DDPF_LUMINANCE);
+            writer.addPixelFormatFlag(DDSHeader.DDPF_FOURCC);
+            writer.setPixelFormatFourCC(DDSFourCC.FOURCC_DX10);
+            writer.setHeader10(header10);
+            header10.setResourceDimension(DDSHeader10.DDS_DIMENSION_TEXTURE2D);
+            header10.addMiscFlag(DDSHeader10.DDS_RESOURCE_MISC_TEXTURECUBE);
+            writer.write(buffer);
+            fail("DDSFormatException expected");
+        } catch (DDSFormatException e) {
+            assertEquals("Extended headers indicate a cubemap, but not regular headers", e.getMessage());
+        }
     }
 
     @Test
