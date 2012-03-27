@@ -10,6 +10,7 @@ import com.numericalactivity.dktxtools.utils.BufferUtils;
 import com.numericalactivity.dktxtools.utils.FlagsUtils;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
+//TODO passer les propriétés "package protected" pour ne pas avoir à utiliser les getter dans DDSReader/Writer
 /**
  * Classe de gestion des entêtes d'un fichier DDS
  */
