@@ -20,7 +20,7 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP);
-            KTXReader reader            = new KTXReader(in);
+            KTXReader reader            = KTXReader.getNew(in);
             KTXHeader headers           = reader.getHeaders();
             KTXTextureData textureData  = reader.getTextureData();
 
@@ -50,6 +50,8 @@ public class KTXReaderTest extends WriterTestAbstract {
             assertEquals("Invalid image size", _uncompressedTextureBuffer[0].capacity(), textureData.getImageSize(0));
             assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -61,7 +63,7 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(KTXWriterTest.FILE_UNCOMPRESSED_MIPMAP);
-            KTXReader reader            = new KTXReader(in);
+            KTXReader reader            = KTXReader.getNew(in);
             KTXHeader headers           = reader.getHeaders();
             KTXTextureData textureData  = reader.getTextureData();
 
@@ -95,6 +97,8 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -106,7 +110,7 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(KTXWriterTest.FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP);
-            KTXReader reader            = new KTXReader(in);
+            KTXReader reader            = KTXReader.getNew(in);
             KTXHeader headers           = reader.getHeaders();
             KTXTextureData textureData  = reader.getTextureData();
 
@@ -139,6 +143,8 @@ public class KTXReaderTest extends WriterTestAbstract {
             assertEquals("Invalid image size", _uncompressedTextureBuffer[0].capacity(), textureData.getImageSize(0));
             assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -150,7 +156,7 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(KTXWriterTest.FILE_UNCOMPRESSED_CUBEMAP_MIPMAP);
-            KTXReader reader            = new KTXReader(in);
+            KTXReader reader            = KTXReader.getNew(in);
             KTXHeader headers           = reader.getHeaders();
             KTXTextureData textureData  = reader.getTextureData();
 
@@ -186,6 +192,8 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -197,7 +205,7 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(KTXWriterTest.FILE_COMPRESSED_NO_MIPMAP);
-            KTXReader reader            = new KTXReader(in);
+            KTXReader reader            = KTXReader.getNew(in);
             KTXHeader headers           = reader.getHeaders();
             KTXTextureData textureData  = reader.getTextureData();
 
@@ -227,6 +235,8 @@ public class KTXReaderTest extends WriterTestAbstract {
             assertEquals("Invalid image size", _compressedTextureBuffer[0].capacity(), textureData.getImageSize(0));
             assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -238,7 +248,7 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(KTXWriterTest.FILE_COMPRESSED_MIPMAP);
-            KTXReader reader            = new KTXReader(in);
+            KTXReader reader            = KTXReader.getNew(in);
             KTXHeader headers           = reader.getHeaders();
             KTXTextureData textureData  = reader.getTextureData();
 
@@ -272,6 +282,8 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -283,7 +295,7 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(KTXWriterTest.FILE_COMPRESSED_CUBEMAP_NO_MIPMAP);
-            KTXReader reader            = new KTXReader(in);
+            KTXReader reader            = KTXReader.getNew(in);
             KTXHeader headers           = reader.getHeaders();
             KTXTextureData textureData  = reader.getTextureData();
 
@@ -316,6 +328,8 @@ public class KTXReaderTest extends WriterTestAbstract {
             assertEquals("Invalid image size", _compressedTextureBuffer[0].capacity(), textureData.getImageSize(0));
             assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -327,7 +341,7 @@ public class KTXReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(KTXWriterTest.FILE_COMPRESSED_CUBEMAP_MIPMAP);
-            KTXReader reader            = new KTXReader(in);
+            KTXReader reader            = KTXReader.getNew(in);
             KTXHeader headers           = reader.getHeaders();
             KTXTextureData textureData  = reader.getTextureData();
 
@@ -363,6 +377,8 @@ public class KTXReaderTest extends WriterTestAbstract {
 
             assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
