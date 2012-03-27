@@ -12,6 +12,7 @@ import com.numericalactivity.dktxtools.TextureFormat;
 import com.numericalactivity.dktxtools.utils.BufferUtils;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
+// TODO passer les propriétés "package protected" pour ne pas avoir à utiliser les getter dans KTXReader/Writer
 /**
  * Classe de gestion des entêtes d'un fichier KTX
  */
