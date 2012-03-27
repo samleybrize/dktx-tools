@@ -138,7 +138,7 @@ public class KTXReader implements PoolInterface {
      * @return
      */
     public boolean isCompressed() {
-        return 0 == _headers.getGLFormat();
+        return 0 == _headers._glFormat;
     }
 
     @Override

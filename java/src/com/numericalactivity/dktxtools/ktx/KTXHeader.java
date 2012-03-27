@@ -12,7 +12,6 @@ import com.numericalactivity.dktxtools.TextureFormat;
 import com.numericalactivity.dktxtools.utils.BufferUtils;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
-// TODO passer les propriétés "package protected" pour ne pas avoir à utiliser les getter dans KTXReader/Writer
 /**
  * Classe de gestion des entêtes d'un fichier KTX
  */
@@ -25,20 +24,20 @@ public abstract class KTXHeader {
         (byte) 0xAB, 0x4B, 0x54, 0x58, 0x20, 0x31, 0x31, (byte) 0xBB, 0x0D, 0x0A, 0x1A, 0x0A
     };
 
-    protected ByteOrder _byteOrder;
-    protected boolean _byteOrderNative;
-    protected int _glType;
-    protected int _glTypeSize;
-    protected int _glFormat;
-    protected int _glInternalFormat;
-    protected int _glBaseInternalFormat;
-    protected int _pixelWidth;
-    protected int _pixelHeight;
-    protected int _pixelDepth;
-    protected int _numberOfArrayElements;
-    protected int _numberOfFaces;
-    protected int _numberOfMipmapLevels;
-    protected int _bytesOfKeyValueData;
+    ByteOrder _byteOrder;
+    boolean _byteOrderNative;
+    int _glType;
+    int _glTypeSize;
+    int _glFormat;
+    int _glInternalFormat;
+    int _glBaseInternalFormat;
+    int _pixelWidth;
+    int _pixelHeight;
+    int _pixelDepth;
+    int _numberOfArrayElements;
+    int _numberOfFaces;
+    int _numberOfMipmapLevels;
+    int _bytesOfKeyValueData;
 
     /*
      * Getters
@@ -315,8 +314,8 @@ public abstract class KTXHeader {
          * @param textureData
          */
         public void setFromTextureData(KTXTextureData textureData) {
-            _numberOfFaces          = textureData.getNumberOfFaces();
-            _numberOfMipmapLevels   = textureData.getNumberOfMipmapLevels();
+            _numberOfFaces          = textureData._numberOfFaces;
+            _numberOfMipmapLevels   = textureData._numberOfMipmapLevels;
         }
 
         /**

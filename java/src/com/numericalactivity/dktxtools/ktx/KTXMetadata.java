@@ -20,8 +20,8 @@ import com.numericalactivity.dktxtools.utils.BufferUtils;
  */
 public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
 
-    protected Map<String, byte[]> _meta; // liste des métadata du fichier
-    protected int _bytesOfKeyValueData; // taille des metadata
+    Map<String, byte[]> _meta; // liste des métadata du fichier
+    int _bytesOfKeyValueData; // taille des metadata
 
     /**
      * Retourne le nombre de byte nécessaire pour stocker les métadata
@@ -219,7 +219,7 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
          */
         void read(BufferedInputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
             // attention à la position du pointeur de l'input stream!
-            int length          = ktxHeader.getBytesOfKeyValueData();
+            int length          = ktxHeader._bytesOfKeyValueData;
             ByteBuffer buffer   = BufferUtils.getEmptyByteBuffer(length);
             byte[] data         = new byte[length];
             in.read(data, 0, length);
@@ -237,14 +237,14 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
          */
         void read(ByteBuffer buffer, KTXHeader ktxHeader) throws KTXFormatException {
             // on détermine la vraie taille des données, qui doit être alignée sur 4 byte
-            int length          = ktxHeader.getBytesOfKeyValueData();
+            int length          = ktxHeader._bytesOfKeyValueData;
 
             // on garde en mémoire l'ordre du ByteBuffer et sa limite
             ByteOrder oldOrder  = buffer.order();
             int oldLimit        = buffer.limit();
 
             // on redéfini l'ordre du ByteBuffer et sa limite
-            buffer.order(ktxHeader.getByteOrder());
+            buffer.order(ktxHeader._byteOrder);
             buffer.limit(length);
 
             // on initialise la liste des métadata

@@ -13,12 +13,12 @@ import com.numericalactivity.dktxtools.utils.TextureUtils;
  */
 public abstract class KTXTextureData {
 
-    protected ByteBuffer[][] _textureData; // données des textures classées par niveau mipmap puis par face
-    protected int[] _imageSize; // taille des images classées par niveau mipmap
-    protected short[] _width; // largeur des images classées par niveau mipmap
-    protected short[] _height; // hauteur des images classées par niveau mipmap
-    protected byte _numberOfMipmapLevels; // nombre de niveaux mipmap
-    protected byte _numberOfFaces; // nombre de face par niveau mipmap
+    ByteBuffer[][] _textureData; // données des textures classées par niveau mipmap puis par face
+    int[] _imageSize; // taille des images classées par niveau mipmap
+    short[] _width; // largeur des images classées par niveau mipmap
+    short[] _height; // hauteur des images classées par niveau mipmap
+    byte _numberOfMipmapLevels; // nombre de niveaux mipmap
+    byte _numberOfFaces; // nombre de face par niveau mipmap
 
     /**
      * Retourne le nombre de niveaux mipmap
@@ -267,23 +267,23 @@ public abstract class KTXTextureData {
         void read(BufferedInputStream in, KTXHeader ktxHeader) throws IOException {
             // on initialise les tableaux
             // on ne les recrée pas s'ils ont déjà été initialisés et que le nombre de niveaux mipmap est identique
-            int numberOfMipmapLevels        = ktxHeader.getNumberOfMipmapLevels();
+            byte numberOfMipmapLevels = (byte) ktxHeader._numberOfMipmapLevels;
 
             if (null == _textureData || numberOfMipmapLevels != _textureData.length) {
-                _textureData    = new ByteBuffer[numberOfMipmapLevels][ktxHeader.getNumberOfFaces()];
+                _textureData    = new ByteBuffer[numberOfMipmapLevels][ktxHeader._numberOfFaces];
                 _imageSize      = new int[numberOfMipmapLevels];
                 _width          = new short[numberOfMipmapLevels];
                 _height         = new short[numberOfMipmapLevels];
             }
 
             // on récupère les données des textures
-            _numberOfMipmapLevels           = (byte) ktxHeader.getNumberOfMipmapLevels();
-            _numberOfFaces                  = (byte) ktxHeader.getNumberOfFaces();
-            _width[0]                       = (short) ktxHeader.getPixelWidth();
-            _height[0]                      = (short) ktxHeader.getPixelHeight();
+            _numberOfMipmapLevels           = numberOfMipmapLevels;
+            _numberOfFaces                  = (byte) ktxHeader._numberOfFaces;
+            _width[0]                       = (short) ktxHeader._pixelWidth;
+            _height[0]                      = (short) ktxHeader._pixelHeight;
             long bytesRead                  = 0;
             ByteBuffer bufferBytesPerFace   = ByteBuffer.allocate(4);
-            ByteOrder byteOrder             = ktxHeader.getByteOrder();
+            ByteOrder byteOrder             = ktxHeader._byteOrder;
             byte[] faceData;
             byte mipPadding;
             byte cubePadding;
@@ -302,7 +302,7 @@ public abstract class KTXTextureData {
                     in.read(faceData);
                     _textureData[mipmapLevel][face].put(faceData);
                     _textureData[mipmapLevel][face].position(0);
-                    _textureData[mipmapLevel][face].order(ktxHeader.getByteOrder());
+                    _textureData[mipmapLevel][face].order(ktxHeader._byteOrder);
 
                     bytesRead += _imageSize[mipmapLevel];
 
@@ -364,12 +364,12 @@ public abstract class KTXTextureData {
                 }
             }
 
-            if (_headers.getNumberOfFaces() != _textureData[0].length) {
-                throw new KTXFormatException(String.valueOf(_headers.getNumberOfFaces()) + " faces defined in headers, but " + String.valueOf(_textureData[0].length) + " have texture data");
+            if (_headers._numberOfFaces != _textureData[0].length) {
+                throw new KTXFormatException(String.valueOf(_headers._numberOfFaces) + " faces defined in headers, but " + String.valueOf(_textureData[0].length) + " have texture data");
             }
 
-            if (_headers.getNumberOfMipmapLevels() != _textureData.length) {
-                throw new KTXFormatException(String.valueOf(_headers.getNumberOfMipmapLevels()) + " mipmap levels defined in headers, but " + String.valueOf(_textureData.length) + " have texture data");
+            if (_headers._numberOfMipmapLevels != _textureData.length) {
+                throw new KTXFormatException(String.valueOf(_headers._numberOfMipmapLevels) + " mipmap levels defined in headers, but " + String.valueOf(_textureData.length) + " have texture data");
             }
         }
 
