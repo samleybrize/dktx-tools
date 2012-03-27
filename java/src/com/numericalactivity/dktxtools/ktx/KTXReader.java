@@ -105,7 +105,6 @@ public class KTXReader implements PoolInterface {
         }
 
         // chargement des données de texture
-        // TODO voir comment optimiser TextureData pour le pool
         _textureData.read((BufferedInputStream) in, _headers);
         in.close();
     }
@@ -144,7 +143,6 @@ public class KTXReader implements PoolInterface {
 
     @Override
     public void reset() {
-        // TODO remise à zéro des objets KTXHeader, KTXMetadata, KTXTextureData
         _headers.reset();
         _textureData.reset();
         _metas.reset();
@@ -155,7 +153,9 @@ public class KTXReader implements PoolInterface {
         _pool.add(this);
     }
 
-    // TODO commentaire
+    /**
+     * Classe qui permet de créer une nouvelle instance de KTXReader
+     */
     public static class Factory implements PoolFactoryInterface<KTXReader> {
         @Override
         public KTXReader factory() {
