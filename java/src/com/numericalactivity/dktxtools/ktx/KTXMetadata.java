@@ -167,6 +167,14 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
     }
 
     /**
+     * Remet l'objet à son état d'origine
+     */
+    public void reset() {
+        _meta.clear();
+        _bytesOfKeyValueData = 0;
+    }
+
+    /**
      * Une classe qui permet de lire les métadata d'un fichier KTX
      */
     public static class Reader extends KTXMetadata {

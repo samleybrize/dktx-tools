@@ -220,6 +220,23 @@ public abstract class KTXTextureData {
     }
 
     /**
+     * Remet l'objet à son état d'origine
+     */
+    public void reset() {
+        byte face;
+
+        for (byte mipmapLevel = 0; mipmapLevel < _numberOfMipmapLevels; mipmapLevel++) {
+            _imageSize[mipmapLevel] = 0;
+            _width[mipmapLevel]     = 0;
+            _height[mipmapLevel]    = 0;
+
+            for (face = 0; face < _numberOfFaces; face++) {
+                _textureData[mipmapLevel][face] = null;
+            }
+        }
+    }
+
+    /**
      * Classe qui permet de lire les données des textures contenues dans un fichier KTX
      */
     public static class Reader extends KTXTextureData {
@@ -237,11 +254,6 @@ public abstract class KTXTextureData {
          * @throws IOException
          */
         Reader(BufferedInputStream in, KTXHeader ktxHeader) throws IOException {
-            int numberOfMipmapLevels    = ktxHeader.getNumberOfMipmapLevels();
-            _textureData                = new ByteBuffer[ktxHeader.getNumberOfMipmapLevels()][ktxHeader.getNumberOfFaces()];
-            _imageSize                  = new int[numberOfMipmapLevels];
-            _width                      = new short[numberOfMipmapLevels];
-            _height                     = new short[numberOfMipmapLevels];
             read(in, ktxHeader);
         }
 
@@ -253,6 +265,18 @@ public abstract class KTXTextureData {
          * @throws IOException
          */
         void read(BufferedInputStream in, KTXHeader ktxHeader) throws IOException {
+            // on initialise les tableaux
+            // on ne les recrée pas s'ils ont déjà été initialisés et que le nombre de niveaux mipmap est identique
+            int numberOfMipmapLevels        = ktxHeader.getNumberOfMipmapLevels();
+
+            if (null == _textureData || numberOfMipmapLevels != _textureData.length) {
+                _textureData    = new ByteBuffer[numberOfMipmapLevels][ktxHeader.getNumberOfFaces()];
+                _imageSize      = new int[numberOfMipmapLevels];
+                _width          = new short[numberOfMipmapLevels];
+                _height         = new short[numberOfMipmapLevels];
+            }
+
+            // on récupère les données des textures
             _numberOfMipmapLevels           = (byte) ktxHeader.getNumberOfMipmapLevels();
             _numberOfFaces                  = (byte) ktxHeader.getNumberOfFaces();
             _width[0]                       = (short) ktxHeader.getPixelWidth();

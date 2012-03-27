@@ -163,6 +163,26 @@ public abstract class KTXHeader {
     }
 
     /**
+     * Remet l'objet à son état d'origine
+     */
+    public void reset() {
+        _byteOrder              = null;
+        _byteOrderNative        = false;
+        _glType                 = 0;
+        _glTypeSize             = 0;
+        _glFormat               = 0;
+        _glInternalFormat       = 0;
+        _glBaseInternalFormat   = 0;
+        _pixelWidth             = 0;
+        _pixelHeight            = 0;
+        _pixelDepth             = 0;
+        _numberOfArrayElements  = 0;
+        _numberOfFaces          = 0;
+        _numberOfMipmapLevels   = 0;
+        _bytesOfKeyValueData    = 0;
+    }
+
+    /**
      * Une classe qui permet de lire les entêtes d'un fichier KTX
      */
     public static class Reader extends KTXHeader {
