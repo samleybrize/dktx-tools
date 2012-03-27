@@ -4,13 +4,20 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.numericalactivity.dktxtools.pool.Pool;
+import com.numericalactivity.dktxtools.pool.PoolFactoryInterface;
+import com.numericalactivity.dktxtools.pool.PoolInterface;
+
+// TODO tests u pool
 /**
  * Classe qui permet de lire un fichier KTX
  */
-public class KTXReader {
-    private KTXHeader _headers;
-    private KTXMetadata _metas;
-    private KTXTextureData _textureData;
+public class KTXReader implements PoolInterface {
+    protected static final Pool<KTXReader> _pool = new Pool<KTXReader>(5, new KTXReader.Factory());
+
+    protected KTXHeader.Reader _headers;
+    protected KTXMetadata.Reader _metas;
+    protected KTXTextureData.Reader _textureData;
 
     /**
      * Récupère et parse les données du fichier KTX
@@ -18,16 +25,10 @@ public class KTXReader {
      * @throws IOException
      * @throws KTXFormatException
      */
-    public KTXReader(InputStream in) throws IOException, KTXFormatException {
-        // on crée un flux bufferisé à partir du flux passé en entrée
-        if (!(in instanceof BufferedInputStream)) {
-            in = new BufferedInputStream(in);
-        }
-
-        _headers        = new KTXHeader.Reader((BufferedInputStream) in);
-        _metas          = new KTXMetadata.Reader((BufferedInputStream) in, _headers);
-        _textureData    = new KTXTextureData.Reader((BufferedInputStream) in, _headers);
-        in.close();
+    public static KTXReader getNew(InputStream in) throws IOException, KTXFormatException {
+        KTXReader reader = _pool.get();
+        reader.read(in, true);
+        return reader;
     }
 
     /**
@@ -37,23 +38,75 @@ public class KTXReader {
      * @throws IOException
      * @throws KTXFormatException
      */
-    public KTXReader(InputStream in, boolean loadMetadatas) throws IOException, KTXFormatException {
+    public static KTXReader getNew(InputStream in, boolean loadMetadatas) throws IOException, KTXFormatException {
+        KTXReader reader = _pool.get();
+        reader.read(in, loadMetadatas);
+        return reader;
+    }
+
+    /**
+     * Constructeur
+     */
+    KTXReader() {
+    }
+
+    /**
+     * Constructeur.
+     * Récupère et parse les données du fichier KTX.
+     * @param in flux pointant sur le fichier KTX. Le pointeur doit être placé au début du fichier
+     * @throws IOException
+     * @throws KTXFormatException
+     */
+    KTXReader(InputStream in) throws IOException, KTXFormatException {
+        read(in, true);
+    }
+
+    /**
+     * Constructeur.
+     * Récupère et parse les données du fichier KTX.
+     * @param in flux pointant sur le fichier KTX. Le pointeur doit être placé au début du fichier
+     * @param loadMetadatas indique si les métadonnées doivent être chargées
+     * @throws IOException
+     * @throws KTXFormatException
+     */
+    KTXReader(InputStream in, boolean loadMetadatas) throws IOException, KTXFormatException {
+        read(in, loadMetadatas);
+    }
+
+    /**
+     * Récupère et parse les données du fichier KTX
+     * @param in flux pointant sur le fichier KTX. Le pointeur doit être placé au début du fichier
+     * @param loadMetadatas indique si les métadonnées doivent être chargées
+     * @throws IOException
+     * @throws KTXFormatException
+     */
+    protected void read(InputStream in, boolean loadMetadatas) throws IOException, KTXFormatException {
+        // on ne crée les objets qu'une seule fois pour pouvoir profiter du pool
+        if (null == _headers) {
+            _headers        = new KTXHeader.Reader();
+            _metas          = new KTXMetadata.Reader();
+            _textureData    = new KTXTextureData.Reader();
+        }
+
         // on crée un flux bufferisé à partir du flux passé en entrée
         if (!(in instanceof BufferedInputStream)) {
             in = new BufferedInputStream(in);
         }
 
-        _headers = new KTXHeader.Reader((BufferedInputStream) in);
+        // chargement des entêtes
+        _headers.read((BufferedInputStream) in);
 
         if (loadMetadatas) {
             // on charge les métadonnées
-            _metas = new KTXMetadata.Reader((BufferedInputStream) in, _headers);
+            _metas.read((BufferedInputStream) in, _headers);
         } else {
             // si on ne charge pas les métadonnées, il faut faire avancer le pointeur de l'inputstream
             in.skip(_headers.getBytesOfKeyValueData());
         }
 
-        _textureData = new KTXTextureData.Reader((BufferedInputStream) in, _headers);
+        // chargement des données de texture
+        // TODO voir comment optimiser TextureData pour le pool
+        _textureData.read((BufferedInputStream) in, _headers);
         in.close();
     }
 
@@ -87,5 +140,26 @@ public class KTXReader {
      */
     public boolean isCompressed() {
         return 0 == _headers.getGLFormat();
+    }
+
+    @Override
+    public void reset() {
+        // TODO remise à zéro des objets KTXHeader, KTXMetadata, KTXTextureData
+        _headers.reset();
+        _textureData.reset();
+        _metas.reset();
+    }
+
+    @Override
+    public void recycle() {
+        _pool.add(this);
+    }
+
+    // TODO commentaire
+    public static class Factory implements PoolFactoryInterface<KTXReader> {
+        @Override
+        public KTXReader factory() {
+            return new KTXReader();
+        }
     }
 }

@@ -170,25 +170,34 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
      * Une classe qui permet de lire les métadata d'un fichier KTX
      */
     public static class Reader extends KTXMetadata {
+
         /**
-         * Lit les métadata du fichier
+         * Constructeur
+         */
+        Reader() {
+        }
+
+        /**
+         * Constructeur.
+         * Lit les métadata du fichier.
          * @param in le pointeur doit être placé au début des métadata
          * @param ktxHeader headers du fichier
          * @throws KTXFormatException
          * @throws IOException
          */
-        protected Reader(BufferedInputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
+        Reader(BufferedInputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
             read(in, ktxHeader);
         }
 
         /**
-         * Lit les métadata du fichier
+         * Constructeur.
+         * Lit les métadata du fichier.
          * @param buffer buffer contenant les données des métadata. Les données doivent être placées au début du buffer, ou la position du buffer doit être définie au début des données des métadata. D'autres données peuvent être présentes à la suite des métadata sans incidence.
          * @param ktxHeader headers du fichier
          * @throws UnsupportedEncodingException
          * @throws KTXFormatException
          */
-        protected Reader(ByteBuffer buffer, KTXHeader ktxHeader) throws UnsupportedEncodingException, KTXFormatException {
+        Reader(ByteBuffer buffer, KTXHeader ktxHeader) throws UnsupportedEncodingException, KTXFormatException {
             // le ByteBuffer doit soit ne contenir que les metadata, soit avoir sa position au début des metadata
             read(buffer, ktxHeader);
         }
@@ -200,7 +209,7 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
          * @throws KTXFormatException
          * @throws IOException
          */
-        protected void read(BufferedInputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
+        void read(BufferedInputStream in, KTXHeader ktxHeader) throws KTXFormatException, IOException {
             // attention à la position du pointeur de l'input stream!
             int length          = ktxHeader.getBytesOfKeyValueData();
             ByteBuffer buffer   = BufferUtils.getEmptyByteBuffer(length);
@@ -218,7 +227,7 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
          * @throws UnsupportedEncodingException
          * @throws KTXFormatException
          */
-        protected void read(ByteBuffer buffer, KTXHeader ktxHeader) throws KTXFormatException {
+        void read(ByteBuffer buffer, KTXHeader ktxHeader) throws KTXFormatException {
             // on détermine la vraie taille des données, qui doit être alignée sur 4 byte
             int length          = ktxHeader.getBytesOfKeyValueData();
 

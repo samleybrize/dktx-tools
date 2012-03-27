@@ -167,21 +167,29 @@ public abstract class KTXHeader {
      */
     public static class Reader extends KTXHeader {
         /**
-         * Lit les entêtes du fichier
+         * Constructeur
+         */
+        Reader() {
+        }
+
+        /**
+         * Constructeur.
+         * Lit les entêtes du fichier.
          * @param in le pointeur doit être placé au début du fichier
          * @throws IOException 
          * @throws KTXFormatException 
          */
-        protected Reader(BufferedInputStream in) throws IOException, KTXFormatException {
+        Reader(BufferedInputStream in) throws IOException, KTXFormatException {
             read(in);
         }
 
         /**
-         * Lit les entêtes du fichier
+         * Constructeur.
+         * Lit les entêtes du fichier.
          * @param buffer buffer contenant les données des entêtes. Les données doivent être placées au début du buffer, ou la position du buffer doit être définie au début des données des entêtes. D'autres données peuvent être présentes à la suite des entêtes sans incidence.
          * @throws KTXFormatException 
          */
-        protected Reader(ByteBuffer buffer) throws KTXFormatException {
+        Reader(ByteBuffer buffer) throws KTXFormatException {
             read(buffer);
         }
 
@@ -191,7 +199,7 @@ public abstract class KTXHeader {
          * @throws IOException 
          * @throws KTXFormatException 
          */
-        protected void read(BufferedInputStream in) throws IOException, KTXFormatException {
+        void read(BufferedInputStream in) throws IOException, KTXFormatException {
             ByteBuffer buffer   = BufferUtils.getEmptyByteBuffer(HEADER_LENGTH);
             byte[] data         = new byte[HEADER_LENGTH];
             in.read(data, 0, HEADER_LENGTH);
@@ -205,7 +213,7 @@ public abstract class KTXHeader {
          * @param buffer buffer contenant les données des entêtes. Les données doivent être placées au début du buffer, ou la position du buffer doit être définie au début des données des entêtes. D'autres données peuvent être présentes à la suite des entêtes sans incidence.
          * @throws KTXFormatException 
          */
-        protected void read(ByteBuffer buffer) throws KTXFormatException {
+        void read(ByteBuffer buffer) throws KTXFormatException {
             // on garde en mémoire l'ordre actuel du ByteBuffer
             ByteOrder oldOrder = buffer.order();
 

@@ -224,12 +224,19 @@ public abstract class KTXTextureData {
      */
     public static class Reader extends KTXTextureData {
         /**
-         * Lit les données de texture du fichier
+         * Constructeur
+         */
+        Reader() {
+        }
+
+        /**
+         * Constructeur.
+         * Lit les données de texture du fichier.
          * @param in le pointeur doit être placé au début des données
          * @param ktxHeader headers du fichier
          * @throws IOException
          */
-        protected Reader(BufferedInputStream in, KTXHeader ktxHeader) throws IOException {
+        Reader(BufferedInputStream in, KTXHeader ktxHeader) throws IOException {
             int numberOfMipmapLevels    = ktxHeader.getNumberOfMipmapLevels();
             _textureData                = new ByteBuffer[ktxHeader.getNumberOfMipmapLevels()][ktxHeader.getNumberOfFaces()];
             _imageSize                  = new int[numberOfMipmapLevels];
@@ -239,12 +246,13 @@ public abstract class KTXTextureData {
         }
 
         /**
-         * Lit les données de texture du fichier
+         * Constructeur.
+         * Lit les données de texture du fichier.
          * @param in le pointeur doit être placé au début des données
          * @param ktxHeader headers du fichier
          * @throws IOException
          */
-        protected void read(BufferedInputStream in, KTXHeader ktxHeader) throws IOException {
+        void read(BufferedInputStream in, KTXHeader ktxHeader) throws IOException {
             _numberOfMipmapLevels           = (byte) ktxHeader.getNumberOfMipmapLevels();
             _numberOfFaces                  = (byte) ktxHeader.getNumberOfFaces();
             _width[0]                       = (short) ktxHeader.getPixelWidth();
