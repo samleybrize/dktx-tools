@@ -10,7 +10,6 @@ import com.numericalactivity.dktxtools.utils.BufferUtils;
 import com.numericalactivity.dktxtools.utils.FlagsUtils;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
-//TODO passer les propriétés "package protected" pour ne pas avoir à utiliser les getter dans DDSReader/Writer
 /**
  * Classe de gestion des entêtes d'un fichier DDS
  */
@@ -343,6 +342,30 @@ public abstract class DDSHeader {
         _pixelFormatgBitMask = g;
         _pixelFormatbBitMask = b;
         _pixelFormataBitMask = a;
+    }
+
+    /**
+     * Remet l'objet à son état d'origine
+     */
+    public void reset() {
+        _extendedHeaders            = null;
+        _flags                      = 0;
+        _height                     = 0;
+        _width                      = 0;
+        _pitchOrLinearSize          = 0;
+        _depth                      = 0;
+        _mipmapCount                = 0;
+        _caps                       = 0;
+        _caps2                      = 0;
+
+        _pixelFormatFlags           = 0;
+        _pixelFormatfourCC          = 0;
+        _pixelFormatfourCCString    = null;
+        _pixelFormatRgbBitCount     = 0;
+        _pixelFormatrBitMask        = 0;
+        _pixelFormatgBitMask        = 0;
+        _pixelFormatbBitMask        = 0;
+        _pixelFormataBitMask        = 0;
     }
 
     /**

@@ -20,7 +20,7 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP);
-            DDSReader reader            = new DDSReader(in);
+            DDSReader reader            = DDSReader.getNew(in);
             DDSHeader headers           = reader.getHeaders();
             DDSTextureData textureData  = reader.getTextureData();
 
@@ -69,6 +69,8 @@ public class DDSReaderTest extends WriterTestAbstract {
             assertEquals("Invalid image size", imageSize, textureData.getImageSize(0));
             assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -80,7 +82,7 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_MIPMAP);
-            DDSReader reader            = new DDSReader(in);
+            DDSReader reader            = DDSReader.getNew(in);
             DDSHeader headers           = reader.getHeaders();
             DDSTextureData textureData  = reader.getTextureData();
 
@@ -141,6 +143,8 @@ public class DDSReaderTest extends WriterTestAbstract {
 
             assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -152,7 +156,7 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP);
-            DDSReader reader            = new DDSReader(in);
+            DDSReader reader            = DDSReader.getNew(in);
             DDSHeader headers           = reader.getHeaders();
             DDSTextureData textureData  = reader.getTextureData();
             
@@ -213,6 +217,8 @@ public class DDSReaderTest extends WriterTestAbstract {
             assertEquals("Invalid image size", imageSize, textureData.getImageSize(0));
             assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -224,7 +230,7 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_CUBEMAP_MIPMAP);
-            DDSReader reader            = new DDSReader(in);
+            DDSReader reader            = DDSReader.getNew(in);
             DDSHeader headers           = reader.getHeaders();
             DDSTextureData textureData  = reader.getTextureData();
             
@@ -295,6 +301,8 @@ public class DDSReaderTest extends WriterTestAbstract {
 
             assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -306,7 +314,7 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_NO_MIPMAP);
-            DDSReader reader            = new DDSReader(in);
+            DDSReader reader            = DDSReader.getNew(in);
             DDSHeader headers           = reader.getHeaders();
             DDSTextureData textureData  = reader.getTextureData();
             
@@ -355,6 +363,8 @@ public class DDSReaderTest extends WriterTestAbstract {
             assertEquals("Invalid image size", imageSize, textureData.getImageSize(0));
             assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -366,7 +376,7 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_MIPMAP);
-            DDSReader reader            = new DDSReader(in);
+            DDSReader reader            = DDSReader.getNew(in);
             DDSHeader headers           = reader.getHeaders();
             DDSTextureData textureData  = reader.getTextureData();
             
@@ -427,6 +437,8 @@ public class DDSReaderTest extends WriterTestAbstract {
 
             assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 1, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -438,7 +450,7 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_CUBEMAP_NO_MIPMAP);
-            DDSReader reader            = new DDSReader(in);
+            DDSReader reader            = DDSReader.getNew(in);
             DDSHeader headers           = reader.getHeaders();
             DDSTextureData textureData  = reader.getTextureData();
             
@@ -499,6 +511,8 @@ public class DDSReaderTest extends WriterTestAbstract {
             assertEquals("Invalid image size", imageSize, textureData.getImageSize(0));
             assertEquals("Invalid number of mipmap levels", 1, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -510,7 +524,7 @@ public class DDSReaderTest extends WriterTestAbstract {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_CUBEMAP_MIPMAP);
-            DDSReader reader            = new DDSReader(in);
+            DDSReader reader            = DDSReader.getNew(in);
             DDSHeader headers           = reader.getHeaders();
             DDSTextureData textureData  = reader.getTextureData();
             
@@ -581,6 +595,8 @@ public class DDSReaderTest extends WriterTestAbstract {
 
             assertEquals("Invalid number of mipmap levels", FILE_NUMBER_OF_MIPMAPS, textureData.getNumberOfMipmapLevels());
             assertEquals("Invalid number of faces", 6, textureData.getNumberOfFaces());
+
+            reader.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());

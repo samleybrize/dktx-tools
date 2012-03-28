@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.numericalactivity.dktxtools.TextureFormat;
+import com.numericalactivity.dktxtools.pool.Pool;
+import com.numericalactivity.dktxtools.pool.PoolFactoryInterface;
+import com.numericalactivity.dktxtools.pool.PoolInterface;
 
 /**
  * Classe qui permet de lire un fichier DDS
  */
-public class DDSReader {
+public class DDSReader implements PoolInterface {
+    public static final Pool<DDSReader> _pool = new Pool<DDSReader>(5, new DDSReader.Factory());
+
     protected DDSHeader.Reader _headers;
     protected DDSTextureData.Reader _textureData;
     protected int _openglFormat;
@@ -17,11 +22,39 @@ public class DDSReader {
 
     /**
      * Récupère et parse les données du fichier DDS
+     * @param in flux pointant sur le fichier DDS. Le pointeur doit être placé au début du fichier
+     * @throws IOException
+     * @throws DDSFormatException
+     */
+    public static DDSReader getNew(InputStream in) throws IOException, DDSFormatException {
+        DDSReader reader = _pool.get();
+        reader.read(in);
+        return reader;
+    }
+
+    /**
+     * Constructeur
+     */
+    DDSReader() {
+    }
+
+    /**
+     * Récupère et parse les données du fichier DDS
      * @param in flux pointant sur le fichier DDS. Le pointeur doit être placé au début du fichier.
      * @throws IOException
      * @throws DDSFormatException
      */
-    public DDSReader(InputStream in) throws IOException, DDSFormatException {
+    DDSReader(InputStream in) throws IOException, DDSFormatException {
+        read(in);
+    }
+
+    /**
+     * Récupère et parse les données du fichier DDS
+     * @param in flux pointant sur le fichier DDS. Le pointeur doit être placé au début du fichier.
+     * @throws IOException
+     * @throws DDSFormatException
+     */
+    protected void read(InputStream in) throws IOException, DDSFormatException {
         // on crée un flux bufferisé à partir du flux passé en entrée
         if (!(in instanceof BufferedInputStream)) {
             in = new BufferedInputStream(in);
@@ -125,5 +158,28 @@ public class DDSReader {
      */
     public int getOpenglFormat() {
         return _openglFormat;
+    }
+
+    @Override
+    public void reset() {
+        _openglFormat   = 0;
+        _isCompressed   = false;
+        _headers.reset();
+        _textureData.reset();
+    }
+
+    @Override
+    public void recycle() {
+        _pool.add(this);
+    }
+
+    /**
+     * Classe qui permet de créer une nouvelle instance de DDSReader
+     */
+    public static class Factory implements PoolFactoryInterface<DDSReader> {
+        @Override
+        public DDSReader factory() {
+            return new DDSReader();
+        }
     }
 }
