@@ -24,7 +24,7 @@ public class Pool<T extends PoolInterface> {
      */
     public void add(T object) {
         // si le pool est déjà plein on ne peut pas ajouter de nouvel objet
-        if (_index >= _numberOfSlots) {
+        if (_index + 1 >= _numberOfSlots) {
             return;
         }
 
@@ -37,30 +37,18 @@ public class Pool<T extends PoolInterface> {
      * Retourne un objet réutilisable
      * @return un objet réinitialisé ou nouvellement crée
      */
-    public T get() {
-        T object = getFromPool();
-
-        if (null == object) {
-            object = _factory.factory();
-        }
-
-        return object;
-    }
-
-    /**
-     * Retourne un objet réutilisable depuis le pool
-     * @return un objet réinitialisé ou null s'il n'y a aucun objet dans le pool
-     */
     @SuppressWarnings("unchecked")
-    protected T getFromPool() {
+    public T get() {
+        // on retourne un objet du pool s'il y en a un
         if (_index >= 0) {
             _pool[_index].reset();
             T object        = (T) _pool[_index];
             _pool[_index]   = null;
             _index--;
-            return (T) object;
+            return object;
         }
 
-        return null;
+        // il n'y a aucun objet disponible dans le pool donc on crée un nouvel objet
+        return _factory.factory();
     }
 }
