@@ -44,16 +44,6 @@ public class DDSReader implements PoolInterface {
      * @throws IOException
      * @throws DDSFormatException
      */
-    DDSReader(InputStream in) throws IOException, DDSFormatException {
-        read(in);
-    }
-
-    /**
-     * Récupère et parse les données du fichier DDS
-     * @param in flux pointant sur le fichier DDS. Le pointeur doit être placé au début du fichier.
-     * @throws IOException
-     * @throws DDSFormatException
-     */
     protected void read(InputStream in) throws IOException, DDSFormatException {
         // on crée un flux bufferisé à partir du flux passé en entrée
         if (!(in instanceof BufferedInputStream)) {

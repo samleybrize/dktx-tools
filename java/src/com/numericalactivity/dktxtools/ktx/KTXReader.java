@@ -51,29 +51,6 @@ public class KTXReader implements PoolInterface {
     }
 
     /**
-     * Constructeur.
-     * Récupère et parse les données du fichier KTX.
-     * @param in flux pointant sur le fichier KTX. Le pointeur doit être placé au début du fichier
-     * @throws IOException
-     * @throws KTXFormatException
-     */
-    KTXReader(InputStream in) throws IOException, KTXFormatException {
-        read(in, true);
-    }
-
-    /**
-     * Constructeur.
-     * Récupère et parse les données du fichier KTX.
-     * @param in flux pointant sur le fichier KTX. Le pointeur doit être placé au début du fichier
-     * @param loadMetadatas indique si les métadonnées doivent être chargées
-     * @throws IOException
-     * @throws KTXFormatException
-     */
-    KTXReader(InputStream in, boolean loadMetadatas) throws IOException, KTXFormatException {
-        read(in, loadMetadatas);
-    }
-
-    /**
      * Récupère et parse les données du fichier KTX
      * @param in flux pointant sur le fichier KTX. Le pointeur doit être placé au début du fichier
      * @param loadMetadatas indique si les métadonnées doivent être chargées
