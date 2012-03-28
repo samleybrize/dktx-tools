@@ -5,23 +5,51 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import com.numericalactivity.dktxtools.TextureFormat;
+import com.numericalactivity.dktxtools.ktx.KTXFormatException;
+import com.numericalactivity.dktxtools.pool.Pool;
+import com.numericalactivity.dktxtools.pool.PoolFactoryInterface;
+import com.numericalactivity.dktxtools.pool.PoolInterface;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
 /**
  * Classe qui permet de créer un fichier DDS
  */
-public class DDSWriter {
-    private DDSHeader.Writer _headers;
-    private DDSTextureData.Writer _textureData;
+public class DDSWriter implements PoolInterface {
+    protected static final Pool<DDSWriter> _pool = new Pool<DDSWriter>(5, new DDSWriter.Factory());
+
+    protected DDSHeader.Writer _headers;
+    protected DDSTextureData.Writer _textureData;
+
+    /**
+     * Retourne un objet DDSWriter
+     * @param mipmapped indique si la texture est mipmappée
+     * @param isCubemap indique si la texture est un cubemap à 6 faces
+     * @param width largeur de la texture
+     * @param height hauteur de la texture
+     * @throws KTXFormatException
+     */
+    public static DDSWriter getNew(boolean mipmapped, boolean isCubemap, int width, int height) throws DDSFormatException {
+        DDSWriter writer = _pool.get();
+        writer.initialize(mipmapped, isCubemap, width, height);
+        return writer;
+    }
 
     /**
      * Constructeur
-     * @param numberOfMipmapLevels indique si la texture est mipmappée
+     */
+    DDSWriter() {
+    }
+
+    /**
+     * Initialise l'objet
+     * @param mipmapped indique si la texture est mipmappée
      * @param isCubemap indique si la texture est un cubemap à 6 faces
+     * @param width largeur de la texture
+     * @param height hauteur de la texture
      * @throws IOException
      * @throws DDSFormatException
      */
-    public DDSWriter(boolean mipmapped, boolean isCubemap, int width, int height) throws IOException, DDSFormatException {
+    protected void initialize(boolean mipmapped, boolean isCubemap, int width, int height) throws DDSFormatException {
         // on calcule le nombre de niveaux mipmaps
         int numberOfMipmapLevels    = mipmapped ? TextureUtils.getNumberOfMipmaps(width, height) : 1;
 
@@ -209,5 +237,26 @@ public class DDSWriter {
      */
     public DDSTextureData.Writer getTextureData() {
         return _textureData;
+    }
+
+    @Override
+    public void reset() {
+        _headers.reset();
+        _textureData.reset();
+    }
+
+    @Override
+    public void recycle() {
+        _pool.add(this);
+    }
+
+    /**
+     * Classe qui permet de créer une nouvelle instance de DDSWriter
+     */
+    public static class Factory implements PoolFactoryInterface<DDSWriter> {
+        @Override
+        public DDSWriter factory() {
+            return new DDSWriter();
+        }
     }
 }

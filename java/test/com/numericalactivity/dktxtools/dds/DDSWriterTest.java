@@ -36,12 +36,13 @@ public class DDSWriterTest extends WriterTestAbstract {
     public void testWriteUncompressedNoMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_UNCOMPRESSED_NO_MIPMAP_GEN);
-            DDSWriter writer        = new DDSWriter(false, false, _width, _height);
+            DDSWriter writer        = DDSWriter.getNew(false, false, _width, _height);
             writer.setUncompressedPixelFormat(TextureFormat.GL_RGBA);
             writer.getTextureData().set(0, _uncompressedTextureBuffer[0]);
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_NO_MIPMAP, FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+            writer.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -52,7 +53,7 @@ public class DDSWriterTest extends WriterTestAbstract {
     public void testWriteUncompressedMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_UNCOMPRESSED_MIPMAP_GEN);
-            DDSWriter writer        = new DDSWriter(true, false, _width, _height);
+            DDSWriter writer        = DDSWriter.getNew(true, false, _width, _height);
             writer.setUncompressedPixelFormat(TextureFormat.GL_RGBA);
 
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
@@ -62,6 +63,7 @@ public class DDSWriterTest extends WriterTestAbstract {
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_MIPMAP, FILE_UNCOMPRESSED_MIPMAP_GEN));
+            writer.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -72,7 +74,7 @@ public class DDSWriterTest extends WriterTestAbstract {
     public void testWriteUncompressedCubemapNoMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN);
-            DDSWriter writer        = new DDSWriter(false, true, _width, _height);
+            DDSWriter writer        = DDSWriter.getNew(false, true, _width, _height);
             writer.setUncompressedPixelFormat(TextureFormat.GL_RGBA);
             writer.getTextureData().set(0, 0, _uncompressedTextureBuffer[0]);
             writer.getTextureData().set(0, 1, _uncompressedTextureBuffer[0]);
@@ -83,6 +85,7 @@ public class DDSWriterTest extends WriterTestAbstract {
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
+            writer.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -93,7 +96,7 @@ public class DDSWriterTest extends WriterTestAbstract {
     public void testWriteUncompressedCubemapMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN);
-            DDSWriter writer        = new DDSWriter(true, true, _width, _height);
+            DDSWriter writer        = DDSWriter.getNew(true, true, _width, _height);
             writer.setUncompressedPixelFormat(TextureFormat.GL_RGBA);
 
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
@@ -108,6 +111,7 @@ public class DDSWriterTest extends WriterTestAbstract {
             writer.write(out);
 
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_UNCOMPRESSED_CUBEMAP_MIPMAP, FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN));
+            writer.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -118,12 +122,13 @@ public class DDSWriterTest extends WriterTestAbstract {
     public void testWriteCompressedNoMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_NO_MIPMAP_GEN);
-            DDSWriter writer        = new DDSWriter(false, false, _width, _height);
+            DDSWriter writer        = DDSWriter.getNew(false, false, _width, _height);
             writer.setCompressedPixelFormat(DDSFourCC.FOURCC_ETC1);
             writer.getTextureData().set(0, _compressedTextureBuffer[0]);
             writer.write(out);
             
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_NO_MIPMAP, FILE_COMPRESSED_NO_MIPMAP_GEN));
+            writer.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -134,7 +139,7 @@ public class DDSWriterTest extends WriterTestAbstract {
     public void testWriteCompressedMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_MIPMAP_GEN);
-            DDSWriter writer        = new DDSWriter(true, false, _width, _height);
+            DDSWriter writer        = DDSWriter.getNew(true, false, _width, _height);
             writer.setCompressedPixelFormat(DDSFourCC.FOURCC_ETC1);
             
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
@@ -144,6 +149,7 @@ public class DDSWriterTest extends WriterTestAbstract {
             writer.write(out);
             
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_MIPMAP, FILE_COMPRESSED_MIPMAP_GEN));
+            writer.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -154,7 +160,7 @@ public class DDSWriterTest extends WriterTestAbstract {
     public void testWriteCompressedCubemapNoMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN);
-            DDSWriter writer        = new DDSWriter(false, true, _width, _height);
+            DDSWriter writer        = DDSWriter.getNew(false, true, _width, _height);
             writer.setCompressedPixelFormat(DDSFourCC.FOURCC_ETC1);
             writer.getTextureData().set(0, 0, _compressedTextureBuffer[0]);
             writer.getTextureData().set(0, 1, _compressedTextureBuffer[0]);
@@ -165,6 +171,7 @@ public class DDSWriterTest extends WriterTestAbstract {
             writer.write(out);
             
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_CUBEMAP_NO_MIPMAP, FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
+            writer.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -175,7 +182,7 @@ public class DDSWriterTest extends WriterTestAbstract {
     public void testWriteCompressedCubemapMipmap() {
         try {
             FileOutputStream out    = new FileOutputStream(FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN);
-            DDSWriter writer        = new DDSWriter(true, true, _width, _height);
+            DDSWriter writer        = DDSWriter.getNew(true, true, _width, _height);
             writer.setCompressedPixelFormat(DDSFourCC.FOURCC_ETC1);
             
             for (byte i = 0; i < FILE_NUMBER_OF_MIPMAPS; i++) {
@@ -190,6 +197,7 @@ public class DDSWriterTest extends WriterTestAbstract {
             writer.write(out);
             
             assertTrue("md5 checksums not equal", FileUtils.isEqual(FILE_COMPRESSED_CUBEMAP_MIPMAP, FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN));
+            writer.recycle();
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
