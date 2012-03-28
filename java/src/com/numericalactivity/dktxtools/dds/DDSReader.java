@@ -37,10 +37,10 @@ public class DDSReader {
         // on détermine le format OpenGL
         if (_isCompressed) {
             // format OpenGL pour les textures compressées
-            int fourcc = _headers.getPixelFormatFourCC();
+            int fourcc = _headers._pixelFormatfourCC;
     
             if (DDSFourCC.FOURCC_DX10 == fourcc) {
-                fourcc = _headers.getHeader10().getDxgiFormat();
+                fourcc = _headers._extendedHeaders._dxgiFormat;
             }
     
             switch (fourcc) {

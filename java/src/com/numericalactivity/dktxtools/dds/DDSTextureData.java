@@ -13,12 +13,12 @@ import com.numericalactivity.dktxtools.utils.TextureUtils;
  */
 public abstract class DDSTextureData {
 
-    protected ByteBuffer[][] _textureData; // données des textures classées par niveau mipmap puis par face
-    protected int[] _imageSize; // taille des images classées par niveau mipmap
-    protected short[] _width; // largeur des images classées par niveau mipmap
-    protected short[] _height; // hauteur des images classées par niveau mipmap
-    protected byte _numberOfMipmapLevels; // nombre de niveaux mipmap
-    protected byte _numberOfFaces; // nombre de face par niveau mipmap
+    ByteBuffer[][] _textureData; // données des textures classées par niveau mipmap puis par face
+    int[] _imageSize; // taille des images classées par niveau mipmap
+    short[] _width; // largeur des images classées par niveau mipmap
+    short[] _height; // hauteur des images classées par niveau mipmap
+    byte _numberOfMipmapLevels; // nombre de niveaux mipmap
+    byte _numberOfFaces; // nombre de face par niveau mipmap
 
     /**
      * Retourne le nombre de niveaux mipmap
@@ -267,14 +267,14 @@ public abstract class DDSTextureData {
             }
 
             // on initialise les variables
-            _numberOfMipmapLevels   = (byte) ddsHeader.getMipmapCount();
+            _numberOfMipmapLevels   = (byte) ddsHeader._mipmapCount;
             _textureData            = new ByteBuffer[_numberOfMipmapLevels][_numberOfFaces];
             _imageSize              = new int[_numberOfMipmapLevels];
             _width                  = new short[_numberOfMipmapLevels];
             _height                 = new short[_numberOfMipmapLevels];
 
-            _width[0]               = (short) ddsHeader.getWidth();
-            _height[0]              = (short) ddsHeader.getHeight();
+            _width[0]               = (short) ddsHeader._width;
+            _height[0]              = (short) ddsHeader._height;
 
             // on lance la récupération des données
             if (ddsHeader.hasPixelFormatFlags(DDSHeader.DDPF_FOURCC)) {
@@ -293,7 +293,7 @@ public abstract class DDSTextureData {
          * @throws IOException
          */
         protected void readCompressed(BufferedInputStream in, DDSHeader ddsHeader) throws IOException {
-            byte blockSize = (byte) ((ddsHeader.getPixelFormatFourCC() == DDSFourCC.FOURCC_DX10) ? DDSUtil.getCompressedBlockSize(ddsHeader.getHeader10().getDxgiFormat())  : DDSUtil.getCompressedBlockSize(ddsHeader.getPixelFormatFourCC()));
+            byte blockSize = (byte) ((DDSFourCC.FOURCC_DX10 == ddsHeader._pixelFormatfourCC) ? DDSUtil.getCompressedBlockSize(ddsHeader._extendedHeaders._dxgiFormat)  : DDSUtil.getCompressedBlockSize(ddsHeader._pixelFormatfourCC));
             byte[] faceData;
 
             for (byte face = 0; face < _numberOfFaces; face++) {
@@ -323,7 +323,7 @@ public abstract class DDSTextureData {
          * @throws IOException
          */
         protected void readUncompressed(BufferedInputStream in, DDSHeader ddsHeader) throws IOException {
-            byte bitsPerPixel = (byte) ddsHeader.getPixelFormatRgbBitCount();
+            byte bitsPerPixel = (byte) ddsHeader._pixelFormatRgbBitCount;
             byte[] faceData;
 
             for (byte face = 0; face < _numberOfFaces; face++) {
@@ -415,8 +415,8 @@ public abstract class DDSTextureData {
                 throw new DDSFormatException(String.valueOf(declaredFaces) + " faces defined in headers, but " + String.valueOf(_textureData[0].length) + " have texture data");
             }
 
-            if (_headers.getMipmapCount() != _textureData.length) {
-                throw new DDSFormatException(String.valueOf(_headers.getMipmapCount()) + " mipmap levels defined in headers, but " + String.valueOf(_textureData.length) + " have texture data");
+            if (_textureData.length != _headers._mipmapCount) {
+                throw new DDSFormatException(String.valueOf(_headers._mipmapCount) + " mipmap levels defined in headers, but " + String.valueOf(_textureData.length) + " have texture data");
             }
 
             return true;

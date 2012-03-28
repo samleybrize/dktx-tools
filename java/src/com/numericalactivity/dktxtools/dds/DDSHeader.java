@@ -51,27 +51,27 @@ public abstract class DDSHeader {
     public static final int DDPF_LUMINANCE              = 0x20000;
 
     DDSHeader10 _extendedHeaders;
-    protected int _flags;
-    protected int _height;
-    protected int _width;
-    protected int _pitchOrLinearSize;
-    protected int _depth;
-    protected int _mipmapCount;
-    protected int[] _reserved1 = new int[11];
-    protected int _caps;
-    protected int _caps2;
-    protected int _caps3;
-    protected int _caps4;
-    protected int _reserved2;
+    int _flags;
+    int _height;
+    int _width;
+    int _pitchOrLinearSize;
+    int _depth;
+    int _mipmapCount;
+    int[] _reserved1 = new int[11];
+    int _caps;
+    int _caps2;
+    int _caps3;
+    int _caps4;
+    int _reserved2;
 
-    protected int _pixelFormatFlags;
-    protected int _pixelFormatfourCC;
+    int _pixelFormatFlags;
+    int _pixelFormatfourCC;
     protected String _pixelFormatfourCCString;
-    protected int _pixelFormatRgbBitCount;
-    protected int _pixelFormatrBitMask;
-    protected int _pixelFormatgBitMask;
-    protected int _pixelFormatbBitMask;
-    protected int _pixelFormataBitMask;
+    int _pixelFormatRgbBitCount;
+    int _pixelFormatrBitMask;
+    int _pixelFormatgBitMask;
+    int _pixelFormatbBitMask;
+    int _pixelFormataBitMask;
 
     /**
      * Retourne la chaine de caractères formée par le paramètre FourCC

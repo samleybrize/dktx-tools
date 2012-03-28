@@ -20,11 +20,11 @@ public abstract class DDSHeader10 {
 	public static final int DDS_DIMENSION_TEXTURE3D        = 4;
 	
 	protected String _dxgiFormatString;
-	protected int _dxgiFormat;
-	protected int _resourceDimension;
-	protected int _miscFlag;	
-	protected int _arraySize;
-	protected int _reserved;
+	int _dxgiFormat;
+	int _resourceDimension;
+	int _miscFlag;	
+	int _arraySize;
+	int _reserved;
 
 	@Override
     public String toString() {
@@ -79,7 +79,8 @@ public abstract class DDSHeader10 {
      * Setters
      */
     public void setDxgiFormat(int dxgiFormat) {
-        _dxgiFormat = dxgiFormat;
+        _dxgiFormat         = dxgiFormat;
+        _dxgiFormatString   = null;
     }
 
     public void setResourceDimension(int resourceDimension) {
