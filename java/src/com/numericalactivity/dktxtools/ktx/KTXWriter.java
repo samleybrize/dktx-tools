@@ -17,14 +17,16 @@ import com.numericalactivity.dktxtools.utils.TextureUtils;
 public class KTXWriter implements PoolInterface {
     protected static final Pool<KTXWriter> _pool = new Pool<KTXWriter>(5, new KTXWriter.Factory());
 
-    private KTXHeader.Writer _headers;
-    private KTXMetadata.Writer _metas;
-    private KTXTextureData.Writer _textureData;
+    protected KTXHeader.Writer _headers;
+    protected KTXMetadata.Writer _metas;
+    protected KTXTextureData.Writer _textureData;
 
     /**
      * Retourne un objet KTXWriter
-     * @param numberOfMipmapLevels indique si la texture est mipmappée
+     * @param mipmapped indique si la texture est mipmappée
      * @param isCubemap indique si la texture est un cubemap à 6 faces
+     * @param width largeur de la texture
+     * @param height hauteur de la texture
      * @throws KTXFormatException
      */
     public static KTXWriter getNew(boolean mipmapped, boolean isCubemap, int width, int height) throws KTXFormatException {
@@ -41,8 +43,10 @@ public class KTXWriter implements PoolInterface {
 
     /**
      * Initialise l'objet
-     * @param numberOfMipmapLevels indique si la texture est mipmappée
+     * @param mipmapped indique si la texture est mipmappée
      * @param isCubemap indique si la texture est un cubemap à 6 faces
+     * @param width largeur de la texture
+     * @param height hauteur de la texture
      * @throws KTXFormatException
      */
     protected void initialize(boolean mipmapped, boolean isCubemap, int width, int height) throws KTXFormatException {
