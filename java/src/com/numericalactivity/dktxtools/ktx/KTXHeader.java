@@ -35,8 +35,8 @@ public abstract class KTXHeader {
     int _pixelHeight;
     int _pixelDepth;
     int _numberOfArrayElements;
-    int _numberOfFaces;
-    int _numberOfMipmapLevels;
+    int _numberOfFaces          = 1;
+    int _numberOfMipmapLevels   = 1;
     int _bytesOfKeyValueData;
 
     /*
@@ -133,11 +133,11 @@ public abstract class KTXHeader {
     }
 
     public void setNumberOfFaces(int numberOfFaces) {
-        _numberOfFaces = numberOfFaces;
+        _numberOfFaces = (numberOfFaces == 0) ? 1 : numberOfFaces;
     }
 
     public void setNumberOfMipmapLevels(int numberOfMipmapLevels) {
-        _numberOfMipmapLevels = numberOfMipmapLevels;
+        _numberOfMipmapLevels = (numberOfMipmapLevels == 0) ? 1 : numberOfMipmapLevels;
     }
 
     public void setBytesOfKeyValueData(int bytesOfKeyValueData) {
@@ -176,8 +176,8 @@ public abstract class KTXHeader {
         _pixelHeight            = 0;
         _pixelDepth             = 0;
         _numberOfArrayElements  = 0;
-        _numberOfFaces          = 0;
-        _numberOfMipmapLevels   = 0;
+        _numberOfFaces          = 1;
+        _numberOfMipmapLevels   = 1;
         _bytesOfKeyValueData    = 0;
     }
 

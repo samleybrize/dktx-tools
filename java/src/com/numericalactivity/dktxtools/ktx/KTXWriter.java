@@ -6,24 +6,46 @@ import java.io.OutputStream;
 
 import com.numericalactivity.dktxtools.TextureFormat;
 import com.numericalactivity.dktxtools.dds.DDSFormatException;
+import com.numericalactivity.dktxtools.pool.Pool;
+import com.numericalactivity.dktxtools.pool.PoolFactoryInterface;
+import com.numericalactivity.dktxtools.pool.PoolInterface;
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
 /**
  * Classe qui permet de créer un fichier KTX
  */
-public class KTXWriter {
+public class KTXWriter implements PoolInterface {
+    protected static final Pool<KTXWriter> _pool = new Pool<KTXWriter>(5, new KTXWriter.Factory());
+
     private KTXHeader.Writer _headers;
     private KTXMetadata.Writer _metas;
     private KTXTextureData.Writer _textureData;
 
     /**
-     * Constructeur
+     * Retourne un objet KTXWriter
      * @param numberOfMipmapLevels indique si la texture est mipmappée
      * @param isCubemap indique si la texture est un cubemap à 6 faces
-     * @throws IOException
      * @throws KTXFormatException
      */
-    public KTXWriter(boolean mipmapped, boolean isCubemap, int width, int height) throws IOException, KTXFormatException {
+    public static KTXWriter getNew(boolean mipmapped, boolean isCubemap, int width, int height) throws KTXFormatException {
+        KTXWriter writer = _pool.get();
+        writer.initialize(mipmapped, isCubemap, width, height);
+        return writer;
+    }
+
+    /**
+     * Constructeur
+     */
+    KTXWriter() {
+    }
+
+    /**
+     * Initialise l'objet
+     * @param numberOfMipmapLevels indique si la texture est mipmappée
+     * @param isCubemap indique si la texture est un cubemap à 6 faces
+     * @throws KTXFormatException
+     */
+    protected void initialize(boolean mipmapped, boolean isCubemap, int width, int height) throws KTXFormatException {
         // on calcule le nombre de niveaux mipmaps
         int numberOfMipmapLevels    = mipmapped ? TextureUtils.getNumberOfMipmaps(width, height) : 1;
 
@@ -169,5 +191,27 @@ public class KTXWriter {
      */
     public KTXTextureData.Writer getTextureData() {
         return _textureData;
+    }
+
+    @Override
+    public void reset() {
+        _headers.reset();
+        _textureData.reset();
+        _metas.reset();
+    }
+
+    @Override
+    public void recycle() {
+        _pool.add(this);
+    }
+
+    /**
+     * Classe qui permet de créer une nouvelle instance de KTXWriter
+     */
+    public static class Factory implements PoolFactoryInterface<KTXWriter> {
+        @Override
+        public KTXWriter factory() {
+            return new KTXWriter();
+        }
     }
 }
