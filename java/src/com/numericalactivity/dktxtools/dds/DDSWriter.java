@@ -15,7 +15,8 @@ import com.numericalactivity.dktxtools.utils.TextureUtils;
  * Classe qui permet de créer un fichier DDS
  */
 public class DDSWriter implements PoolInterface {
-    protected static final Pool<DDSWriter> _pool = new Pool<DDSWriter>(5, new DDSWriter.Factory());
+    protected static final Pool<DDSWriter> _pool    = new Pool<DDSWriter>(5, new DDSWriter.Factory());
+    boolean _recyclable                             = false;
 
     protected DDSHeader.Writer _headers;
     protected DDSTextureData.Writer _textureData;
@@ -241,6 +242,7 @@ public class DDSWriter implements PoolInterface {
 
     @Override
     public void reset() {
+        _recyclable = false;
         _headers.reset();
         _textureData.reset();
     }
@@ -248,6 +250,7 @@ public class DDSWriter implements PoolInterface {
     @Override
     public void recycle() {
         _pool.add(this);
+        _recyclable = true;
     }
 
     /**

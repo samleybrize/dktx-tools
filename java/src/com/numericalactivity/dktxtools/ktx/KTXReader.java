@@ -13,7 +13,8 @@ import com.numericalactivity.dktxtools.pool.PoolInterface;
  * Classe qui permet de lire un fichier KTX
  */
 public class KTXReader implements PoolInterface {
-    protected static final Pool<KTXReader> _pool = new Pool<KTXReader>(5, new KTXReader.Factory());
+    protected static final Pool<KTXReader> _pool    = new Pool<KTXReader>(5, new KTXReader.Factory());
+    boolean _recyclable                             = false;
 
     protected KTXHeader.Reader _headers;
     protected KTXMetadata.Reader _metas;
@@ -120,6 +121,7 @@ public class KTXReader implements PoolInterface {
 
     @Override
     public void reset() {
+        _recyclable = false;
         _headers.reset();
         _textureData.reset();
         _metas.reset();
@@ -128,6 +130,7 @@ public class KTXReader implements PoolInterface {
     @Override
     public void recycle() {
         _pool.add(this);
+        _recyclable = true;
     }
 
     /**

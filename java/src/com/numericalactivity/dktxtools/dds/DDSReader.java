@@ -13,7 +13,8 @@ import com.numericalactivity.dktxtools.pool.PoolInterface;
  * Classe qui permet de lire un fichier DDS
  */
 public class DDSReader implements PoolInterface {
-    public static final Pool<DDSReader> _pool = new Pool<DDSReader>(5, new DDSReader.Factory());
+    protected static final Pool<DDSReader> _pool    = new Pool<DDSReader>(5, new DDSReader.Factory());
+    boolean _recyclable                             = false;
 
     protected DDSHeader.Reader _headers;
     protected DDSTextureData.Reader _textureData;
@@ -152,6 +153,7 @@ public class DDSReader implements PoolInterface {
 
     @Override
     public void reset() {
+        _recyclable     = false;
         _openglFormat   = 0;
         _isCompressed   = false;
         _headers.reset();
@@ -161,6 +163,7 @@ public class DDSReader implements PoolInterface {
     @Override
     public void recycle() {
         _pool.add(this);
+        _recyclable = true;
     }
 
     /**

@@ -15,7 +15,8 @@ import com.numericalactivity.dktxtools.utils.TextureUtils;
  * Classe qui permet de créer un fichier KTX
  */
 public class KTXWriter implements PoolInterface {
-    protected static final Pool<KTXWriter> _pool = new Pool<KTXWriter>(5, new KTXWriter.Factory());
+    protected static final Pool<KTXWriter> _pool    = new Pool<KTXWriter>(5, new KTXWriter.Factory());
+    boolean _recyclable                             = false;
 
     protected KTXHeader.Writer _headers;
     protected KTXMetadata.Writer _metas;
@@ -199,6 +200,7 @@ public class KTXWriter implements PoolInterface {
 
     @Override
     public void reset() {
+        _recyclable = false;
         _headers.reset();
         _textureData.reset();
         _metas.reset();
@@ -207,6 +209,7 @@ public class KTXWriter implements PoolInterface {
     @Override
     public void recycle() {
         _pool.add(this);
+        _recyclable = true;
     }
 
     /**
