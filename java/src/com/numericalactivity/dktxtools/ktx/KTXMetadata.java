@@ -20,7 +20,7 @@ import com.numericalactivity.dktxtools.utils.BufferUtils;
  */
 public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
 
-    Map<String, byte[]> _meta; // liste des métadata du fichier
+    final Map<String, byte[]> _meta = new HashMap<String, byte[]>(); // liste des métadata du fichier
     int _bytesOfKeyValueData; // taille des metadata
 
     /**
@@ -247,8 +247,8 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
             buffer.order(ktxHeader._byteOrder);
             buffer.limit(length);
 
-            // on initialise la liste des métadata
-            _meta               = new HashMap<String, byte[]>();
+            // on réinitialise la liste des métadata
+            _meta.clear();
 
             // on initialise les variables
             byte b;
@@ -308,7 +308,6 @@ public abstract class KTXMetadata implements Iterable<Entry<String, byte[]>> {
          * Initialise la liste des métadata
          */
         protected Writer() {
-            _meta = new HashMap<String, byte[]>();
         }
 
         /**

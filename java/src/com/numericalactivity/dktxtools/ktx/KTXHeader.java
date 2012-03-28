@@ -297,16 +297,7 @@ public abstract class KTXHeader {
          * Initialise les entêtes avec des valeurs par défaut
          */
         protected Writer(KTXMetadata metadata) {
-            _byteOrder              = ByteOrder.nativeOrder();
-            _byteOrderNative        = true;
-            _glType                 = TextureFormat.GL_UNSIGNED_BYTE;
-            _glTypeSize             = 1;
-            _glFormat               = TextureFormat.GL_RGBA;
-            _glInternalFormat       = TextureFormat.GL_RGBA;
-            _glBaseInternalFormat   = TextureFormat.GL_RGBA;
-            _numberOfFaces          = 1;
-            _numberOfMipmapLevels   = 1;
-            _metadata               = metadata;
+            _metadata = metadata;
         }
 
         /**
@@ -319,11 +310,11 @@ public abstract class KTXHeader {
         }
 
         /**
-         * Défini la taille des métadonnées depuix un objet KTXMetadata
+         * Défini l'objet KTXMetadata qui sera utilisé pour calculer la taille des métadonnées
          * @param metadata
          */
-        public void setFromMetadata(KTXMetadata metadata) {
-            _bytesOfKeyValueData = metadata.getBytesOfKeyValueData();
+        public void setMetadata(KTXMetadata metadata) {
+            _metadata = metadata;
         }
 
         /**
