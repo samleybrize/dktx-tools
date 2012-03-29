@@ -22,7 +22,7 @@ public class Pool<T extends PoolInterface> {
      * Ajoute un objet au pool
      * @param object
      */
-    public void add(T object) {
+    public synchronized void add(T object) {
         // si le pool est déjà plein on ne peut pas ajouter de nouvel objet
         if (_index + 1 >= _numberOfSlots) {
             return;
@@ -38,7 +38,7 @@ public class Pool<T extends PoolInterface> {
      * @return un objet réinitialisé ou nouvellement crée
      */
     @SuppressWarnings("unchecked")
-    public T get() {
+    public synchronized T get() {
         // on retourne un objet du pool s'il y en a un
         if (_index >= 0) {
             _pool[_index].reset();
