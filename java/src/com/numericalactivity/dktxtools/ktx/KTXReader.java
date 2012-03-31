@@ -8,7 +8,6 @@ import com.numericalactivity.dktxtools.pool.Pool;
 import com.numericalactivity.dktxtools.pool.PoolFactoryInterface;
 import com.numericalactivity.dktxtools.pool.PoolInterface;
 
-// TODO tests u pool
 /**
  * Classe qui permet de lire un fichier KTX
  */
