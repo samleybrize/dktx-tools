@@ -147,13 +147,13 @@ public class FileUtils {
     }
 
     /**
-     * Retourne true si la date de dernière modification du fichier 'reference' est plus récente que celle de 'compare'
+     * Retourne true si la date de dernière modification du fichier 'compare' est plus récente que celle de 'reference'
      * @param reference
      * @param compare
      * @return
      */
-    public static boolean isNewerThan(File reference, File compare) {
+    public static boolean isNewerThan(File compare, File reference) {
         // TODO test u
-        return reference.lastModified() > compare.lastModified();
+        return compare.lastModified() > reference.lastModified();
     }
 }
