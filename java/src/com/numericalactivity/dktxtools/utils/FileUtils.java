@@ -145,4 +145,15 @@ public class FileUtils {
     public static boolean isEqual(ByteBuffer buffer, byte[] array) throws NoSuchAlgorithmException, IOException {
         return MessageDigest.isEqual(getChecksum(buffer), getChecksum(array));
     }
+
+    /**
+     * Retourne true si la date de dernière modification du fichier 'reference' est plus récente que celle de 'compare'
+     * @param reference
+     * @param compare
+     * @return
+     */
+    public static boolean isNewerThan(File reference, File compare) {
+        // TODO test u
+        return reference.lastModified() > compare.lastModified();
+    }
 }
