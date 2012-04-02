@@ -3,24 +3,22 @@ package com.numericalactivity.dktxtools.utils;
 /**
  * Utilitaire de benchmark
  */
-abstract public class Bench {
+public class Bench {
 
-    protected static final byte SIZE            = 10;
+    protected static final byte SIZE = 10;
 
-    protected static long[] _counters; // compteurs
-    protected static long[] _numberOfSequences; // nombre de fois que chaque compteur a été démarré et stoppé
-    protected static long[] _tempMillis; // timestamps temporaires
-
-    protected Bench() {}
+    protected long[] _counters; // compteurs
+    protected long[] _numberOfSequences; // nombre de fois que chaque compteur a été démarré et stoppé
+    protected long[] _tempNano; // timestamps temporaires
 
     /**
      * Initialise la classe
      */
-    protected static void initialize() {
+    protected void initialize() {
         if (null == _counters) {
             _counters           = new long[SIZE];
             _numberOfSequences  = new long[SIZE];
-            _tempMillis         = new long[SIZE];
+            _tempNano           = new long[SIZE];
         }
     }
 
@@ -28,7 +26,7 @@ abstract public class Bench {
      * Log un message
      * @param string
      */
-    protected static void log(String string) {
+    protected void log(String string) {
         
     }
 
@@ -36,20 +34,20 @@ abstract public class Bench {
      * Démarre un chrono
      * @param tag clé à associer au chrono
      */
-    public static void start(int index) {
+    public void start(int index) {
         if (null == _counters) {
             initialize();
         }
 
-        _tempMillis[index] = System.nanoTime();
+        _tempNano[index] = System.nanoTime();
     }
 
     /**
      * Stoppe un chrono et ajoute sa valeur au compteur associé
      * @param tag clé associée au chrono
      */
-    public static void stop(int index) {
-        _counters[index] = (System.nanoTime() - _tempMillis[index]) + _counters[index];
+    public void stop(int index) {
+        _counters[index] = (System.nanoTime() - _tempNano[index]) + _counters[index];
         _numberOfSequences[index]++;
     }
 
@@ -57,7 +55,7 @@ abstract public class Bench {
      * Remet un compteur à zéro
      * @param tag clé associée au compteur
      */
-    public static void reset(int index) {
+    public void reset(int index) {
         _counters[index]            = 0;
         _numberOfSequences[index]   = 0;
     }
@@ -65,7 +63,7 @@ abstract public class Bench {
     /**
      * Log la valeur de tous les compteurs
      */
-    public static void log() {
+    public void log() {
         for (byte i = 0; i < SIZE; i++) {
             log(i);
         }
@@ -75,15 +73,15 @@ abstract public class Bench {
      * Log la valeur d'un compteur
      * @param tag clé associée au compteur
      */
-    public static void log(int index) {
-        log(index + " : " + String.valueOf(_counters[index] + "µs (" + _numberOfSequences[index] + " sequences)"));
+    public void log(int index) {
+        log(index + " : " + String.valueOf(_counters[index] / 1000000) + "µs (" + String.valueOf(_numberOfSequences[index]) + " sequences)");
     }
 
     /**
      * Retourne la valeur de tous les compteurs
      * @return valeurs des compteurs
      */
-    public static long[] get() {
+    public long[] get() {
         return _counters;
     }
 
@@ -92,7 +90,7 @@ abstract public class Bench {
      * @param tag clé associée au compteur
      * @return valeur du compteur
      */
-    public static long get(int index) {
+    public long get(int index) {
         return _counters[index];
     }
 
@@ -101,7 +99,7 @@ abstract public class Bench {
      * @param tag clé associée au compteur
      * @return
      */
-    public static long getNumberOfSequences(int index) {
+    public long getNumberOfSequences(int index) {
         return _numberOfSequences[index];
     }
 }
