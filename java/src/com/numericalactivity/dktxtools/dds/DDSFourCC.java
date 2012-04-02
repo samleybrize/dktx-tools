@@ -7,7 +7,7 @@ final public class DDSFourCC {
     public static final int FOURCC_ATC  = 0x20435441;
     public static final int FOURCC_ATCA = 0x41435441;
     public static final int FOURCC_ATCI = 0x49435441;
-    public static final int FOURCC_ETC1 = 0x20435445;
+    public static final int FOURCC_ETC1 = 0x30435445;
 	public static final int FOURCC_DX10 = 0x30315844;
 	public static final int FOURCC_DXT1 = 0x31545844;
 	public static final int FOURCC_DXT3 = 0x33545844;
