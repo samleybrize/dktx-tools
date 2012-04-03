@@ -382,11 +382,11 @@ public abstract class KTXHeader {
                 // textures compressées
                 throw new KTXFormatException("Invalid glInternalFormat value (compressed texture) 0x" + Integer.toHexString(_glInternalFormat));
             } else if (0 != _glType && (
-                    TextureFormat.GL_ALPHA != _glInternalFormat
-                    && TextureFormat.GL_LUMINANCE != _glInternalFormat
-                    && TextureFormat.GL_LUMINANCE_ALPHA != _glInternalFormat
-                    && TextureFormat.GL_RGB != _glInternalFormat
-                    && TextureFormat.GL_RGBA != _glInternalFormat)) {
+                    TextureFormat.GL_ALPHA8 != _glInternalFormat
+                    && TextureFormat.GL_LUMINANCE8 != _glInternalFormat
+                    && TextureFormat.GL_LUMINANCE8_ALPHA8 != _glInternalFormat
+                    && TextureFormat.GL_RGB8 != _glInternalFormat
+                    && TextureFormat.GL_RGBA8 != _glInternalFormat)) {
                 // textures non compressées
                 throw new KTXFormatException("Invalid glInternalFormat value (non compressed texture) 0x" + Integer.toHexString(_glInternalFormat));
             }

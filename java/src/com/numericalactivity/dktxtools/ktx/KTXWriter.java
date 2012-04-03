@@ -111,8 +111,23 @@ public class KTXWriter implements PoolInterface {
      * Défini le format OpenGL pour les textures non compressées
      * @param internalFormat une des constantes TextureFormat.GL_* correspondant à un format de texture non compressée
      */
-    public void setUncompressedFormat(int internalFormat) {
-        _headers.setGLFormat(internalFormat, internalFormat, internalFormat, TextureFormat.GL_UNSIGNED_BYTE, 1);
+    public void setUncompressedFormat(int format) {
+        // on détermine l'internalFormat
+        int internalFormat = 0;
+
+        if (TextureFormat.GL_ALPHA == format) {
+            internalFormat = TextureFormat.GL_ALPHA8;
+        } else if (TextureFormat.GL_LUMINANCE == format) {
+            internalFormat = TextureFormat.GL_LUMINANCE8;
+        } else if (TextureFormat.GL_LUMINANCE_ALPHA == format) {
+            internalFormat = TextureFormat.GL_LUMINANCE8_ALPHA8;
+        } else if (TextureFormat.GL_RGB == format) {
+            internalFormat = TextureFormat.GL_RGB8;
+        } else if (TextureFormat.GL_RGBA == format) {
+            internalFormat = TextureFormat.GL_RGBA8;
+        }
+
+        _headers.setGLFormat(internalFormat, format, format, TextureFormat.GL_UNSIGNED_BYTE, 1);
     }
 
     /**
