@@ -323,7 +323,7 @@ public class KTXWriterTest extends WriterTestAbstract {
         // vérification de baseInternalFormat
         try {
             buffer.position(0);
-            writer.setGLFormat(TextureFormat.GL_ALPHA, 0, TextureFormat.GL_ALPHA, TextureFormat.GL_UNSIGNED_BYTE, 1);
+            writer.setGLFormat(TextureFormat.GL_ALPHA8, 0, TextureFormat.GL_ALPHA, TextureFormat.GL_UNSIGNED_BYTE, 1);
             writer.write(buffer);
             fail("KTXFormatException expected");
         } catch (KTXFormatException e) {
