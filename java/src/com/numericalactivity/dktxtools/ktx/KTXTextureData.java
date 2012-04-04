@@ -8,7 +8,6 @@ import java.nio.ByteOrder;
 
 import com.numericalactivity.dktxtools.utils.TextureUtils;
 
-// TODO tester endianness
 /**
  * Classe de gestion des données des textures contenues dans un fichier KTX
  */
