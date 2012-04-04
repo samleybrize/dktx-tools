@@ -10,7 +10,6 @@ public final class TextureFormat {
     public static final int GL_RGB                              = 0x1907;
     public static final int GL_RGBA                             = 0x1908;
 
-    // TODO tests u
     public static final int GL_ALPHA8                           = 0x803c;
     public static final int GL_LUMINANCE8                       = 0x8040;
     public static final int GL_LUMINANCE8_ALPHA8                = 0x8045;

@@ -153,7 +153,6 @@ public class FileUtils {
      * @return
      */
     public static boolean isNewerThan(File compare, File reference) {
-        // TODO test u
         return compare.lastModified() > reference.lastModified();
     }
 }

@@ -60,4 +60,14 @@ public class FileUtilsTest {
         assertTrue(FileUtils.isEqual(BufferUtils.getByteBuffer(_byteArray), _byteArray));
     }
 
+    @Test
+    public void testIsNewerThan() throws IOException {
+        File file1 = new File("./testRes/gen/isNewerThan1");
+        File file2 = new File("./testRes/gen/isNewerThan2");
+        file1.createNewFile();
+        file2.createNewFile();
+        file2.setLastModified(32000);
+        assertTrue(FileUtils.isNewerThan(file1, file2));
+    }
+
 }
