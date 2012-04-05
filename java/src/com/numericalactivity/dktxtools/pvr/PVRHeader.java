@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import com.numericalactivity.dktxtools.ktx.KTXFormatException;
 import com.numericalactivity.dktxtools.utils.BufferUtils;
 import com.numericalactivity.dktxtools.utils.FlagsUtils;
 
@@ -20,7 +19,8 @@ public abstract class PVRHeader {
     boolean _byteOrderNative;
     ByteOrder _byteOrder;
     int _flags;
-    long _pixelFormat;
+    int _pixelFormat1;
+    int _pixelFormat2;
     int _colorSpace;
     int _channelType;
     int _height;
@@ -34,14 +34,15 @@ public abstract class PVRHeader {
     // TODO getters
     // TODO setters
     // TODO reset
+    public void reset() {
+        
+    }
 
     @Override
     public String toString() {
-        // TODO flags
-        // TODO pixel format
         return String.format(
-            "%s\n    flags=[%s]\n    pixelFormat=%d\n    colourSPace=%d\n    channelType=%d\n    width=%d\n    height=%d\n    depth=%d\n    numberOfSurfaces=%d\n    numberOfFaces=%d\n    numberOfMipmapLevels=%d\n    metadataSize=%d",
-            getClass().getCanonicalName(), FlagsUtils.toHexString(FlagsUtils.getFlags(_flags)), _pixelFormat, _colorSpace, _channelType, _height, _width, _depth, _numberOfSurfaces, _numberOfFaces,
+            "%s\n    flags=[%s]\n    pixelFormat1=%d\n    pixelFormat2=%d\n    colourSPace=%d\n    channelType=%d\n    width=%d\n    height=%d\n    depth=%d\n    numberOfSurfaces=%d\n    numberOfFaces=%d\n    numberOfMipmapLevels=%d\n    metadataSize=%d",
+            getClass().getCanonicalName(), FlagsUtils.toHexString(FlagsUtils.getFlags(_flags)), _pixelFormat1, _pixelFormat2, _colorSpace, _channelType, _height, _width, _depth, _numberOfSurfaces, _numberOfFaces,
             _numberOfMipmapLevels, _metadataSize
         );
     }
@@ -122,7 +123,8 @@ public abstract class PVRHeader {
 
             // on récupère le reste des entêtes
             _flags                  = buffer.getInt();
-            _pixelFormat            = buffer.getLong();
+            _pixelFormat1           = buffer.getInt();
+            _pixelFormat2           = buffer.getInt();
             _colorSpace             = buffer.getInt();
             _channelType            = buffer.getInt();
             _height                 = buffer.getInt();
@@ -132,6 +134,14 @@ public abstract class PVRHeader {
             _numberOfFaces          = buffer.getInt();
             _numberOfMipmapLevels   = buffer.getInt();
             _metadataSize           = buffer.getInt();
+
+            // on contrôle que pixelFormat est bien un format pvrtc
+            if (PVRPixelFormat.PVRTC2BPP_RGB != _pixelFormat1
+                    && PVRPixelFormat.PVRTC2BPP_RGBA != _pixelFormat1
+                    && PVRPixelFormat.PVRTC4BPP_RGB != _pixelFormat1
+                    && PVRPixelFormat.PVRTC4BPP_RGBA != _pixelFormat1) {
+                throw new PVRFormatException("Pixel format " + String.valueOf(_pixelFormat1) + " is not supported");
+            }
 
             // on remet le buffer à son ordre d'origine
             buffer.order(oldOrder);
