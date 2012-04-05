@@ -28,7 +28,7 @@ public class KTXReaderTest extends WriterTestAbstract {
             assertEquals("Invalid glType", TextureFormat.GL_UNSIGNED_BYTE, headers.getGLType());
             assertEquals("Invalid glTypeSize", 1, headers.getGLTypeSize());
             assertEquals("Invalid glFormat", TextureFormat.GL_RGBA, headers.getGLFormat());
-            assertEquals("Invalid glInternalFormat", TextureFormat.GL_RGBA, headers.getGLInternalFormat());
+            assertEquals("Invalid glInternalFormat", TextureFormat.GL_RGBA8, headers.getGLInternalFormat());
             assertEquals("Invalid glBaseInternalFormat", TextureFormat.GL_RGBA, headers.getGLBaseInternalFormat());
             assertEquals("Invalid width", _width, headers.getPixelWidth());
             assertEquals("Invalid height", _height, headers.getPixelHeight());
@@ -71,7 +71,7 @@ public class KTXReaderTest extends WriterTestAbstract {
             assertEquals("Invalid glType", TextureFormat.GL_UNSIGNED_BYTE, headers.getGLType());
             assertEquals("Invalid glTypeSize", 1, headers.getGLTypeSize());
             assertEquals("Invalid glFormat", TextureFormat.GL_RGBA, headers.getGLFormat());
-            assertEquals("Invalid glInternalFormat", TextureFormat.GL_RGBA, headers.getGLInternalFormat());
+            assertEquals("Invalid glInternalFormat", TextureFormat.GL_RGBA8, headers.getGLInternalFormat());
             assertEquals("Invalid glBaseInternalFormat", TextureFormat.GL_RGBA, headers.getGLBaseInternalFormat());
             assertEquals("Invalid width", _width, headers.getPixelWidth());
             assertEquals("Invalid height", _height, headers.getPixelHeight());
@@ -118,7 +118,7 @@ public class KTXReaderTest extends WriterTestAbstract {
             assertEquals("Invalid glType", TextureFormat.GL_UNSIGNED_BYTE, headers.getGLType());
             assertEquals("Invalid glTypeSize", 1, headers.getGLTypeSize());
             assertEquals("Invalid glFormat", TextureFormat.GL_RGBA, headers.getGLFormat());
-            assertEquals("Invalid glInternalFormat", TextureFormat.GL_RGBA, headers.getGLInternalFormat());
+            assertEquals("Invalid glInternalFormat", TextureFormat.GL_RGBA8, headers.getGLInternalFormat());
             assertEquals("Invalid glBaseInternalFormat", TextureFormat.GL_RGBA, headers.getGLBaseInternalFormat());
             assertEquals("Invalid width", _width, headers.getPixelWidth());
             assertEquals("Invalid height", _height, headers.getPixelHeight());
@@ -164,7 +164,7 @@ public class KTXReaderTest extends WriterTestAbstract {
             assertEquals("Invalid glType", TextureFormat.GL_UNSIGNED_BYTE, headers.getGLType());
             assertEquals("Invalid glTypeSize", 1, headers.getGLTypeSize());
             assertEquals("Invalid glFormat", TextureFormat.GL_RGBA, headers.getGLFormat());
-            assertEquals("Invalid glInternalFormat", TextureFormat.GL_RGBA, headers.getGLInternalFormat());
+            assertEquals("Invalid glInternalFormat", TextureFormat.GL_RGBA8, headers.getGLInternalFormat());
             assertEquals("Invalid glBaseInternalFormat", TextureFormat.GL_RGBA, headers.getGLBaseInternalFormat());
             assertEquals("Invalid width", _width, headers.getPixelWidth());
             assertEquals("Invalid height", _height, headers.getPixelHeight());
