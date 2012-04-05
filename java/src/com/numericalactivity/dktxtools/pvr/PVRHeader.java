@@ -13,8 +13,8 @@ import com.numericalactivity.dktxtools.utils.FlagsUtils;
  */
 public abstract class PVRHeader {
     public static final int HEADER_LENGTH       = 52; // taille de l'entête
-    public static final int ENDIANNESS_OK       = 0x50565203; // endianness qui correspond à celui du programme qui lit le fichier
-    public static final int ENDIANNESS_OPPOSITE = 0x03525650; // endianness opposé
+    public static final int ENDIANNESS_OK       = 0x03525650; // endianness qui correspond à celui du programme qui lit le fichier
+    public static final int ENDIANNESS_OPPOSITE = 0x50565203; // endianness opposé
 
     boolean _byteOrderNative;
     ByteOrder _byteOrder;
