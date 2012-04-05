@@ -4,11 +4,12 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Set;
 
 import com.numericalactivity.dktxtools.dds.DDSHeader;
 import com.numericalactivity.dktxtools.dds.DDSReader;
 
-// TODO tests u
 public class KTXConvert {
     /**
      * Converti un fichier DDS en fichier KTX
@@ -18,6 +19,18 @@ public class KTXConvert {
      * @throws IOException
      */
     public static void convertDDS(DDSReader ddsReader, OutputStream out) throws KTXFormatException, IOException {
+        convertDDS(ddsReader, out, null);
+    }
+
+    /**
+     * Converti un fichier DDS en fichier KTX
+     * @param ddsReader fichier DDS à convertir
+     * @param out flux dans lequel sera écrit le fichier KTX
+     * @param metadata métadonnées à insérer dans le fichier KTX
+     * @throws KTXFormatException
+     * @throws IOException
+     */
+    public static void convertDDS(DDSReader ddsReader, OutputStream out, HashMap<String, Object> metadata) throws KTXFormatException, IOException {
         // on crée un flux bufferisé à partir du flux passé en entrée
         if (!(out instanceof BufferedOutputStream)) {
             out = new BufferedOutputStream(out);
@@ -36,12 +49,29 @@ public class KTXConvert {
 
         // on crée le writer KTX
         KTXWriter ktxWriter             = KTXWriter.getNew(mipmapped, isCubemap, width, height);
+        KTXMetadata ktxMetadata         = ktxWriter.getMetadata();
         KTXTextureData ktxTextureData   = ktxWriter.getTextureData();
 
         if (ddsReader.isCompressed()) {
             ktxWriter.setCompressedFormat(glFormat);
         } else {
             ktxWriter.setUncompressedFormat(glFormat);
+        }
+
+        // on ajoute les métadonnées
+        if (null != metadata) {
+            Set<String> set = metadata.keySet();
+            Object obj;
+
+            for (String key : set) {
+                obj = metadata.get(key);
+
+                if (obj instanceof String) {
+                    ktxMetadata.set(key, (String) obj);
+                } else if (obj instanceof byte[]) {
+                    ktxMetadata.set(key, (byte[]) obj);
+                }
+            }
         }
 
         // on défini les données de textures

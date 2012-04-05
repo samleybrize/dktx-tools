@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 import org.junit.Test;
 
@@ -18,74 +19,98 @@ public class KTXConvertTest {
 
     @Test
     public void testConvertUncompressedNoMipmap() throws IOException, DDSFormatException, KTXFormatException, NoSuchAlgorithmException {
-        FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP);
-        DDSReader reader            = DDSReader.getNew(in);
-        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        FileInputStream in                  = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP);
+        DDSReader reader                    = DDSReader.getNew(in);
+        HashMap<String, Object> metadata    = new HashMap<String, Object>(2);
+        metadata.put("KTXTest", "testValue");
+        metadata.put("KTXTestBytes", KTXWriterTest._ktxMetadataBytes);
+        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN), metadata);
 
-        assertTrue("md5 checksums not equal", FileUtils.isEqual(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        assertTrue("md5 checksums not equal", FileUtils.isEqual(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
     }
 
     @Test
     public void testConvertUncompressedMipmap() throws IOException, DDSFormatException, KTXFormatException, NoSuchAlgorithmException {
-        FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_MIPMAP);
-        DDSReader reader            = DDSReader.getNew(in);
-        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_UNCOMPRESSED_MIPMAP_GEN));
+        FileInputStream in                  = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_MIPMAP);
+        DDSReader reader                    = DDSReader.getNew(in);
+        HashMap<String, Object> metadata    = new HashMap<String, Object>(2);
+        metadata.put("KTXTest", "testValue");
+        metadata.put("KTXTestBytes", KTXWriterTest._ktxMetadataBytes);
+        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_UNCOMPRESSED_MIPMAP_GEN), metadata);
 
-        assertTrue("md5 checksums not equal", FileUtils.isEqual(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        assertTrue("md5 checksums not equal", FileUtils.isEqual(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
     }
 
     @Test
     public void testConvertUncompressedCubemapNoMipmap() throws IOException, DDSFormatException, KTXFormatException, NoSuchAlgorithmException {
-        FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP);
-        DDSReader reader            = DDSReader.getNew(in);
-        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
+        FileInputStream in                  = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP);
+        DDSReader reader                    = DDSReader.getNew(in);
+        HashMap<String, Object> metadata    = new HashMap<String, Object>(2);
+        metadata.put("KTXTest", "testValue");
+        metadata.put("KTXTestBytes", KTXWriterTest._ktxMetadataBytes);
+        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN), metadata);
 
-        assertTrue("md5 checksums not equal", FileUtils.isEqual(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        assertTrue("md5 checksums not equal", FileUtils.isEqual(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
     }
 
     @Test
     public void testConvertUncompressedCubemapMipmap() throws IOException, DDSFormatException, KTXFormatException, NoSuchAlgorithmException {
-        FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_CUBEMAP_MIPMAP);
-        DDSReader reader            = DDSReader.getNew(in);
-        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN));
+        FileInputStream in                  = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_CUBEMAP_MIPMAP);
+        DDSReader reader                    = DDSReader.getNew(in);
+        HashMap<String, Object> metadata    = new HashMap<String, Object>(2);
+        metadata.put("KTXTest", "testValue");
+        metadata.put("KTXTestBytes", KTXWriterTest._ktxMetadataBytes);
+        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN), metadata);
 
-        assertTrue("md5 checksums not equal", FileUtils.isEqual(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        assertTrue("md5 checksums not equal", FileUtils.isEqual(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
     }
 
     @Test
     public void testConvertCompressedNoMipmap() throws IOException, DDSFormatException, KTXFormatException, NoSuchAlgorithmException {
-        FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_NO_MIPMAP);
-        DDSReader reader            = DDSReader.getNew(in);
-        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_COMPRESSED_NO_MIPMAP_GEN));
+        FileInputStream in                  = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_NO_MIPMAP);
+        DDSReader reader                    = DDSReader.getNew(in);
+        HashMap<String, Object> metadata    = new HashMap<String, Object>(2);
+        metadata.put("KTXTest", "testValue");
+        metadata.put("KTXTestBytes", KTXWriterTest._ktxMetadataBytes);
+        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_COMPRESSED_NO_MIPMAP_GEN), metadata);
 
-        assertTrue("md5 checksums not equal", FileUtils.isEqual(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        assertTrue("md5 checksums not equal", FileUtils.isEqual(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
     }
 
     @Test
     public void testConvertCompressedMipmap() throws IOException, DDSFormatException, KTXFormatException, NoSuchAlgorithmException {
-        FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_MIPMAP);
-        DDSReader reader            = DDSReader.getNew(in);
-        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_COMPRESSED_MIPMAP_GEN));
+        FileInputStream in                  = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_MIPMAP);
+        DDSReader reader                    = DDSReader.getNew(in);
+        HashMap<String, Object> metadata    = new HashMap<String, Object>(2);
+        metadata.put("KTXTest", "testValue");
+        metadata.put("KTXTestBytes", KTXWriterTest._ktxMetadataBytes);
+        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_COMPRESSED_MIPMAP_GEN), metadata);
 
-        assertTrue("md5 checksums not equal", FileUtils.isEqual(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        assertTrue("md5 checksums not equal", FileUtils.isEqual(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
     }
 
     @Test
     public void testConvertCompressedCubemapNoMipmap() throws IOException, DDSFormatException, KTXFormatException, NoSuchAlgorithmException {
-        FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_CUBEMAP_NO_MIPMAP);
-        DDSReader reader            = DDSReader.getNew(in);
-        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN));
+        FileInputStream in                  = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_CUBEMAP_NO_MIPMAP);
+        DDSReader reader                    = DDSReader.getNew(in);
+        HashMap<String, Object> metadata    = new HashMap<String, Object>(2);
+        metadata.put("KTXTest", "testValue");
+        metadata.put("KTXTestBytes", KTXWriterTest._ktxMetadataBytes);
+        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN), metadata);
 
-        assertTrue("md5 checksums not equal", FileUtils.isEqual(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        assertTrue("md5 checksums not equal", FileUtils.isEqual(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
     }
 
     @Test
     public void testConvertCompressedCubemapMipmap() throws IOException, DDSFormatException, KTXFormatException, NoSuchAlgorithmException {
-        FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_CUBEMAP_MIPMAP);
-        DDSReader reader            = DDSReader.getNew(in);
-        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN));
+        FileInputStream in                  = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_CUBEMAP_MIPMAP);
+        DDSReader reader                    = DDSReader.getNew(in);
+        HashMap<String, Object> metadata    = new HashMap<String, Object>(2);
+        metadata.put("KTXTest", "testValue");
+        metadata.put("KTXTestBytes", KTXWriterTest._ktxMetadataBytes);
+        KTXConvert.convertDDS(reader, new FileOutputStream(KTXWriterTest.FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN), metadata);
 
-        assertTrue("md5 checksums not equal", FileUtils.isEqual(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
+        assertTrue("md5 checksums not equal", FileUtils.isEqual(KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP, KTXWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP_GEN));
     }
 
 }
