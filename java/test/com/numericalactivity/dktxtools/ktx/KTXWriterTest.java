@@ -15,22 +15,22 @@ import com.numericalactivity.dktxtools.utils.FileUtils;
 
 public class KTXWriterTest extends WriterTestAbstract {
 
-    protected static final String FILE_UNCOMPRESSED_NO_MIPMAP               = "./testRes/ktx/uncompressed_no_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_NO_MIPMAP_GEN           = "./testRes/gen/uncompressed_no_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_MIPMAP                  = "./testRes/ktx/uncompressed_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_MIPMAP_GEN              = "./testRes/gen/uncompressed_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP       = "./testRes/ktx/uncompressed_cubemap_no_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN   = "./testRes/gen/uncompressed_cubemap_no_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_CUBEMAP_MIPMAP          = "./testRes/ktx/uncompressed_cubemap_mipmap.ktx";
-    protected static final String FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN      = "./testRes/gen/uncompressed_cubemap_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_NO_MIPMAP                 = "./testRes/ktx/compressed_no_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_NO_MIPMAP_GEN             = "./testRes/gen/compressed_no_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_MIPMAP                    = "./testRes/ktx/compressed_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_MIPMAP_GEN                = "./testRes/gen/compressed_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_CUBEMAP_NO_MIPMAP         = "./testRes/ktx/compressed_cubemap_no_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN     = "./testRes/gen/compressed_cubemap_no_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_CUBEMAP_MIPMAP            = "./testRes/ktx/compressed_cubemap_mipmap.ktx";
-    protected static final String FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN        = "./testRes/gen/compressed_cubemap_mipmap.ktx";
+    public static final String FILE_UNCOMPRESSED_NO_MIPMAP              = "./testRes/ktx/uncompressed_no_mipmap.ktx";
+    public static final String FILE_UNCOMPRESSED_NO_MIPMAP_GEN          = "./testRes/gen/uncompressed_no_mipmap.ktx";
+    public static final String FILE_UNCOMPRESSED_MIPMAP                 = "./testRes/ktx/uncompressed_mipmap.ktx";
+    public static final String FILE_UNCOMPRESSED_MIPMAP_GEN             = "./testRes/gen/uncompressed_mipmap.ktx";
+    public static final String FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP      = "./testRes/ktx/uncompressed_cubemap_no_mipmap.ktx";
+    public static final String FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP_GEN  = "./testRes/gen/uncompressed_cubemap_no_mipmap.ktx";
+    public static final String FILE_UNCOMPRESSED_CUBEMAP_MIPMAP         = "./testRes/ktx/uncompressed_cubemap_mipmap.ktx";
+    public static final String FILE_UNCOMPRESSED_CUBEMAP_MIPMAP_GEN     = "./testRes/gen/uncompressed_cubemap_mipmap.ktx";
+    public static final String FILE_COMPRESSED_NO_MIPMAP                = "./testRes/ktx/compressed_no_mipmap.ktx";
+    public static final String FILE_COMPRESSED_NO_MIPMAP_GEN            = "./testRes/gen/compressed_no_mipmap.ktx";
+    public static final String FILE_COMPRESSED_MIPMAP                   = "./testRes/ktx/compressed_mipmap.ktx";
+    public static final String FILE_COMPRESSED_MIPMAP_GEN               = "./testRes/gen/compressed_mipmap.ktx";
+    public static final String FILE_COMPRESSED_CUBEMAP_NO_MIPMAP        = "./testRes/ktx/compressed_cubemap_no_mipmap.ktx";
+    public static final String FILE_COMPRESSED_CUBEMAP_NO_MIPMAP_GEN    = "./testRes/gen/compressed_cubemap_no_mipmap.ktx";
+    public static final String FILE_COMPRESSED_CUBEMAP_MIPMAP           = "./testRes/ktx/compressed_cubemap_mipmap.ktx";
+    public static final String FILE_COMPRESSED_CUBEMAP_MIPMAP_GEN       = "./testRes/gen/compressed_cubemap_mipmap.ktx";
 
     @Test
     public void testWriteUncompressedNoMipmap() {
