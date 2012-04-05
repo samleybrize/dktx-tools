@@ -100,6 +100,7 @@ public class DDSReader implements PoolInterface {
                     throw new DDSFormatException("FourCC " + Integer.toHexString(fourcc) + " is not supported");
             }
         } else {
+            // TODO attention aux bitmasks
             // format OpenGL pour les textures non compressées
             boolean hasAlpha        = _headers.hasPixelFormatFlags(DDSHeader.DDPF_ALPHAPIXELS);
             boolean hasRgb          = _headers.hasPixelFormatFlags(DDSHeader.DDPF_RGB);
@@ -108,7 +109,7 @@ public class DDSReader implements PoolInterface {
             if (hasLuminance && hasAlpha) {
                 _openglFormat = TextureFormat.GL_LUMINANCE_ALPHA;
             } else if (hasLuminance) {
-                _openglFormat = TextureFormat.GL_LUMINANCE_ALPHA;
+                _openglFormat = TextureFormat.GL_LUMINANCE;
             } else if (hasRgb && hasAlpha) {
                 _openglFormat = TextureFormat.GL_RGBA;
             } else if (hasRgb) {
