@@ -9,6 +9,7 @@ import com.numericalactivity.dktxtools.pool.Pool;
 import com.numericalactivity.dktxtools.pool.PoolFactoryInterface;
 import com.numericalactivity.dktxtools.pool.PoolInterface;
 
+// TODO tests u
 /**
  * Classe qui permet de lire un fichier PVR.
  * Seuls les formats de texture PVRTC sont supportés.
