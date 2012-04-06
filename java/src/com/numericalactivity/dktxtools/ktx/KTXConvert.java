@@ -116,7 +116,7 @@ public class KTXConvert {
             out = new BufferedOutputStream(out);
         }
         
-        // on récupère les informations du fichier DDS
+        // on récupère les informations du fichier PVR
         PVRHeader pvrHeader             = pvrReader.getHeaders();
         byte numberOfMipmap             = (byte) pvrHeader.getNumberOfMipmapLevels();
         boolean mipmapped               = numberOfMipmap > 1;
@@ -125,7 +125,7 @@ public class KTXConvert {
         short height                    = (short) pvrHeader.getHeight();
         int glFormat                    = pvrReader.getOpenglFormat();
         ByteBuffer[][] buffers          = pvrReader.getTextureData().getAll();
-        byte numberOfFaces              = (byte) ((buffers.length > 0) ? buffers[0].length : 0);
+        byte numberOfFaces              = (byte) pvrHeader.getNumberOfFaces();
         
         // on crée le writer KTX
         KTXWriter ktxWriter             = KTXWriter.getNew(mipmapped, isCubemap, width, height);

@@ -281,19 +281,12 @@ public abstract class PVRTextureData {
             }
 
             // on récupère les données des textures
-            _numberOfMipmapLevels           = numberOfMipmapLevels;
-            _numberOfFaces                  = (byte) pvrHeader._numberOfFaces;
-            _width[0]                       = (short) pvrHeader._width;
-            _height[0]                      = (short) pvrHeader._height;
-            byte bitsPerPixel               = 0;
+            _numberOfMipmapLevels   = numberOfMipmapLevels;
+            _numberOfFaces          = (byte) pvrHeader._numberOfFaces;
+            _width[0]               = (short) pvrHeader._width;
+            _height[0]              = (short) pvrHeader._height;
+            int pixelFormat1        = pvrHeader._pixelFormat1;
             byte[] faceData;
-
-            // TODO factoriser
-            if (PVRPixelFormat.PVRTC2BPP_RGB == pvrHeader._pixelFormat1 || PVRPixelFormat.PVRTC2BPP_RGBA == pvrHeader._pixelFormat1) {
-                bitsPerPixel = 2;
-            } else if (PVRPixelFormat.PVRTC4BPP_RGB == pvrHeader._pixelFormat1 || PVRPixelFormat.PVRTC4BPP_RGBA == pvrHeader._pixelFormat1) {
-                bitsPerPixel = 4;
-            }
 
             for (byte face = 0; face < _numberOfFaces; face++) {
                 for (byte mipmapLevel = 0; mipmapLevel < _numberOfMipmapLevels; mipmapLevel++) {
@@ -301,7 +294,7 @@ public abstract class PVRTextureData {
                     if (0 == _imageSize[mipmapLevel]) {
                         _width[mipmapLevel]     = TextureUtils.getDimensionForMipmapLevel(mipmapLevel, _width[0]);
                         _height[mipmapLevel]    = TextureUtils.getDimensionForMipmapLevel(mipmapLevel, _height[0]);
-                        _imageSize[mipmapLevel] = (_width[mipmapLevel] * _height[mipmapLevel] * bitsPerPixel) / 8;
+                        _imageSize[mipmapLevel] = PVRUtil.getCompressedSize(_width[mipmapLevel], _height[mipmapLevel], pixelFormat1);
                     }
 
                     // on récupère les données
