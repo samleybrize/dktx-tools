@@ -102,6 +102,18 @@ public abstract class KTXHeader {
         return _bytesOfKeyValueData;
     }
 
+    public boolean isCompressed() {
+        return 0 == _glFormat;
+    }
+
+    public boolean isMipmapped() {
+        return _numberOfMipmapLevels > 1;
+    }
+
+    public boolean isCubemap() {
+        return _numberOfFaces > 1;
+    }
+
     /*
      * Setters
      */
