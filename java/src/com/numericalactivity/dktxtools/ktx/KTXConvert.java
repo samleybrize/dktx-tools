@@ -9,6 +9,8 @@ import java.util.Set;
 
 import com.numericalactivity.dktxtools.dds.DDSHeader;
 import com.numericalactivity.dktxtools.dds.DDSReader;
+import com.numericalactivity.dktxtools.pvr.PVRHeader;
+import com.numericalactivity.dktxtools.pvr.PVRReader;
 
 public class KTXConvert {
     /**
@@ -84,6 +86,84 @@ public class KTXConvert {
             }
         }
 
+        // écriture du fichier KTX
+        ktxWriter.write(out);
+        ktxWriter.recycle();
+    }
+
+    /**
+     * Converti un fichier PVR en fichier KTX
+     * @param pvrReader fichier PVR à convertir
+     * @param out flux dans lequel sera écrit le fichier KTX
+     * @throws KTXFormatException
+     * @throws IOException
+     */
+    public static void convertPVR(PVRReader pvrReader, OutputStream out) throws KTXFormatException, IOException {
+        convertPVR(pvrReader, out, null);
+    }
+
+    /**
+     * Converti un fichier PVR en fichier KTX
+     * @param pvrReader fichier PVR à convertir
+     * @param out flux dans lequel sera écrit le fichier KTX
+     * @param metadata métadonnées à insérer dans le fichier KTX
+     * @throws KTXFormatException
+     * @throws IOException
+     */
+    public static void convertPVR(PVRReader pvrReader, OutputStream out, HashMap<String, Object> metadata) throws KTXFormatException, IOException {
+        // on crée un flux bufferisé à partir du flux passé en entrée
+        if (!(out instanceof BufferedOutputStream)) {
+            out = new BufferedOutputStream(out);
+        }
+        
+        // on récupère les informations du fichier DDS
+        PVRHeader pvrHeader             = pvrReader.getHeaders();
+        byte numberOfMipmap             = (byte) pvrHeader.getNumberOfMipmapLevels();
+        boolean mipmapped               = numberOfMipmap > 1;
+        boolean isCubemap               = pvrHeader.isCubemap();
+        short width                     = (short) pvrHeader.getWidth();
+        short height                    = (short) pvrHeader.getHeight();
+        int glFormat                    = pvrReader.getOpenglFormat();
+        ByteBuffer[][] buffers          = pvrReader.getTextureData().getAll();
+        byte numberOfFaces              = (byte) ((buffers.length > 0) ? buffers[0].length : 0);
+        
+        // on crée le writer KTX
+        KTXWriter ktxWriter             = KTXWriter.getNew(mipmapped, isCubemap, width, height);
+        KTXMetadata ktxMetadata         = ktxWriter.getMetadata();
+        KTXTextureData ktxTextureData   = ktxWriter.getTextureData();
+        
+        if (pvrReader.isCompressed()) {
+            ktxWriter.setCompressedFormat(glFormat);
+        } else {
+            ktxWriter.setUncompressedFormat(glFormat);
+        }
+        
+        // on ajoute les métadonnées
+        if (null != metadata) {
+            Set<String> set = metadata.keySet();
+            Object obj;
+            
+            for (String key : set) {
+                obj = metadata.get(key);
+                
+                if (obj instanceof String) {
+                    ktxMetadata.set(key, (String) obj);
+                } else if (obj instanceof byte[]) {
+                    ktxMetadata.set(key, (byte[]) obj);
+                }
+            }
+        }
+        
+        // on défini les données de textures
+        byte mipmapLevel        = 0;
+        byte face               = 0;
+        
+        for (mipmapLevel = 0; mipmapLevel < numberOfMipmap; mipmapLevel++) {
+            for (face = 0; face < numberOfFaces; face++) {
+                ktxTextureData.set(mipmapLevel, face, buffers[mipmapLevel][face]);
+            }
+        }
+        
         // écriture du fichier KTX
         ktxWriter.write(out);
         ktxWriter.recycle();
