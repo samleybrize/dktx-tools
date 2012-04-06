@@ -21,7 +21,7 @@ public abstract class PVRHeader {
     int _flags;
     int _pixelFormat1;
     int _pixelFormat2;
-    int _colorSpace;
+    int _colourSpace;
     int _channelType;
     int _height;
     int _width;
@@ -31,18 +31,158 @@ public abstract class PVRHeader {
     int _numberOfMipmapLevels   = 1;
     int _metadataSize;
 
-    // TODO getters
-    // TODO setters
-    // TODO reset
+    /*
+     * Getters
+     */
+    public ByteOrder getByteOrder() {
+        return _byteOrder;
+    }
+
+    public boolean isByteOrderNative() {
+        return _byteOrderNative;
+    }
+
+    public int getFlags() {
+        return _flags;
+    }
+
+    public int getPixelFormat1() {
+        return _pixelFormat1;
+    }
+
+    public int getPixelFormat2() {
+        return _pixelFormat2;
+    }
+
+    public int getColourSpace() {
+        return _colourSpace;
+    }
+
+    public int getChannelType() {
+        return _channelType;
+    }
+
+    public int getWidth() {
+        return _width;
+    }
+
+    public int getHeight() {
+        return _height;
+    }
+
+    public int getDepth() {
+        return _depth;
+    }
+
+    public int getNumberOfSurfaces() {
+        return _numberOfSurfaces;
+    }
+
+    public int getNumberOfMipmapLevels() {
+        return _numberOfMipmapLevels;
+    }
+
+    public int getNumberOfFaces() {
+        return _numberOfFaces;
+    }
+
+    public int getMetadataSize() {
+        return _metadataSize;
+    }
+
+    public boolean hasFlags(int f) {
+        return (_flags & f) == f;
+    }
+
+    /*
+     * Setters
+     */
+    public void setByteOrder(ByteOrder order) {
+        _byteOrder          = order;
+        _byteOrderNative    = (order == ByteOrder.nativeOrder());
+    }
+
+    public void setPixelFormat1(int pixelFormat1) {
+        _pixelFormat1 = pixelFormat1;
+    }
+
+    public void setPixelFormat2(int pixelFormat2) {
+        _pixelFormat2 = pixelFormat2;
+    }
+
+    public void setColourSpace(int colourSpace) {
+        _colourSpace = colourSpace;
+    }
+
+    public void setChannelType(int channelType) {
+        _channelType = channelType;
+    }
+
+    public void setWidth(int width) {
+        _width = width;
+    }
+
+    public void setHeight(int height) {
+        _height = height;
+    }
+
+    public void setDepth(int depth) {
+        _depth = depth;
+    }
+
+    public void setNumberOfSurfaces(int numberOfSurfaces) {
+        _numberOfSurfaces = numberOfSurfaces;
+    }
+
+    public void setNumberOfMipmapLevels(int numberOfMipmapLevels) {
+        _numberOfMipmapLevels = numberOfMipmapLevels;
+    }
+
+    public void setNumberOfFaces(int numberOfFaces) {
+        _numberOfFaces = numberOfFaces;
+    }
+
+    public void setMetadataSize(int metadataSize) {
+        _metadataSize = metadataSize;
+    }
+
+    public void setFlags(int flags) {
+        _flags = flags;
+    }
+
+    public void addFlag(int flag) {
+        _flags |= flag;
+    }
+
+    public void removeFlag(int flag) {
+        _flags &= ~flag;
+    }
+
+    /**
+     * Remet l'objet à son état d'origine
+     */
     public void reset() {
-        
+        _byteOrder              = null;
+        _byteOrderNative        = false;
+        _flags                  = 0;
+        _pixelFormat1           = 0;
+        _pixelFormat2           = 0;
+        _colourSpace            = 0;
+        _channelType            = 0;
+        _height                 = 0;
+        _width                  = 0;
+        _depth                  = 0;
+        _numberOfSurfaces       = 0;
+        _numberOfFaces          = 1;
+        _numberOfMipmapLevels   = 1;
+        _metadataSize           = 0;
     }
 
     @Override
     public String toString() {
         return String.format(
             "%s\n    flags=[%s]\n    pixelFormat1=%d\n    pixelFormat2=%d\n    colourSPace=%d\n    channelType=%d\n    width=%d\n    height=%d\n    depth=%d\n    numberOfSurfaces=%d\n    numberOfFaces=%d\n    numberOfMipmapLevels=%d\n    metadataSize=%d",
-            getClass().getCanonicalName(), FlagsUtils.toHexString(FlagsUtils.getFlags(_flags)), _pixelFormat1, _pixelFormat2, _colorSpace, _channelType, _height, _width, _depth, _numberOfSurfaces, _numberOfFaces,
+            getClass().getCanonicalName(), FlagsUtils.toHexString(FlagsUtils.getFlags(_flags)), _pixelFormat1, _pixelFormat2, _colourSpace, _channelType, _height, _width, _depth, _numberOfSurfaces, _numberOfFaces,
             _numberOfMipmapLevels, _metadataSize
         );
     }
@@ -125,7 +265,7 @@ public abstract class PVRHeader {
             _flags                  = buffer.getInt();
             _pixelFormat1           = buffer.getInt();
             _pixelFormat2           = buffer.getInt();
-            _colorSpace             = buffer.getInt();
+            _colourSpace            = buffer.getInt();
             _channelType            = buffer.getInt();
             _height                 = buffer.getInt();
             _width                  = buffer.getInt();
