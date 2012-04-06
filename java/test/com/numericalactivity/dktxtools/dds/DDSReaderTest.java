@@ -16,7 +16,7 @@ import com.numericalactivity.dktxtools.utils.TextureUtils;
 public class DDSReaderTest extends WriterTestAbstract {
 
     @Test
-    public void testWriteUncompressedNoMipmap() {
+    public void testReadUncompressedNoMipmap() {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_NO_MIPMAP);
@@ -78,7 +78,7 @@ public class DDSReaderTest extends WriterTestAbstract {
     }
 
     @Test
-    public void testWriteUncompressedMipmap() {
+    public void testReadUncompressedMipmap() {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_MIPMAP);
@@ -152,7 +152,7 @@ public class DDSReaderTest extends WriterTestAbstract {
     }
 
     @Test
-    public void testWriteUncompressedCubemapNoMipmap() {
+    public void testReadUncompressedCubemapNoMipmap() {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_CUBEMAP_NO_MIPMAP);
@@ -226,7 +226,7 @@ public class DDSReaderTest extends WriterTestAbstract {
     }
     
     @Test
-    public void testWriteUncompressedCubemapMipmap() {
+    public void testReadUncompressedCubemapMipmap() {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_UNCOMPRESSED_CUBEMAP_MIPMAP);
@@ -310,7 +310,7 @@ public class DDSReaderTest extends WriterTestAbstract {
     }
 
     @Test
-    public void testWriteCompressedNoMipmap() {
+    public void testReadCompressedNoMipmap() {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_NO_MIPMAP);
@@ -372,7 +372,7 @@ public class DDSReaderTest extends WriterTestAbstract {
     }
     
     @Test
-    public void testWriteCompressedMipmap() {
+    public void testReadCompressedMipmap() {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_MIPMAP);
@@ -446,7 +446,7 @@ public class DDSReaderTest extends WriterTestAbstract {
     }
     
     @Test
-    public void testWriteCompressedCubemapNoMipmap() {
+    public void testReadCompressedCubemapNoMipmap() {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_CUBEMAP_NO_MIPMAP);
@@ -520,7 +520,7 @@ public class DDSReaderTest extends WriterTestAbstract {
     }
     
     @Test
-    public void testWriteCompressedCubemapMipmap() {
+    public void testReadCompressedCubemapMipmap() {
         try {
             // on charge le fichier
             FileInputStream in          = new FileInputStream(DDSWriterTest.FILE_COMPRESSED_CUBEMAP_MIPMAP);
