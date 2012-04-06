@@ -138,6 +138,14 @@ public abstract class PVRTextureData {
         return buffers;
     }
 
+    /**
+     * Retourne tous les buffers contenant les images
+     * @return
+     */
+    public ByteBuffer[][] getAll() {
+        return _textureData;
+    }
+
     public void setNumberOfMipmapLevels(int numberOfMipmapLevels) throws PVRFormatException {
         setNumberOfMipmapLevelsAndFaces(numberOfMipmapLevels, _numberOfFaces);
     }

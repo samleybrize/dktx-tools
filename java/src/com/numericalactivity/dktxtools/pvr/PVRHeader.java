@@ -94,6 +94,14 @@ public abstract class PVRHeader {
         return (_flags & f) == f;
     }
 
+    public boolean isMipmapped() {
+        return _numberOfMipmapLevels > 1;
+    }
+
+    public boolean isCubemap() {
+        return _numberOfFaces > 1;
+    }
+
     /*
      * Setters
      */
