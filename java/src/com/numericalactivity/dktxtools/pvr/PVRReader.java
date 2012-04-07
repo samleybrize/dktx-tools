@@ -53,7 +53,14 @@ public class PVRReader implements PoolInterface {
             in = new BufferedInputStream(in);
         }
 
+        // on lit les headers
         _headers        = new PVRHeader.Reader((BufferedInputStream) in);
+
+        // on lit les métadonnées
+        byte[] metadata = new byte[_headers.getMetadataSize()];
+        in.read(metadata);
+
+        // on lit les données de textures
         _textureData    = new PVRTextureData.Reader((BufferedInputStream) in, _headers);
         in.close();
 
