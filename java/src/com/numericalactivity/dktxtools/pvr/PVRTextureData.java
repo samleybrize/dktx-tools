@@ -288,15 +288,15 @@ public abstract class PVRTextureData {
             int pixelFormat1        = pvrHeader._pixelFormat1;
             byte[] faceData;
 
-            for (byte face = 0; face < _numberOfFaces; face++) {
-                for (byte mipmapLevel = 0; mipmapLevel < _numberOfMipmapLevels; mipmapLevel++) {
-                    // on défini les dimensions et la taille des données pour ce niveau mipmap
-                    if (0 == _imageSize[mipmapLevel]) {
-                        _width[mipmapLevel]     = TextureUtils.getDimensionForMipmapLevel(mipmapLevel, _width[0]);
-                        _height[mipmapLevel]    = TextureUtils.getDimensionForMipmapLevel(mipmapLevel, _height[0]);
-                        _imageSize[mipmapLevel] = PVRUtil.getCompressedSize(_width[mipmapLevel], _height[mipmapLevel], pixelFormat1);
-                    }
+            for (byte mipmapLevel = 0; mipmapLevel < _numberOfMipmapLevels; mipmapLevel++) {
+                // on défini les dimensions et la taille des données pour ce niveau mipmap
+                if (0 == _imageSize[mipmapLevel]) {
+                    _width[mipmapLevel]     = TextureUtils.getDimensionForMipmapLevel(mipmapLevel, _width[0]);
+                    _height[mipmapLevel]    = TextureUtils.getDimensionForMipmapLevel(mipmapLevel, _height[0]);
+                    _imageSize[mipmapLevel] = PVRUtil.getCompressedSize(_width[mipmapLevel], _height[mipmapLevel], pixelFormat1);
+                }
 
+                for (byte face = 0; face < _numberOfFaces; face++) {
                     // on récupère les données
                     faceData                        = new byte[_imageSize[mipmapLevel]];
                     _textureData[mipmapLevel][face] = ByteBuffer.allocateDirect(_imageSize[mipmapLevel]);
