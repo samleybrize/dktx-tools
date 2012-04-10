@@ -5,21 +5,33 @@ package com.numericalactivity.dktxtools.utils;
  */
 public class Bench {
 
-    protected static final byte SIZE = 10;
-
+    protected int _size; // nombre de compteurs
     protected long[] _counters; // compteurs
     protected long[] _numberOfSequences; // nombre de fois que chaque compteur a été démarré et stoppé
     protected long[] _tempNano; // timestamps temporaires
 
     /**
-     * Initialise la classe
+     * Constructeur
      */
-    protected void initialize() {
-        if (null == _counters) {
-            _counters           = new long[SIZE];
-            _numberOfSequences  = new long[SIZE];
-            _tempNano           = new long[SIZE];
-        }
+    public Bench() {
+        initialize(1);
+    }
+
+    /**
+     * Constructeur
+     * @param size défini le nombre de compteurs
+     */
+    public Bench(int size) {
+        initialize(size);
+    }
+
+    /**
+     * Initialise le nombre de compteurs
+     */
+    protected void initialize(int size) {
+        _counters           = new long[size];
+        _numberOfSequences  = new long[size];
+        _tempNano           = new long[size];
     }
 
     /**
@@ -27,7 +39,7 @@ public class Bench {
      * @param string
      */
     protected void log(String string) {
-        
+        System.out.println(string);
     }
 
     /**
@@ -35,10 +47,6 @@ public class Bench {
      * @param tag clé à associer au chrono
      */
     public void start(int index) {
-        if (null == _counters) {
-            initialize();
-        }
-
         _tempNano[index] = System.nanoTime();
     }
 
@@ -64,7 +72,7 @@ public class Bench {
      * Log la valeur de tous les compteurs
      */
     public void log() {
-        for (byte i = 0; i < SIZE; i++) {
+        for (byte i = 0; i < _size; i++) {
             log(i);
         }
     }
